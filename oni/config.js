@@ -28,7 +28,7 @@ module.exports = {
     "editor.completions.mode": "oni",
     "editor.quickInfo.delay": 200,
     //"editor.fontFamily": "DroidSansMono Nerd Font Mono",
-    "ui.colorscheme": "solarized8_dark",
+    "ui.colorscheme": "onedark",
     // "editor.quickOpen.filterStrategy": "regex", // A strategy for the fuzzy finder closer to CtrlP
     'commandline.mode': false, // Do not override commandline UI
     'wildmenu.mode': false, // Do not override wildmenu UI
