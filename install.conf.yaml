@@ -6,12 +6,11 @@
 - clean: ['~']
 
 - link:
-    ~/.dotfiles: ''
     ~/.bash_profile: home/bash_profile
-    ~/.oni/config.js:
-    ~/.oni/init.vim:
-    ~/.oni/ipy.vim:
-    ~/.oni/vim_python.py:
+    ~/.oni/config.js: oni/config.js
+    ~/.oni/init.vim: oni/init.vim
+    ~/.oni/ipy.vim: oni/ipy.vim
+    ~/.oni/vim_ipython.py: oni/vim_ipython.py
 
 
 - shell:
