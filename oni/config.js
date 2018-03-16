@@ -18,7 +18,7 @@ const activate = (oni) => {
 module.exports = {
     activate,
     // "oni.hideMenu": true, // Hide default menu, can be opened with <alt>
-    "oni.loadInitVim": "/Users/maexlich/.oni/init.vim", // Load user's init.vim
+    "oni.loadInitVim": path.join(process.env.HOME, ".oni/init.vim"), // Load user's init.vim
     "oni.useDefaultConfig": true, // Do not load Oni's init.vim
     "tabs.mode": "tabs", // tabs behave like vim
     "tabs.showIndex": true,
