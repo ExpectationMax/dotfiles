@@ -8,11 +8,13 @@
 - link:
     ~/.bash_profile: home/bash_profile
     ~/.vim/init.vim: vim/init.vim
+    ~/.oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
     ~/.vim/ipy.vim: vim/ipy.vim
     ~/.vim/vim_ipython.py: vim/vim_ipython.py
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.oni/config.js: oni/config.js
     ~/.oni/init.vim: oni/init.vim
+    ~/.oni/python.json: oni/python.json
 
 
 - shell:

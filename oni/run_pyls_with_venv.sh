@@ -1,0 +1,9 @@
+#!/bin/sh
+PIPENV_VIRTUAL_ENV=$(pipenv --venv 2>/dev/null)
+if [ -z "${PIPENV_VIRTUAL_ENV}" ]; then
+   /usr/local/bin/pyls "$@" 2> ~/.oni/pyls_errors.log
+else
+   export VIRTUAL_ENV=$PIPENV_VIRTUAL_ENV
+   /usr/local/bin/pyls "$@" 2> ~/.oni/pyls_errors.log
+fi
+
