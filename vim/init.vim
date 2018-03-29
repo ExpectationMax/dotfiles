@@ -35,6 +35,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'vim-scripts/vim-auto-save'
 call plug#end()
 
 
@@ -42,7 +43,8 @@ call plug#end()
 set encoding=utf8
 set guifont=Inconsolata_Nerd_Font_Mono:h10
 
-
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
 " Setup terminal mode
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
