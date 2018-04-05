@@ -34,8 +34,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
+" Python stuff
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'vim-scripts/vim-auto-save'
+Plug 'bfredl/nvim-ipy'
 call plug#end()
 
 
@@ -74,14 +76,14 @@ noremap <right> <NOP>
 map <C-n> :NERDTreeToggle<CR>
 
 " nnoremap <silent> K :call OniCommand('editor.quickInfo.show')
-let g:ipy_monitor_subchannel = 0
-let g:ipy_autostart = 0
-let g:ipy_perform_mappings = 0
-source ~/.vim/ipy.vim
+" let g:ipy_monitor_subchannel = 0
+" let g:ipy_autostart = 0
+" let g:ipy_perform_mappings = 0
+" source ~/.vim/ipy.vim
 
-xmap <C-enter> <Plug>(IPython-RunLines)<CR>
-nmap <C-enter> <Plug>(IPython-RunLine)<CR>
-nmap <C-S-enter> <Plug>(IPython-RunCell)<CR>
+" xmap <C-enter> <Plug>(IPython-RunLines)<CR>
+" nmap <C-enter> <Plug>(IPython-RunLine)<CR>
+" nmap <C-S-enter> <Plug>(IPython-RunCell)<CR>
 
 let s:pydoc_path = 'pipenv run python -m pydoc'
 nnoremap <silent> K :<C-u>let save_isk = &iskeyword \|
