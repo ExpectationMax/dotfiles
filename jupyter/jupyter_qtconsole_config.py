@@ -2,7 +2,7 @@
 c.ConsoleWidget.include_other_output = True
 
 # Set style of console to solarizeddark
-color_theme = 'Base16OceanDarkStyle'  # specify color theme
+color_theme = 'base16_ocean_dark'  # specify color theme
 
 import pkg_resources
 c.JupyterQtConsoleApp.stylesheet = pkg_resources.resource_filename(

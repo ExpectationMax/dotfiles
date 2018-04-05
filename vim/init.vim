@@ -34,6 +34,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
+" Git integration
+Plug 'tpope/vim-fugitive'
+
 " Python stuff
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'vim-scripts/vim-auto-save'
