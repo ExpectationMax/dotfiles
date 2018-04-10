@@ -6,7 +6,7 @@ init_python3_pipenv () {
    echo "Estting up pipenv environment"
    pipenv install --three
    echo "Installing ipython kernel"
-   pipenv install ipykernel
+   pipenv install --dev ipykernel
    venv_name=$(basename -- $(pipenv --venv))
    venv_prettyname=$(echo $venv_name | cut -d '-' -f 1)
    echo "Adding ipython kernel to list of jupyter kernels"

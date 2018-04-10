@@ -59,15 +59,31 @@ let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
 let g:auto_save_no_updatetime = 1
 
-function! StartNteractPipenv()
-    let a:venv = tolower(system('basename $(pipenv --venv)'))
-    let a:flags = '--kernel ' . a:venv
-    let a:command='nteract' . ' ' . b:original_file . ' ' . a:flags
+
+function! GetKernelFromPipenv()
+    return tolower(system('basename $(pipenv --venv)'))
+endfunction
+
+function! StartConsolePipenv(console)
+    let a:flags = '--kernel ' . GetKernelFromPipenv()
+    let a:command=a:console . ' ' . a:flags
+    echo a:command
     call jobstart(a:command)
 endfunction
-command! -nargs=0 StartNteractPipenv call StartNteractPipenv()
 
-command! -nargs=0 RunQtConsole terminal pipenv run jupyter qtconsole
+
+" function! StartNteract()
+"     let a:venv = GetKernelFromPipenv()
+"     let a:flags = '--kernel ' . a:venv
+"     let a:command='nteract' . ' ' . b:original_file . ' ' . a:flags
+"     call jobstart(a:command)
+" endfunction
+" command! -nargs=0 StartNteractPipenv call StartNteractPipenv()
+
+command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
+
+command! -nargs=0 RunPipenvKernel terminal pipenv run python -m ipykernel
+command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 
 " Setup terminal mode
 " Allow moving in between windows with Alt+hjkl independent of
