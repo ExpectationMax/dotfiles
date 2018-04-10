@@ -9,11 +9,12 @@
     ~/.bash_profile: home/bash_profile
     ~/.vim/init.vim: vim/init.vim
     ~/.config/nvim/init.vim: config/nvim/init.vim
-    ~/.oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
-    ~/.oni/config.js: oni/config.js
-    ~/.oni/init.vim: oni/init.vim
-    ~/.oni/python.json: oni/python.json
-    ~/.jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
+    ~/.config/oni: config/oni
+    ~/.config/oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
+    ~/.config/oni/config.js: oni/config.js
+    ~/.config/oni/init.vim: oni/init.vim
+    ~/.config/oni/python.json: oni/python.json
+    ~/.config/jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
 
 
 - shell:
@@ -42,7 +43,7 @@
     stdout: true
     description: Install neovim
   - 
-    command: pip3 install neovim jupyter python_language_server numpy
+    command: pip3 install neovim jupyter python_language_server numpy notedown
     description: Install neovim jupyter numpy and python_language_server into global python environment]
     stdin: true
     stdout: true

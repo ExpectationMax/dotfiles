@@ -2,3 +2,13 @@
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+init_python3_pipenv () {
+   echo "Estting up pipenv environment"
+   pipenv install --three
+   echo "Installing ipython kernel"
+   pipenv install ipykernel
+   venv_name=$(basename -- $(pipenv --venv))
+   venv_prettyname=$(echo $venv_name | cut -d '-' -f 1)
+   echo "Adding ipython kernel to list of jupyter kernels"
+    $(pipenv --py) -m ipykernel install --user --name $venv_name --display-name "Python3 ($venv_prettyname)"
+}

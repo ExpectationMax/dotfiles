@@ -37,10 +37,17 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Git integration
 Plug 'tpope/vim-fugitive'
 
+" Sensible markdown integration
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
 " Python stuff
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'bfredl/nvim-ipy'
+
+" nteract integration with markdown
+Plug 'vyzyv/vimpyter' "vim-plug
 call plug#end()
 
 
@@ -50,6 +57,18 @@ set guifont=Inconsolata_Nerd_Font_Mono:h10
 
 let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
+let g:auto_save_no_updatetime = 1
+
+function! StartNteractPipenv()
+    let a:venv = tolower(system('basename $(pipenv --venv)'))
+    let a:flags = '--kernel ' . a:venv
+    let a:command='nteract' . ' ' . b:original_file . ' ' . a:flags
+    call jobstart(a:command)
+endfunction
+command! -nargs=0 StartNteractPipenv call StartNteractPipenv()
+
+command! -nargs=0 RunQtConsole terminal pipenv run jupyter qtconsole
+
 " Setup terminal mode
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
