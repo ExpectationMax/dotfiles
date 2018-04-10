@@ -9,7 +9,6 @@
     ~/.bash_profile: home/bash_profile
     ~/.vim/init.vim: vim/init.vim
     ~/.config/nvim/init.vim: config/nvim/init.vim
-    ~/.config/oni: config/oni
     ~/.config/oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
     ~/.config/oni/config.js: oni/config.js
     ~/.config/oni/init.vim: oni/init.vim
