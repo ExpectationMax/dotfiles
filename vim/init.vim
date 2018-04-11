@@ -48,6 +48,9 @@ Plug 'bfredl/nvim-ipy'
 
 " nteract integration with markdown
 Plug 'vyzyv/vimpyter' "vim-plug
+
+" Add function BD etc to allow buffers to be deleted without removing split
+Plug 'qpkorr/vim-bufkill'
 call plug#end()
 
 
