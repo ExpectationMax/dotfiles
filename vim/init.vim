@@ -34,8 +34,15 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
+" Add function BD etc to allow buffers to be deleted without removing split
+Plug 'qpkorr/vim-bufkill'
+
+" Added support for .editorconfig files
+Plug 'editorconfig/editorconfig-vim'
+
 " Git integration
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " Sensible markdown integration
 Plug 'godlygeek/tabular'
@@ -49,8 +56,7 @@ Plug 'bfredl/nvim-ipy'
 " nteract integration with markdown
 Plug 'vyzyv/vimpyter' "vim-plug
 
-" Add function BD etc to allow buffers to be deleted without removing split
-Plug 'qpkorr/vim-bufkill'
+" LaTex integration
 call plug#end()
 
 
@@ -74,6 +80,11 @@ function! StartConsolePipenv(console)
     call jobstart(a:command)
 endfunction
 
+function! AddFilepathToSyspath()
+    let a:filepath = expand('%:p:h')
+    call IPyRun('import sys; sys.path.append("' . a:filepath . '")')
+    echo 'Added ' . a:filepath . ' to pythons sys.path'
+endfunction
 
 " function! StartNteract()
 "     let a:venv = GetKernelFromPipenv()
@@ -87,7 +98,7 @@ command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 
 command! -nargs=0 RunPipenvKernel terminal pipenv run python -m ipykernel
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
-
+command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
 " Setup terminal mode
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
