@@ -13,7 +13,7 @@
     ~/.config/oni/config.js: oni/config.js
     ~/.config/oni/init.vim: oni/init.vim
     ~/.config/oni/python.json: oni/python.json
-    ~/.config/jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
+    ~/.jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
 
 
 - shell:
@@ -21,6 +21,7 @@
   - ['curl https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete%20Mono.otf --output Inconsolata\ Nerd\ Font\ Complete\ Mono.otf', Downloading Inconsolata Nerd Font Mono]
   - [cp Inconsolata\ Nerd\ Font\ Complete\ Mono.otf ~/Library/Fonts, Installing Inconsolata Nerd Font Mono]
   - [defaults write com.extropy.oni ApplePressAndHoldEnabled -bool false, Disable ApplePressAndHold for Oni]
+  - [defaults write -g InitialKeyRepeat -int 15 && defaults write -g KeyRepeat 1, Change KeyRepeat settings]
   - 
     command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
     stdin: true
@@ -42,7 +43,7 @@
     stdout: true
     description: Install neovim and editorconfig
   - 
-    command: pip3 install neovim jupyter python_language_server numpy notedown
+    command: pip3 install neovim jupyter python_language_server numpy notedown jupyter_qtconsole_colorschemes 
     description: Install neovim jupyter numpy and python_language_server into global python environment]
     stdin: true
     stdout: true
