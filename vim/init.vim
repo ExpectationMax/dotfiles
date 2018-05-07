@@ -36,6 +36,7 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Add function BD etc to allow buffers to be deleted without removing split
 Plug 'qpkorr/vim-bufkill'
+Plug 'wesQ3/vim-windowswap'
 
 " Added support for .editorconfig files
 Plug 'editorconfig/editorconfig-vim'

@@ -7,6 +7,7 @@
 
 - link:
     ~/.bash_profile: home/bash_profile
+    ~/.bashrc: home/bashrc
     ~/.vim/init.vim: vim/init.vim
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.config/oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
