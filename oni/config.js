@@ -5,7 +5,8 @@ const activate = (oni) => {
 
     // Get last opened workspace and let NERDTree display it
     last_workspace = oni.configuration.getValue('workspace.defaultWorkspace')
-    oni.editors.activeEditor.neovim.command(`NERDTree ${last_workspace}`)
+    oni.editors.activeEditor.neovim.command('call project#config#welcome()')
+    // oni.editors.activeEditor.neovim.command(`NERDTree ${last_workspace}`)
     // If workspace directory changes (through open directory) notify NERDTree to change too
     oni.workspace.onDirectoryChanged.subscribe(
         function(newDir) {

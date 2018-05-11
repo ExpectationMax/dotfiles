@@ -23,18 +23,28 @@ if empty(glob("~/.vim/plug.vim"))
 endif
 source ~/.vim/plug.vim
 
+" Settings for project
+" before call project#rc()
+let g:project_enable_welcome = 1
+" if you want the NERDTree integration.
+let g:project_use_nerdtree = 1
+
+
 call plug#begin('~/.vim/plugged')
 " Fuzzy search through files and other stuff
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-" NERD tree file browser
+" NERD tree file browser and project management
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
+Plug 'amiorin/vim-project'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
-" Add function BD etc to allow buffers to be deleted without removing split
+" Nicer handling of splits and buffers
+" Close buffer while keeping windows intact: BD
+" Swap positions of two splits using <leader>ww to select and paste
 Plug 'qpkorr/vim-bufkill'
 Plug 'wesQ3/vim-windowswap'
 
@@ -53,17 +63,30 @@ Plug 'plasticboy/vim-markdown'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'bfredl/nvim-ipy'
-
 " nteract integration with markdown
-Plug 'vyzyv/vimpyter' "vim-plug
+Plug 'vyzyv/vimpyter'
 
-" LaTex integration
 call plug#end()
 
+call project#rc("~/Projects")
+" Load computer specific projects
+if empty(glob('~/.vim/projects.vim')) == 0
+    source ~/.vim/projects.vim
+endif
+
+" Common projects
+Project '~/.dotfiles',              'dotfiles'
+File '~/.dotfiles/oni/config.js',   'oni-config'
+File '~/.dotfiles/vim/init.vim',    'vim-config'
+File '~/.vim/projects.vim',         'project-definitions'
+call project#rc()
+command! -nargs=0 Projects call project#config#welcome()
+command! Proj Projects
 
 " set encoding
 set encoding=utf8
 set guifont=Inconsolata_Nerd_Font_Mono:h10
+
 
 let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
