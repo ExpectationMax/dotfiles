@@ -39,10 +39,10 @@
     stdout: true
     description: Install qt support for python to allow usage of qtconsole
   - 
-    command: brew install neovim editorconfig
+    command: brew install neovim fzf editorconfig
     stdin: true
     stdout: true
-    description: Install neovim and editorconfig
+    description: Install neovim, fzf and editorconfig
   - 
     command: pip3 install neovim jupyter python_language_server numpy notedown jupyter_qtconsole_colorschemes 
     description: Install neovim jupyter numpy and python_language_server into global python environment]
