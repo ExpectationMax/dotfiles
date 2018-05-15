@@ -40,6 +40,6 @@ module.exports = {
     "language.python.languageServer.command": path.join(process.env.HOME, ".config/oni/run_pyls_with_venv.sh"),
     // "language.python.languageServer.arguments": ['-v', "--log-file", "/Users/maexlich/pyls.log"]
     "experimental.browser.enabled": true,
-    "experimental.markdownPreview.enabled": true,
+    "experimental.markdownPreview.enabled": false,
 }
 
