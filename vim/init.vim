@@ -18,6 +18,9 @@ set splitright
 " setup python paths
 let g:python3_host_prog = "/usr/local/bin/python3"
 
+" Run bash as if a login shell (needed for osx)
+" let &shell='"/bin/bash" -i'
+
 if empty(glob("~/.vim/plug.vim"))
     execute '!curl -fLo ~/.vim/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
@@ -41,6 +44,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'amiorin/vim-project'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+" Commands to ease use of terminal
+Plug 'kassio/neoterm'
 
 " Nicer handling of splits and buffers
 " Close buffer while keeping windows intact: BD
@@ -80,7 +86,12 @@ File '~/.dotfiles/oni/config.js',   'oni-config'
 File '~/.dotfiles/vim/init.vim',    'vim-config'
 File '~/.vim/projects.vim',         'project-definitions'
 call project#rc()
-command! -nargs=0 Projects call project#config#welcome()
+function! ShowProjects()
+    enew
+    call project#config#welcome()
+endfunction
+
+command! -nargs=0 Projects call ShowProjects()
 command! Proj Projects
 
 " set encoding
@@ -120,7 +131,7 @@ endfunction
 
 command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 
-command! -nargs=0 RunPipenvKernel terminal pipenv run python -m ipykernel
+command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
 " Setup terminal mode
