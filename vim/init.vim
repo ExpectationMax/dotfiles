@@ -32,6 +32,7 @@ let g:project_enable_welcome = 1
 " if you want the NERDTree integration.
 let g:project_use_nerdtree = 1
 
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 call plug#begin('~/.vim/plugged')
 " Fuzzy search through files and other stuff
