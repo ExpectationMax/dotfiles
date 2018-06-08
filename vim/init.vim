@@ -29,8 +29,9 @@ source ~/.vim/plug.vim
 " Settings for project
 " before call project#rc()
 let g:project_enable_welcome = 1
-" if you want the NERDTree integration.
-let g:project_use_nerdtree = 1
+" NERDTree integration does not work correctly
+" the working dir of NT is not set
+let g:project_use_nerdtree = 0
 
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
@@ -43,6 +44,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
+" Find a replacement for vim project
 Plug 'amiorin/vim-project'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 

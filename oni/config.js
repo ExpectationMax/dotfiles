@@ -8,10 +8,10 @@ const activate = oni => {
   oni.editors.activeEditor.neovim.command("call project#config#welcome()")
   // oni.editors.activeEditor.neovim.command(`NERDTree ${last_workspace}`)
   // If workspace directory changes (through open directory) notify NERDTree to change too
-  oni.workspace.onDirectoryChanged.subscribe(function(newDir) {
-    //oni.editors.activeEditor.neovim.command('NERDTreeCWD')
-    console.log("Dir changed!")
-  })
+  // oni.workspace.onDirectoryChanged.subscribe(function(newDir) {
+  //   //oni.editors.activeEditor.neovim.command('NERDTreeCWD')
+  //   console.log("Dir changed!")
+  // })
   oni.input.bind("<f1>", "editor.quickInfo.show")
 }
 
