@@ -133,11 +133,19 @@ endfunction
 " command! -nargs=0 StartNteractPipenv call StartNteractPipenv()
 
 command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
-
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
+
 " Setup terminal mode
+let g:neoterm_autoscroll = 1
+" Disable line numbers in terminal
+augroup TerminalStuff
+  " Clear old autocommands
+  autocmd!
+  autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -154,7 +162,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Remap C-ESC to get out of terminal mode
-tnoremap <C-ESC> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 " Disable regular arrow keys
 noremap <up> <NOP>
