@@ -106,6 +106,18 @@ let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
 let g:auto_save_no_updatetime = 1
 
+" Tabularize config
+if exists(":Tabularize")
+    " Python development, align dictionaries and comments PEP8 conform
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
+    nmap <Leader>a# :Tabularize /#/l2l1<CR>
+    vmap <Leader>a# :Tabularize /#/l2l1<CR>
+    " Markdown
+    nmap <Leader>a| :Tabularize /|<CR>
+    vmap <Leader>a| :Tabularize /|<CR>
+
+endif
 
 function! GetKernelFromPipenv()
     return tolower(system('basename $(pipenv --venv)'))

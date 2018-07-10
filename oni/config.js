@@ -24,7 +24,7 @@ module.exports = {
   "tabs.showIndex": true,
   "autoClosingPairs.enabled": false,
   "sidebar.enabled": false,
-  "editor.fontSize": "14px",
+  "editor.fontSize": "18px",
   "editor.fontFamily": "Inconsolata Nerd Font Mono",
   "editor.completions.mode": "oni",
   "editor.quickInfo.delay": 200,
