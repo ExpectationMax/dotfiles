@@ -1,5 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+filetype plugin on
+syntax on
 
 set number relativenumber
 set noswapfile
@@ -35,6 +37,15 @@ let g:project_use_nerdtree = 0
 
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
+" Dont use default mapping of windowswap (<leader>ww) as it interferes with
+" vimwiki
+let g:windowswap_map_keys = 0 "prevent default bindings
+nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
+nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
+
+" Vimwiki path
+let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
+
 call plug#begin('~/.vim/plugged')
 " Fuzzy search through files and other stuff
 Plug '/usr/local/opt/fzf'
@@ -44,6 +55,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
+
 " Find a replacement for vim project
 Plug 'amiorin/vim-project'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -75,6 +87,8 @@ Plug 'bfredl/nvim-ipy'
 " nteract integration with markdown
 Plug 'vyzyv/vimpyter'
 
+" Documentation stuff
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
 call project#rc("~/Projects")
