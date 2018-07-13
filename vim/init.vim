@@ -46,6 +46,10 @@ nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 " Vimwiki path
 let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
 
+" Convert tex expressions into unicode
+set conceallevel=2
+let g:tex_conceal="abdgm"
+
 call plug#begin('~/.vim/plugged')
 " Fuzzy search through files and other stuff
 Plug '/usr/local/opt/fzf'
@@ -89,6 +93,9 @@ Plug 'vyzyv/vimpyter'
 
 " Documentation stuff
 Plug 'vimwiki/vimwiki'
+
+" Conceal Latex symbols into unicode
+Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 call plug#end()
 
 call project#rc("~/Projects")
@@ -208,6 +215,32 @@ map <C-n> :NERDTreeToggle<CR>
 " xmap <C-enter> <Plug>(IPython-RunLines)<CR>
 " nmap <C-enter> <Plug>(IPython-RunLine)<CR>
 " nmap <C-S-enter> <Plug>(IPython-RunCell)<CR>
+" function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
+"   let ft=toupper(a:filetype)
+"   let group='textGroup'.ft
+"   if exists('b:current_syntax')
+"     let s:current_syntax=b:current_syntax
+"     " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+"     " do nothing if b:current_syntax is defined.
+"     unlet b:current_syntax
+"   endif
+"   execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+"   try
+"     execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+"   catch
+"   endtry
+"   if exists('s:current_syntax')
+"     let b:current_syntax=s:current_syntax
+"   else
+"     unlet b:current_syntax
+"   endif
+"   execute 'syntax region textSnip'.ft.'
+"   \ matchgroup='.a:textSnipHl.'
+"   \ start="'.a:start.'" end="'.a:end.'"
+"   \ contains=@'.group
+" endfunction
+
+" call TextEnableCodeSnip('tex',   '@begin=tex@',   '@end=tex@', 'SpecialComment')
 
 let s:pydoc_path = 'pipenv run python -m pydoc'
 nnoremap <silent> K :<C-u>let save_isk = &iskeyword \|
