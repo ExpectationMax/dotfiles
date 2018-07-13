@@ -46,6 +46,9 @@ nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 " Vimwiki path
 let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
 
+" Voom file to mode mapping
+let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markdown'}
+
 " Convert tex expressions into unicode
 set conceallevel=2
 let g:tex_conceal="abdgm"
@@ -93,6 +96,9 @@ Plug 'vyzyv/vimpyter'
 
 " Documentation stuff
 Plug 'vimwiki/vimwiki'
+
+" VOoM outliner
+Plug 'vim-voom/VOoM'
 
 " Conceal Latex symbols into unicode
 Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
@@ -157,6 +163,17 @@ function! AddFilepathToSyspath()
     echo 'Added ' . a:filepath . ' to pythons sys.path'
 endfunction
 
+function! ToggleVoom()
+    if !exists('b:voom_active')
+        let b:voom_active=1
+        execute('Voom')
+    else
+        execute('Voomquit')
+        unlet b:voom_active
+    endif
+endfunction
+
+
 " function! StartNteract()
 "     let a:venv = GetKernelFromPipenv()
 "     let a:flags = '--kernel ' . a:venv
@@ -169,7 +186,7 @@ command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
-
+command! -nargs=0 Vtoggle call ToggleVoom()
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
 " Disable line numbers in terminal
@@ -204,7 +221,8 @@ noremap <left> <NOP>
 noremap <right> <NOP>
 
 " autocmd DirChanged * NERDTreeMapCWD
-map <C-n> :NERDTreeToggle<CR>
+map <C-M-n> :NERDTreeToggle<CR>
+map <C-M-v> :Vtoggle<CR>
 
 " nnoremap <silent> K :call OniCommand('editor.quickInfo.show')
 " let g:ipy_monitor_subchannel = 0
