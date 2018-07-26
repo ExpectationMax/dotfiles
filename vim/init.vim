@@ -1,5 +1,10 @@
 set nocompatible              " be iMproved, required
 
+" set encoding and font
+set encoding=utf8
+set guifont=Inconsolata_Nerd_Font_Mono:h10
+
+" Show absolute linenumbers in insert mode, relative ones in normal mode
 set number relativenumber
 set noswapfile
 set smartcase
@@ -45,6 +50,7 @@ let g:project_enable_welcome = 1
 " the working dir of NT is not set
 let g:project_use_nerdtree = 0
 
+" Hide in NERDTree
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 " Dont use default mapping of windowswap (<leader>ww) as it interferes with
@@ -114,6 +120,7 @@ Plug 'vim-voom/VOoM'
 Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 call plug#end()
 
+" Project definitions
 call project#rc("~/Projects")
 " Load computer specific projects
 if empty(glob('~/.vim/projects.vim')) == 0
@@ -126,19 +133,16 @@ File '~/.dotfiles/oni/config.js',   'oni-config'
 File '~/.dotfiles/vim/init.vim',    'vim-config'
 File '~/.vim/projects.vim',         'project-definitions'
 call project#rc()
+
+" Project related commands
 function! ShowProjects()
     enew
     call project#config#welcome()
 endfunction
-
 command! -nargs=0 Projects call ShowProjects()
 command! Proj Projects
 
-" set encoding
-set encoding=utf8
-set guifont=Inconsolata_Nerd_Font_Mono:h10
-
-
+" Autosave
 let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
 let g:auto_save_no_updatetime = 1
@@ -156,6 +160,7 @@ if exists(":Tabularize")
 
 endif
 
+" Functions and commands for usage as ide
 function! GetKernelFromPipenv()
     return tolower(system('basename $(pipenv --venv)'))
 endfunction
@@ -173,6 +178,13 @@ function! AddFilepathToSyspath()
     echo 'Added ' . a:filepath . ' to pythons sys.path'
 endfunction
 
+command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
+command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
+command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
+command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
+
+
+" Truely toggle voom and not only hide on the side
 function! ToggleVoom()
     if !exists('b:voom_active')
         let b:voom_active=1
@@ -183,20 +195,9 @@ function! ToggleVoom()
     endif
 endfunction
 
-
-" function! StartNteract()
-"     let a:venv = GetKernelFromPipenv()
-"     let a:flags = '--kernel ' . a:venv
-"     let a:command='nteract' . ' ' . b:original_file . ' ' . a:flags
-"     call jobstart(a:command)
-" endfunction
-" command! -nargs=0 StartNteractPipenv call StartNteractPipenv()
-
-command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
-command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
-command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
-command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
 command! -nargs=0 Vtoggle call ToggleVoom()
+
+
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
 " Disable line numbers in terminal
@@ -205,6 +206,7 @@ augroup TerminalStuff
   autocmd!
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
+
 
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
@@ -220,9 +222,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
 " Remap C-ESC to get out of terminal mode
 tnoremap <Esc> <C-\><C-n>
+
 
 " Disable regular arrow keys
 noremap <up> <NOP>
