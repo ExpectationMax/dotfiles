@@ -1,19 +1,28 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
-filetype plugin on
-syntax on
 
 set number relativenumber
 set noswapfile
 set smartcase
 
-" Enable GUI mouse behavior
-" set mouse=a
+" Customized spell-file
+set spellfile=~/.vim/spell/en.utf-8.add
+" Regenerate spl files if the change data of add file is newer than is.
+" This is required as vim uses the spl file for spellchecking, but it is not
+" compatible across platforms
+for d in glob('~/.vim/spell/*.add', 1, 1)
+    if filereadable(d) && (!filereadable(d . '.spl') || getftime(d) > getftime(d . '.spl'))
+        silent exec 'mkspell! ' . fnameescape(d)
+    endif
+endfor
 
+" Replace tailing whitespaces and tabs
 set list
-set listchars=trail:·
+set listchars=trail:·,tab:▸\ 
+" One tab equals 4 spaces
+set tabstop=4
 
 " split are to the right and bottom
+" seems more intuitive to me
 set splitbelow
 set splitright
 
@@ -23,13 +32,14 @@ let g:python3_host_prog = "/usr/local/bin/python3"
 " Run bash as if a login shell (needed for osx)
 " let &shell='"/bin/bash" -i'
 
+" If plug is not installed bootstrap it
 if empty(glob("~/.vim/plug.vim"))
     execute '!curl -fLo ~/.vim/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 source ~/.vim/plug.vim
 
 " Settings for project
-" before call project#rc()
+" Show welcome screen with projects
 let g:project_enable_welcome = 1
 " NERDTree integration does not work correctly
 " the working dir of NT is not set
