@@ -27,7 +27,7 @@ set listchars=trail:·,tab:▸\
 set tabstop=4
 
 " Use visual indentation on wrapped lines (especially practival for markdown)
-set breakindex
+set breakindent
 set showbreak=\ >
 
 
