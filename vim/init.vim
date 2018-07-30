@@ -26,6 +26,11 @@ set listchars=trail:·,tab:▸\
 " One tab equals 4 spaces
 set tabstop=4
 
+" Use visual indentation on wrapped lines (especially practival for markdown)
+set breakindex
+set showbreak=\ >
+
+
 " split are to the right and bottom
 " seems more intuitive to me
 set splitbelow
