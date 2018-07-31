@@ -72,7 +72,7 @@ let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markd
 
 " Convert tex expressions into unicode
 set conceallevel=2
-let g:tex_conceal="abdgm"
+let g:tex_conceal="abdgms"
 
 call plug#begin('~/.vim/plugged')
 " Fuzzy search through files and other stuff
@@ -120,9 +120,6 @@ Plug 'vimwiki/vimwiki'
 
 " VOoM outliner
 Plug 'vim-voom/VOoM'
-
-" Conceal Latex symbols into unicode
-Plug   'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 call plug#end()
 
 " Project definitions
