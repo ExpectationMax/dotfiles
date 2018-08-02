@@ -121,6 +121,8 @@ Plug 'vimwiki/vimwiki'
 " VOoM outliner
 Plug 'vim-voom/VOoM'
 
+Plug   'KeitaNakamura/tex-conceal.vim' ", {'for': 'tex'}
+
 " Allow to paste clipboard images into Markdown image link
 Plug 'ferrine/md-img-paste.vim'
 call plug#end()
@@ -210,8 +212,13 @@ let g:mdip_imgdir = 'img'
 " Conceal math equations using unicode in vimwiki and markdown files
 function! ActivateMarkdownMath()
     syntax include syntax/tex.vim
+    syntax include after/syntax/tex.vim
     syntax region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@texMathZoneGroup keepend
     syntax region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@texMathZoneGroup keepend
+    " syntax match mathBegin "\\\@<!\$" contained conceal
+    " syntax match mathEnd "\$" contained conceal
+    " syntax match mathBegin "\\\@<!\$\$" contained conceal
+    " syntax match matheEnd "\$\$" contained conceal
 endfunction
 
 augroup texMath
