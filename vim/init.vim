@@ -207,6 +207,18 @@ autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardIm
 autocmd FileType vimwiki nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 let g:mdip_imgdir = 'img'
 
+" Conceal math equations using unicode in vimwiki and markdown files
+function! ActivateMarkdownMath()
+    syntax include syntax/tex.vim
+    syntax region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@texMathZoneGroup keepend
+    syntax region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@texMathZoneGroup keepend
+endfunction
+
+augroup texMath
+    autocmd!
+    autocmd FileType markdown call ActivateMarkdownMath()
+    autocmd FileType vimwiki call ActivateMarkdownMath()
+augroup END
 
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
