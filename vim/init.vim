@@ -120,6 +120,9 @@ Plug 'vimwiki/vimwiki'
 
 " VOoM outliner
 Plug 'vim-voom/VOoM'
+
+" Allow to paste clipboard images into Markdown image link
+Plug 'ferrine/md-img-paste.vim'
 call plug#end()
 
 " Project definitions
@@ -198,6 +201,11 @@ function! ToggleVoom()
 endfunction
 
 command! -nargs=0 Vtoggle call ToggleVoom()
+
+" Setup mapping to directly paste from clipboard to markdown
+autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+autocmd FileType vimwiki nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+let g:mdip_imgdir = 'img'
 
 
 " Setup terminal mode
