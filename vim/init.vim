@@ -221,11 +221,11 @@ function! ActivateMarkdownMath()
     " syntax match matheEnd "\$\$" contained conceal
 endfunction
 
-augroup texMath
-    autocmd!
-    autocmd FileType markdown call ActivateMarkdownMath()
-    autocmd FileType vimwiki call ActivateMarkdownMath()
-augroup END
+" augroup texMath
+"     autocmd!
+"     autocmd FileType markdown call ActivateMarkdownMath()
+"     autocmd FileType vimwiki call ActivateMarkdownMath()
+" augroup END
 
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
