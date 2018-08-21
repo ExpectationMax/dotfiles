@@ -11,6 +11,7 @@ module.exports = {
     activate,
     // change configuration values here:
     "ui.colorscheme": "onedark",
+    "oni.useDefaultConfig": false,
     "oni.loadInitVim": path.join("/Users/hornm", ".config/oni/init.vim"), // Load user's init.vim
     "tabs.showIndex": true,
     "autoClosingPairs.enabled": false,

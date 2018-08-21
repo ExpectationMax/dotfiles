@@ -331,3 +331,4 @@ function! ShowPydoc(what)
   " go to the first line of the document
   1
 endfunction
+set laststatus=2
