@@ -75,6 +75,10 @@ set conceallevel=2
 let g:tex_conceal="abdgms"
 
 call plug#begin('~/.vim/plugged')
+" Useful navigation commands
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
+
 " Fuzzy search through files and other stuff
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
