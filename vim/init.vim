@@ -68,7 +68,7 @@ nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
 
 " Voom file to mode mapping
-let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markdown'}
+let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markdown', 'python': 'python'}
 
 " Convert tex expressions into unicode
 set conceallevel=2
