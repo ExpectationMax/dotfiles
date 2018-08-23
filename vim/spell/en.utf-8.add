@@ -5,3 +5,5 @@ shapelets
 overfitting
 underfitting
 reparametrize
+jacobian
+broadcasted
