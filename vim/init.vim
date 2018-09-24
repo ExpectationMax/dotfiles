@@ -119,6 +119,10 @@ Plug 'bfredl/nvim-ipy'
 " nteract integration with markdown
 Plug 'vyzyv/vimpyter'
 
+" Requirement for veebugger
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'idanarye/vim-vebugger'
+
 " Documentation stuff
 Plug 'vimwiki/vimwiki'
 
