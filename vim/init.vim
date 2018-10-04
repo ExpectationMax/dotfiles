@@ -58,6 +58,10 @@ let g:project_use_nerdtree = 0
 " Hide in NERDTree
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
+
+" Disable default keybindings for nvim-ipy
+let g:nvim_ipy_perform_mappings = 0
+
 " Dont use default mapping of windowswap (<leader>ww) as it interferes with
 " vimwiki
 let g:windowswap_map_keys = 0 "prevent default bindings
@@ -273,41 +277,11 @@ noremap <right> <NOP>
 map <C-M-n> :NERDTreeToggle<CR>
 map <C-M-v> :Vtoggle<CR>
 
-" nnoremap <silent> K :call OniCommand('editor.quickInfo.show')
-" let g:ipy_monitor_subchannel = 0
-" let g:ipy_autostart = 0
-" let g:ipy_perform_mappings = 0
-" source ~/.vim/ipy.vim
 
-" xmap <C-enter> <Plug>(IPython-RunLines)<CR>
-" nmap <C-enter> <Plug>(IPython-RunLine)<CR>
-" nmap <C-S-enter> <Plug>(IPython-RunCell)<CR>
-" function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
-"   let ft=toupper(a:filetype)
-"   let group='textGroup'.ft
-"   if exists('b:current_syntax')
-"     let s:current_syntax=b:current_syntax
-"     " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
-"     " do nothing if b:current_syntax is defined.
-"     unlet b:current_syntax
-"   endif
-"   execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
-"   try
-"     execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
-"   catch
-"   endtry
-"   if exists('s:current_syntax')
-"     let b:current_syntax=s:current_syntax
-"   else
-"     unlet b:current_syntax
-"   endif
-"   execute 'syntax region textSnip'.ft.'
-"   \ matchgroup='.a:textSnipHl.'
-"   \ start="'.a:start.'" end="'.a:end.'"
-"   \ contains=@'.group
-" endfunction
-
-" call TextEnableCodeSnip('tex',   '@begin=tex@',   '@end=tex@', 'SpecialComment')
+nnoremap <F5> "=strftime("%Y-%m-%d")<CR>P
+inoremap <F5> <C-R>=strftime("%Y-%m-%d")<CR>
+nnoremap <F6> "=strftime("%H:%M")<CR>P
+inoremap <F6> <C-R>=strftime("%H:%M")<CR>
 
 let s:pydoc_path = 'pipenv run python -m pydoc'
 nnoremap <silent> K :<C-u>let save_isk = &iskeyword \|
