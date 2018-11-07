@@ -9,7 +9,9 @@
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
     ~/.vim/init.vim: vim/init.vim
+    ~/.vim/nerdtree_open.vim: vim/nerdtree_open.vim
     ~/.vim/spell: vim/spell
+    ~/.vim/pydocstring_template: vim/pydocstring_template
     ~/.config/pycodestyle: config/pycodestyle
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.config/oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh

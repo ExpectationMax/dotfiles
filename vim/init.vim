@@ -38,6 +38,8 @@ set splitright
 
 " setup python paths
 let g:python3_host_prog = "/usr/local/bin/python3"
+" Setup python docstring templates
+let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
 
 " Run bash as if a login shell (needed for osx)
 " let &shell='"/bin/bash" -i'
@@ -118,6 +120,7 @@ Plug 'plasticboy/vim-markdown'
 
 " Python stuff
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'heavenshell/vim-pydocstring'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'bfredl/nvim-ipy'
 " nteract integration with markdown
