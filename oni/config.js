@@ -1,4 +1,4 @@
-const path = require("path")
+ const path = require("path")
 const activate = (oni) => {
   //oni.commands.executeCommand('browser.openUrl')
   oni.input.bind("<f8>", "markdown.togglePreview")
@@ -16,7 +16,7 @@ module.exports = {
     "tabs.showIndex": true,
     "autoClosingPairs.enabled": false,
     "sidebar.enabled": false,
-    "editor.fontSize": "18px",
+    "editor.fontSize": "22px",
     "editor.fontFamily": "Inconsolata Nerd Font Mono",
     "editor.completions.mode": "oni",
     "editor.quickInfo.delay": 200,
