@@ -41,8 +41,6 @@ let g:python3_host_prog = "/usr/local/bin/python3"
 " Setup python docstring templates
 let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
 
-" Run bash as if a login shell (needed for osx)
-" let &shell='"/bin/bash" -i'
 
 " If plug is not installed bootstrap it
 if empty(glob("~/.vim/plug.vim"))
@@ -184,7 +182,9 @@ endif
 
 " Functions and commands for usage as ide
 function! GetKernelFromPipenv()
-    return tolower(system('basename $(pipenv --venv)'))
+    let a:kernel = tolower(system('basename $(pipenv --venv)'))
+    " Remove control characters (most importantly newline)
+    return substitute(a:kernel, '[[:cntrl:]]', '', 'g')
 endfunction
 
 function! StartConsolePipenv(console)
@@ -200,8 +200,14 @@ function! AddFilepathToSyspath()
     echo 'Added ' . a:filepath . ' to pythons sys.path'
 endfunction
 
+function! ConnectToPipenvKernel()
+    let a:kernel = GetKernelFromPipenv()
+    call IPyConnect('--kernel', a:kernel, '--no-window')
+endfunction
+
 command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
+command! -nargs=0 ConnectToPipenvKernel call ConnectToPipenvKernel()
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
 
@@ -281,10 +287,8 @@ map <C-M-n> :NERDTreeToggle<CR>
 map <C-M-v> :Vtoggle<CR>
 
 
-nnoremap <F5> "=strftime("%Y-%m-%d")<CR>P
-inoremap <F5> <C-R>=strftime("%Y-%m-%d")<CR>
-nnoremap <F6> "=strftime("%H:%M")<CR>P
-inoremap <F6> <C-R>=strftime("%H:%M")<CR>
+nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
+inoremap <F6> <C-R>=strftime("%Y-%m-%d")<CR>
 
 let s:pydoc_path = 'pipenv run python -m pydoc'
 nnoremap <silent> K :<C-u>let save_isk = &iskeyword \|
