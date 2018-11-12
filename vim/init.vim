@@ -287,37 +287,11 @@ map <C-M-n> :NERDTreeToggle<CR>
 map <C-M-v> :Vtoggle<CR>
 
 
+" Stuff for Markdown diary/labbook
 nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
 inoremap <F6> <C-R>=strftime("%Y-%m-%d")<CR>
 
-let s:pydoc_path = 'pipenv run python -m pydoc'
-nnoremap <silent> K :<C-u>let save_isk = &iskeyword \|
-    \ set iskeyword+=. \|
-    \ execute "Pyhelp " . expand("<cword>") \|
-    \ let &iskeyword = save_isk<CR>
-command! -nargs=1 -bar Pyhelp :call ShowPydoc(<f-args>)
-function! ShowPydoc(what)
-  let bufname = a:what . ".pydoc"
-  " check if the buffer exists already
-  if bufexists(bufname)
-    let winnr = bufwinnr(bufname)
-    if winnr != -1
-      " if the buffer is already displayed, switch to that window
-      execute winnr "wincmd w"
-    else
-      " otherwise, open the buffer in a split
-      execute "sbuffer" bufname
-    endif
-  else
-    " create a new buffer, set the nofile buftype and don't display it in the
-    " buffer list
-    execute "split" fnameescape(bufname)
-    setlocal buftype=nofile
-    setlocal nobuflisted
-    " read the output from pydoc
-    execute "r !" . s:pydoc_path . " " . shellescape(a:what, 1)
-  endif
-  " go to the first line of the document
-  1
-endfunction
+" Set textwidth of markdown files
+au BufRead,BufNewFile *.md setlocal textwidth=80
+
 set laststatus=2
