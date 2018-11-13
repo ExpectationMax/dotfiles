@@ -225,10 +225,16 @@ endfunction
 
 command! -nargs=0 Vtoggle call ToggleVoom()
 
+" Set textwidth of markdown files
+au Filetype markdown setlocal textwidth=80
+
 " Setup mapping to directly paste from clipboard to markdown
 autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd FileType vimwiki nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 let g:mdip_imgdir = 'img'
+
+" Activate spellchecking for git commits
+au Filetype gitcommit setlocal spell
 
 " Conceal math equations using unicode in vimwiki and markdown files
 function! ActivateMarkdownMath()
@@ -290,8 +296,5 @@ map <C-M-v> :Vtoggle<CR>
 " Stuff for Markdown diary/labbook
 nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
 inoremap <F6> <C-R>=strftime("%Y-%m-%d")<CR>
-
-" Set textwidth of markdown files
-au BufRead,BufNewFile *.md setlocal textwidth=80
 
 set laststatus=2
