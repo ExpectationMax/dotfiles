@@ -59,8 +59,8 @@ let g:project_use_nerdtree = 0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 
-" Disable default keybindings for nvim-ipy
-let g:nvim_ipy_perform_mappings = 0
+" Use default nvim_ipy keyindings
+let g:nvim_ipy_perform_mappings = 1
 
 " Dont use default mapping of windowswap (<leader>ww) as it interferes with
 " vimwiki
