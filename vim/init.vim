@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
-
+colorscheme onedark
+syntax on
 " set encoding and font
 set encoding=utf8
 set guifont=Inconsolata_Nerd_Font_Mono:h10
