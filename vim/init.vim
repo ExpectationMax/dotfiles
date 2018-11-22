@@ -1,6 +1,10 @@
 set nocompatible              " be iMproved, required
-colorscheme onedark
+
+" Colorscheme and highlighting
 syntax on
+set background=dark
+hi Search guibg=peru guifg=wheat
+
 " set encoding and font
 set encoding=utf8
 set guifont=Inconsolata_Nerd_Font_Mono:h10
@@ -119,6 +123,7 @@ Plug 'plasticboy/vim-markdown'
 
 " Python stuff
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'heavenshell/vim-pydocstring'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'bfredl/nvim-ipy'

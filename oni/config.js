@@ -26,6 +26,7 @@ module.exports = {
     "editor.fontSize": "22px",
     "editor.fontFamily": "Inconsolata Nerd Font Mono",
     // Convinience
+    "tabs.height": "2em",
     "tabs.showIndex": true,
     "editor.clipboard.enabled": true,
     "experimental.indentLines.enabled": true,
