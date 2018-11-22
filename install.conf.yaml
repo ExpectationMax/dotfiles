@@ -33,7 +33,7 @@
     stdout: true
     description: Install homebrew
   - 
-    command: brew install python3 && brew install pipenv
+    command: brew install python3 && brew install pyenv && brew install pipenv
     stdin: true
     stdout: true
     description: Install python3 and pipenv
@@ -48,7 +48,7 @@
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
   - 
-    command: pip3 install neovim jupyter python_language_server numpy notedown jupyter_qtconsole_colorschemes 
+    command: pip3 install --upgrade --no-cache neovim jupyter python_language_server numpy notedown jupyter_qtconsole_colorschemes 
     description: Install neovim jupyter numpy and python_language_server into global python environment]
     stdin: true
     stdout: true
