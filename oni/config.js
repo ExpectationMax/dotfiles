@@ -37,6 +37,19 @@ module.exports = {
       "/Users/hornm",
       ".config/oni/run_pyls_with_venv.sh"
     ),
+    "language.python.languageServer.configuration": {
+        "pyls.plugins.pydocstyle.enabled": true
+    },
+    // "language.python.languageServer.command": "/usr/local/share/dotnet/dotnet",
+    // "language.python.languageServer.arguments": ["/Users/hornm/Software/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll"],
+    // "language.python.languageServer.configuration": {
+    //     "interpreter.InterpreterPath": "/usr/local/bin/python3",
+    //     "interpreter.Version": 3.6,
+    //     "interpreter.DatabasePath": "/Users/hornm/mpyls-database",
+    //     "analysisUpdates": true,
+    //     "traceLogging": true, // Max level, let LS decide through settings actual level of logging.
+    //     "asyncStartup": true
+    // },
     "experimental.browser.enabled": true,
     "experimental.markdownPreview.enabled": false,
 }
