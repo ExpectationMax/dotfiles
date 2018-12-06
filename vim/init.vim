@@ -1,13 +1,13 @@
 set nocompatible              " be iMproved, required
 
+set background=dark
 " Colorscheme and highlighting
 syntax on
-set background=dark
 hi Search guibg=peru guifg=wheat
 
 " set encoding and font
 set encoding=utf8
-set guifont=Inconsolata_Nerd_Font_Mono:h10
+
 
 " Show absolute linenumbers in insert mode, relative ones in normal mode
 set number relativenumber
@@ -83,7 +83,16 @@ let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markd
 set conceallevel=2
 let g:tex_conceal="abdgms"
 
+
+" Language server config
+let g:LanguageClient_serverCommands = {
+\   'python': ['/Users/hornm/.config/oni/run_pyls_with_venv.sh']
+\ }
+
 call plug#begin('~/.vim/plugged')
+
+Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+
 " Useful navigation commands
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
@@ -95,7 +104,6 @@ Plug 'junegunn/fzf.vim'
 " NERD tree file browser and project management
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
 
 " Find a replacement for vim project
 Plug 'amiorin/vim-project'
@@ -122,6 +130,13 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 " Python stuff
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'heavenshell/vim-pydocstring'
@@ -270,6 +285,24 @@ augroup TerminalStuff
 augroup END
 
 
+function SetLSPShortcuts()
+  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
+
+augroup LSP
+  autocmd!
+  autocmd FileType python call SetLSPShortcuts()
+augroup END
+
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -295,9 +328,8 @@ noremap <left> <NOP>
 noremap <right> <NOP>
 
 " autocmd DirChanged * NERDTreeMapCWD
-map <C-M-n> :NERDTreeToggle<CR>
-map <C-M-v> :Vtoggle<CR>
-
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <C-v> :Vtoggle<CR>
 
 " Stuff for Markdown diary/labbook
 nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
