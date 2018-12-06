@@ -8,7 +8,6 @@ hi Search guibg=peru guifg=wheat
 " set encoding and font
 set encoding=utf8
 
-
 " Show absolute linenumbers in insert mode, relative ones in normal mode
 set number relativenumber
 set noswapfile
@@ -88,10 +87,19 @@ let g:tex_conceal="abdgms"
 let g:LanguageClient_serverCommands = {
 \   'python': ['/Users/hornm/.config/oni/run_pyls_with_venv.sh']
 \ }
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#show_close_button = 0
 
 call plug#begin('~/.vim/plugged')
-
 Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Useful navigation commands
 Plug 'tpope/vim-unimpaired'
@@ -285,7 +293,7 @@ augroup TerminalStuff
 augroup END
 
 
-function SetLSPShortcuts()
+function! SetLSPShortcuts()
   nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
   nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
   nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
