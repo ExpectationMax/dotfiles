@@ -26,7 +26,7 @@
   - [git submodule update --init --recursive, Installing submodules]
   - ['curl https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete%20Mono.otf --output Inconsolata\ Nerd\ Font\ Complete\ Mono.otf', Downloading Inconsolata Nerd Font Mono]
   - [cp Inconsolata\ Nerd\ Font\ Complete\ Mono.otf ~/Library/Fonts, Installing Inconsolata Nerd Font Mono]
-  - [defaults write com.extropy.oni ApplePressAndHoldEnabled -bool false, Disable ApplePressAndHold for Oni]
+  - [defaults write org.neovim.qtinterface ApplePressAndHoldEnabled -bool false, Disable ApplePressAndHold for Oni]
   - [defaults write -g InitialKeyRepeat -int 15 && defaults write -g KeyRepeat 1, Change KeyRepeat settings]
   - 
     command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
