@@ -10,6 +10,7 @@
     ~/.bashrc: home/bashrc
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
+    ~/.vim/init.vim: vim/init.vim
     ~/.vim/plugins.vim: vim/plugins.vim
     ~/.vim/spell: vim/spell
     ~/.vim/run_pyls_with_venv.sh: vim/run_pyls_with_venv.sh
