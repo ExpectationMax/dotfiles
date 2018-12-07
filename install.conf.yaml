@@ -8,31 +8,30 @@
 - link:
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
-    ~/.vim/init.vim: vim/init.vim
-    ~/.vim/nerdtree_open.vim: vim/nerdtree_open.vim
-    ~/.vim/spell: vim/spell
-    ~/.vim/pydocstring_template: vim/pydocstring_template
-    ~/.config/nvim/ginit.vim: vim/ginit.vim
-    ~/.config/pycodestyle: config/pycodestyle
     ~/.config/nvim/init.vim: config/nvim/init.vim
-    ~/.config/oni/run_pyls_with_venv.sh: oni/run_pyls_with_venv.sh
-    ~/.config/oni/config.js: oni/config.js
-    ~/.config/oni/init.vim: oni/init.vim
-    ~/.config/oni/python.json: oni/python.json
+    ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
+    ~/.vim/plugins.vim: vim/plugins.vim
+    ~/.vim/spell: vim/spell
+    ~/.vim/run_pyls_with_venv.sh: vim/run_pyls_with_venv.sh
+    ~/.vim/pydocstring_template: vim/pydocstring_template
+    ~/.config/pycodestyle: config/pycodestyle
     ~/.jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
 
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - ['curl https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete%20Mono.otf --output Inconsolata\ Nerd\ Font\ Complete\ Mono.otf', Downloading Inconsolata Nerd Font Mono]
-  - [cp Inconsolata\ Nerd\ Font\ Complete\ Mono.otf ~/Library/Fonts, Installing Inconsolata Nerd Font Mono]
   - [defaults write org.neovim.qtinterface ApplePressAndHoldEnabled -bool false, Disable ApplePressAndHold for Oni]
   - [defaults write -g InitialKeyRepeat -int 15 && defaults write -g KeyRepeat 1, Change KeyRepeat settings]
   - 
-    command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
+    command: command -v brew >/dev/null 2>&1 || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
     stdin: true
     stdout: true
     description: Install homebrew
+  - 
+    command: brew tap homebrew/cask-fonts && brew cask install font-inconsolata
+    stdin: true
+    stdout: true
+    description: Add fonts tap and install Inconsolata
   - 
     command: brew install python3 && brew install pyenv && brew install pipenv
     stdin: true
