@@ -21,7 +21,6 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [defaults write org.neovim.qtinterface ApplePressAndHoldEnabled -bool false, Disable ApplePressAndHold for Oni]
   - [defaults write -g InitialKeyRepeat -int 15 && defaults write -g KeyRepeat 1, Change KeyRepeat settings]
   - 
     command: command -v brew >/dev/null 2>&1 || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
