@@ -264,8 +264,8 @@ noremap <left> <NOP>
 noremap <right> <NOP>
 
 " autocmd DirChanged * NERDTreeMapCWD
-noremap <D-N> :NERDTreeToggle<CR>
-noremap <D-V> :Vtoggle<CR>
+noremap <S-D-n> :NERDTreeToggle<CR>
+noremap <S-D-v> :Vtoggle<CR>
 
 " Stuff for Markdown diary/labbook
 nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
