@@ -29,7 +29,7 @@
     stdout: true
     description: Install homebrew
   - 
-    command: brew tap homebrew/cask-fonts && brew cask install font-inconsolata
+    command: brew tap homebrew/cask-fonts && brew cask install font-fira-code
     stdin: true
     stdout: true
     description: Add fonts tap and install Inconsolata
