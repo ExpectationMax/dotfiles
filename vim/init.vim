@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 
-set background=dark
 " Colorscheme and highlighting
+set background=dark
 syntax on
 hi Search guibg=peru guifg=wheat
 
@@ -272,3 +272,5 @@ nnoremap <F6> "=strftime("%Y-%m-%d")<CR>P
 inoremap <F6> <C-R>=strftime("%Y-%m-%d")<CR>
 
 set laststatus=2
+let g:gruvbox_italic=1
+colorscheme gruvbox

@@ -1,5 +1,5 @@
 call plug#begin('~/.vim/plugged')
-Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
