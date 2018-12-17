@@ -2,6 +2,8 @@
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 eval `/usr/libexec/path_helper -s`
+# Load fzf completions
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 add_pipenv_to_kernels () {
    venv_name=$(basename -- $(pipenv --venv))
    venv_prettyname=$(echo $venv_name | cut -d '-' -f 1)
@@ -18,3 +20,4 @@ init_python3_pipenv () {
 }
 
 export PS1="\[\[\e[m\]\[\e[32m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]\[\e[32;47m\]\\$\[\e[m\] "
+

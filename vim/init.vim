@@ -85,8 +85,12 @@ set conceallevel=2
 
 " Language server config
 let g:LanguageClient_serverCommands = {
-\   'python': ['/Users/hornm/.vim/run_pyls_with_venv.sh']
+\   'python': ['/Users/hornm/.vim/run_pyls_with_venv.sh', '-vv']
 \ }
+
+" let g:LanguageClient_loggingFile = '/Users/hornm/.vim/LanguageClient.log'
+let g:LanguageClient_settingsPath = '/Users/hornm/.vim/ls-settings.json'
+
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#show_buffers = 0
@@ -95,6 +99,8 @@ let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#show_close_button = 0
+
+let g:semshi#error_sign = v:false
 
 source ~/.vim/plugins.vim
 
@@ -205,12 +211,6 @@ function! ActivateMarkdownMath()
     " syntax match matheEnd "\$\$" contained conceal
 endfunction
 
-" augroup texMath
-"     autocmd!
-"     autocmd FileType markdown call ActivateMarkdownMath()
-"     autocmd FileType vimwiki call ActivateMarkdownMath()
-" augroup END
-
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
 " Disable line numbers in terminal
@@ -237,6 +237,7 @@ endfunction()
 augroup LSP
   autocmd!
   autocmd FileType python call SetLSPShortcuts()
+  autocmd FileType python set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 augroup END
 
 " Allow moving in between windows with Alt+hjkl independent of
