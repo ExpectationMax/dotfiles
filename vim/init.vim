@@ -254,8 +254,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-" Remap C-ESC to get out of terminal mode
-tnoremap <C-Esc> <C-\><C-n>
+" Remap C-x to get out of terminal mode
+tnoremap <C-x> <C-\><C-n>
 
 
 " Disable regular arrow keys
