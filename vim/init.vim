@@ -214,7 +214,7 @@ endfunction
 " Setup terminal mode
 let g:neoterm_autoscroll = 1
 " Disable line numbers in terminal
-augroup TerminalStuff
+augroup Terminal
   " Clear old autocommands
   autocmd!
   autocmd TermOpen * setlocal nonumber norelativenumber
@@ -238,6 +238,11 @@ augroup LSP
   autocmd!
   autocmd FileType python call SetLSPShortcuts()
   autocmd FileType python set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+augroup END
+
+augroup Python
+    autocmd!
+    autocmd Filetype python setlocal colorcolumn=80
 augroup END
 
 " Allow moving in between windows with Alt+hjkl independent of
