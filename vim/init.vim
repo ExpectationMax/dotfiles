@@ -242,7 +242,8 @@ augroup END
 
 augroup Python
     autocmd!
-    autocmd Filetype python setlocal colorcolumn=80
+    autocmd Filetype python setlocal colorcolumn=80  " Use PEP8 standard max width
+    autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
 augroup END
 
 " Allow moving in between windows with Alt+hjkl independent of
