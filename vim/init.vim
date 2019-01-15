@@ -3,7 +3,6 @@ set nocompatible              " be iMproved, required
 " Colorscheme and highlighting
 set background=dark
 syntax on
-hi Search guibg=peru guifg=wheat
 
 " set encoding and font
 set encoding=utf8
@@ -246,6 +245,16 @@ augroup Python
     autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
 augroup END
 
+augroup Latex
+    autocmd!
+    autocmd Filetype tex setlocal colorcolumn=80
+    autocmd Filetype tex setlocal signcolumn=yes  " Always show sign column for syntax checking
+    autocmd Filetype tex setlocal spell
+    autocmd Filetype tex setlocal tw=80
+augroup END
+
+
+
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -281,3 +290,5 @@ inoremap <F6> <C-R>=strftime("%Y-%m-%d")<CR>
 set laststatus=2
 let g:gruvbox_italic=1
 colorscheme gruvbox
+hi Search guibg=peru guifg=wheat
+hi SpellBad guifg=wheat
