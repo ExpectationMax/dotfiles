@@ -28,6 +28,7 @@ set list
 set listchars=trail:·,tab:▸\ 
 " One tab equals 4 spaces, an entered tab is automatically converted
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set formatoptions+=qrn1
 
 " Use visual indentation on wrapped lines (especially practival for markdown)
 set breakindent
