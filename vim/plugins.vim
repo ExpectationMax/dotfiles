@@ -1,9 +1,4 @@
 call plug#begin('~/.vim/plugged')
-" Completion suggestions
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -11,6 +6,16 @@ Plug 'vim-airline/vim-airline-themes'
 " Useful navigation commands
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
+
+" Completion suggestions
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" Taskwarrior integration
+Plug 'blindFS/vim-taskwarrior'
+" This does not seem to work... strange...
+" Plug 'rafi/vim-denite-task'
 
 " Fuzzy search through files and other stuff
 Plug '/usr/local/opt/fzf'

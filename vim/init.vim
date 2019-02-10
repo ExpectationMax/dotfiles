@@ -34,7 +34,6 @@ set formatoptions+=qrn1
 set breakindent
 set showbreak=\ >
 
-
 " split are to the right and bottom
 " seems more intuitive to me
 set splitbelow
@@ -44,7 +43,6 @@ set splitright
 let g:python3_host_prog = "/usr/local/bin/python3"
 " Setup python docstring templates
 let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
-
 
 " If plug is not installed bootstrap it
 if empty(glob("~/.vim/plug.vim"))
@@ -62,10 +60,6 @@ let g:project_use_nerdtree = 0
 " Hide in NERDTree
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
-
-" Use default nvim_ipy keyindings
-let g:nvim_ipy_perform_mappings = 1
-
 " Dont use default mapping of windowswap (<leader>ww) as it interferes with
 " vimwiki
 let g:windowswap_map_keys = 0 "prevent default bindings
@@ -80,14 +74,11 @@ let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markd
 
 " Convert tex expressions into unicode
 set conceallevel=2
-" let g:tex_conceal="abdgms"
-
 
 " Language server config
 let g:LanguageClient_serverCommands = {
-\   'python': ['/Users/hornm/.vim/run_pyls_with_venv.sh', '-vv']
+\   'python': ['/Users/hornm/.vim/run_pyls_with_venv.sh']
 \ }
-
 " let g:LanguageClient_loggingFile = '/Users/hornm/.vim/LanguageClient.log'
 let g:LanguageClient_settingsPath = '/Users/hornm/.vim/ls-settings.json'
 
@@ -101,6 +92,11 @@ let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#show_close_button = 0
 
 let g:semshi#error_sign = v:false
+
+" Autosave
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
+let g:auto_save_no_updatetime = 1
 
 source ~/.vim/plugins.vim
 
@@ -117,76 +113,7 @@ File '~/.dotfiles/vim/init.vim',    'vim-config'
 File '~/.vim/projects.vim',         'project-definitions'
 call project#rc()
 
-" Project related commands
-function! ShowProjects()
-    enew
-    call project#config#welcome()
-endfunction
-command! -nargs=0 Projects call ShowProjects()
-command! Proj Projects
-
-" Autosave
-let g:auto_save = 1
-let g:auto_save_in_insert_mode = 0
-let g:auto_save_no_updatetime = 1
-
-" Tabularize config
-if exists(":Tabularize")
-    " Python development, align dictionaries and comments PEP8 conform
-    nmap <Leader>a: :Tabularize /:\zs<CR>
-    vmap <Leader>a: :Tabularize /:\zs<CR>
-    nmap <Leader>a# :Tabularize /#/l2l1<CR>
-    vmap <Leader>a# :Tabularize /#/l2l1<CR>
-    " Markdown
-    nmap <Leader>a| :Tabularize /|<CR>
-    vmap <Leader>a| :Tabularize /|<CR>
-
-endif
-
-" Functions and commands for usage as ide
-function! GetKernelFromPipenv()
-    let a:kernel = tolower(system('basename $(pipenv --venv)'))
-    " Remove control characters (most importantly newline)
-    return substitute(a:kernel, '[[:cntrl:]]', '', 'g')
-endfunction
-
-function! StartConsolePipenv(console)
-    let a:flags = '--kernel ' . GetKernelFromPipenv()
-    let a:command=a:console . ' ' . a:flags
-    echo a:command
-    call jobstart(a:command)
-endfunction
-
-function! AddFilepathToSyspath()
-    let a:filepath = expand('%:p:h')
-    call IPyRun('import sys; sys.path.append("' . a:filepath . '")')
-    echo 'Added ' . a:filepath . ' to pythons sys.path'
-endfunction
-
-function! ConnectToPipenvKernel()
-    let a:kernel = GetKernelFromPipenv()
-    call IPyConnect('--kernel', a:kernel, '--no-window')
-endfunction
-
-command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
-command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
-command! -nargs=0 ConnectToPipenvKernel call ConnectToPipenvKernel()
-command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
-command! -nargs=0 AddFilepathToSyspath call AddFilepathToSyspath()
-
-
-" Truely toggle voom and not only hide on the side
-function! ToggleVoom()
-    if !exists('b:voom_active')
-        let b:voom_active=1
-        execute('Voom')
-    else
-        execute('Voomquit')
-        unlet b:voom_active
-    endif
-endfunction
-
-command! -nargs=0 Vtoggle call ToggleVoom()
+source ~/.vim/custom_commands.vim
 
 " Set textwidth of markdown files
 au Filetype markdown setlocal textwidth=80
@@ -211,8 +138,6 @@ function! ActivateMarkdownMath()
     " syntax match matheEnd "\$\$" contained conceal
 endfunction
 
-" Setup terminal mode
-let g:neoterm_autoscroll = 1
 " Disable line numbers in terminal
 augroup Terminal
   " Clear old autocommands
@@ -244,6 +169,7 @@ augroup Python
     autocmd!
     autocmd Filetype python setlocal colorcolumn=80  " Use PEP8 standard max width
     autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
+    autocmd Filetype python setlocal tw=80
 augroup END
 
 augroup Latex
