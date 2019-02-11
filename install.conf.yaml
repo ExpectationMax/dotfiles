@@ -50,7 +50,7 @@
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
   - 
-    command: pip3 install --upgrade --no-cache neovim jupyter python_language_server[all] flake8 pep8-naming numpy notedown jupyter_qtconsole_colorschemes 
-    description: Install neovim jupyter numpy and python_language_server into global python environment]
+    command: pip3 install --upgrade --user --no-cache neovim jupyter python_language_server[all] flake8 pep8-naming numpy notedown jupyter_qtconsole_colorschemes 
+    description: Install neovim jupyter numpy and python_language_server into users global python environment
     stdin: true
     stdout: true
