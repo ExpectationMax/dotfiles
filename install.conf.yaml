@@ -8,6 +8,7 @@
 - link:
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
+    ~/.taskrc: home/taskrc
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
     ~/.vim/init.vim: vim/init.vim
