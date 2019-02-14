@@ -68,12 +68,19 @@ nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 
 " Vimwiki path
 let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
+let g:vimwiki_global_ext = 0
 
 " Voom file to mode mapping
 let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'vimwiki': 'markdown', 'python': 'python'}
 
 " Convert tex expressions into unicode
 set conceallevel=2
+
+" Disable initial folding when opening markdown document
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 2
 
 " Language server config
 let g:LanguageClient_serverCommands = {
@@ -115,8 +122,6 @@ call project#rc()
 
 source ~/.vim/custom_commands.vim
 
-" Set textwidth of markdown files
-au Filetype markdown setlocal textwidth=80
 
 " Setup mapping to directly paste from clipboard to markdown
 autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
@@ -169,7 +174,7 @@ augroup Python
     autocmd!
     autocmd Filetype python setlocal colorcolumn=80  " Use PEP8 standard max width
     autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
-    autocmd Filetype python setlocal tw=80
+    autocmd Filetype python setlocal tw=79
 augroup END
 
 augroup Latex
@@ -177,10 +182,15 @@ augroup Latex
     autocmd Filetype tex setlocal colorcolumn=80
     autocmd Filetype tex setlocal signcolumn=yes  " Always show sign column for syntax checking
     autocmd Filetype tex setlocal spell
-    autocmd Filetype tex setlocal tw=80
+    autocmd Filetype tex setlocal tw=79
 augroup END
 
-
+augroup Markdown
+    " Set textwidth of markdown files
+    autocmd Filetype markdown setlocal textwidth=79
+    autocmd Filetype markdown setlocal colorcolumn=80
+    autocmd Filetype markdown setlocal spell
+augroup END
 
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
