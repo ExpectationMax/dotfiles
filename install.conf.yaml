@@ -57,7 +57,7 @@
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
   - 
-    command: brew install task tasksh
+    command: brew install task timewarrior tasksh
     stdin: true
     stdout: true
     description: Install taskwarrior and taskwarrior shell
