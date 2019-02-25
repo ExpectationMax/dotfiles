@@ -190,7 +190,18 @@ augroup Markdown
     autocmd Filetype markdown setlocal textwidth=79
     autocmd Filetype markdown setlocal colorcolumn=80
     autocmd Filetype markdown setlocal spell
+    autocmd Filetype markdown setlocal formatoptions-=l
 augroup END
+
+" Denite configuration
+" grep command
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+      \ ['--hidden', '--vimgrep', '--smart-case'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
 
 " Allow moving in between windows with Alt+hjkl independent of
 " terminal mode
