@@ -62,7 +62,7 @@
     stdout: true
     description: Install taskwarrior and taskwarrior shell
   - 
-    command: pip3 install --upgrade --user --no-cache pynvim neovim jupyter python_language_server[all] flake8 pep8-naming numpy notedown jupyter_qtconsole_colorschemes 
+    command: pip3 install --upgrade --no-cache pynvim neovim jupyter python_language_server[all] flake8 pep8-naming numpy notedown jupyter_qtconsole_colorschemes tasklib
     description: Install neovim jupyter numpy and python_language_server into users global python environment
     stdin: true
     stdout: true

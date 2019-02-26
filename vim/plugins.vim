@@ -60,6 +60,7 @@ Plug 'vim-scripts/vim-auto-save'
 
 " Documentation stuff
 Plug 'vimwiki/vimwiki'
+Plug 'tbabej/taskwiki'
 
 " VOoM outliner
 Plug 'vim-voom/VOoM'
