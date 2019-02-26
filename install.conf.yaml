@@ -32,10 +32,10 @@
     stdout: true
     description: Install homebrew
   - 
-    command: brew cask install kitty
+    command: brew cask install kitty google-chrome
     stdin: true
     stdout: true
-    description: Install kitty terminal emulator
+    description: Install kitty terminal emulator and google chrome
   - 
     command: brew tap homebrew/cask-fonts && brew cask install font-fira-code
     stdin: true
