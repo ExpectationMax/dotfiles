@@ -10,7 +10,11 @@ Plug 'tpope/vim-surround'
 " Completion suggestions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
+set shortmess+=c
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" Show function signatures
+Plug 'Shougo/echodoc.vim'
+let g:echodoc#enable_at_startup = 1
 
 " Taskwarrior integration
 Plug 'blindFS/vim-taskwarrior'

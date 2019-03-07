@@ -12,6 +12,9 @@ set number relativenumber
 set noswapfile
 set smartcase
 
+" Dont show the mode
+set noshowmode
+
 " Customized spell-file
 set spellfile=~/.vim/spell/en.utf-8.add
 " Regenerate spl files if the change data of add file is newer than is.
@@ -171,10 +174,10 @@ augroup LSP
 augroup END
 
 augroup Python
-    autocmd!
-    autocmd Filetype python setlocal colorcolumn=80  " Use PEP8 standard max width
-    autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
-    autocmd Filetype python setlocal tw=79
+  autocmd!
+  autocmd Filetype python setlocal colorcolumn=80  " Use PEP8 standard max width
+  autocmd Filetype python setlocal signcolumn=yes  " Always show sign column for syntax checking
+  autocmd Filetype python setlocal tw=79
 augroup END
 
 augroup Latex
@@ -192,6 +195,11 @@ augroup Markdown
     autocmd Filetype markdown setlocal spell
     autocmd Filetype markdown setlocal formatoptions-=l
 augroup END
+
+" Deoplete configuration
+" Hide preview window after completion
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
 
 " Denite configuration
 " grep command
