@@ -170,7 +170,7 @@ endfunction()
 augroup LSP
   autocmd!
   autocmd FileType python call SetLSPShortcuts()
-  autocmd FileType python set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+  autocmd FileType python setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 augroup END
 
 augroup Python
@@ -193,7 +193,7 @@ augroup Markdown
     autocmd Filetype markdown setlocal textwidth=79
     autocmd Filetype markdown setlocal colorcolumn=80
     autocmd Filetype markdown setlocal spell
-    autocmd Filetype markdown setlocal formatoptions-=l
+    " autocmd Filetype markdown setlocal formatoptions-=l
 augroup END
 
 " Deoplete configuration
