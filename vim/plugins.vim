@@ -57,10 +57,13 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'heavenshell/vim-pydocstring'
+Plug 'vim-python/python-syntax'
+let g:python_highlight_all = 1
 
 Plug 'vim-scripts/vim-auto-save'
+let g:auto_save_silent = 1  " do not display the auto-save notification
 
 " Documentation stuff
 Plug 'vimwiki/vimwiki'
