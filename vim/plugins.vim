@@ -1,77 +1,111 @@
 call plug#begin('~/.vim/plugged')
+" General
+
+" Appearance
 Plug 'morhetz/gruvbox'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#show_close_button = 0
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Useful navigation commands
+" Saving, navigation and text objects
+Plug 'vim-scripts/vim-auto-save'
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
+let g:auto_save_no_updatetime = 1
+let g:auto_save_silent = 1
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
-" Completion suggestions
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-set shortmess+=c
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-" Show function signatures
-Plug 'Shougo/echodoc.vim'
-let g:echodoc#enable_at_startup = 1
+" Window and buffer management
+Plug 'qpkorr/vim-bufkill'     " Adds command :BD to delete a buffer while leaving splits intact
+let g:windowswap_map_keys = 0 " Prevent default bindings
+Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 
-" Taskwarrior integration
-Plug 'blindFS/vim-taskwarrior'
-" This does not seem to work... strange...
-" Plug 'rafi/vim-denite-task'
-
-" Fuzzy search through files and other stuff
+" Fuzzy search through files buffers etc
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-" NERD tree file browser and project management
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Project and time management
 
-" Find a replacement for vim project
-Plug 'amiorin/vim-project'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
+" Markdown
+" Disable initial folding when opening markdown document
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_auto_insert_bullets = 1
+let g:vim_markdown_new_list_item_indent = 2
+Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
+" Allow to paste clipboard images into Markdown image link
+let g:mdip_imgdir = 'img'
+Plug 'ferrine/md-img-paste.vim'
 
-" Nicer handling of splits and buffers
-" Close buffer while keeping windows intact: BD
-" Swap positions of two splits using <leader>ww to select and paste
-Plug 'qpkorr/vim-bufkill'
-Plug 'wesQ3/vim-windowswap'
+" vimwiki
+let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
+let g:vimwiki_global_ext = 0
+Plug 'vimwiki/vimwiki'
 
-" Added support for .editorconfig files
-Plug 'editorconfig/editorconfig-vim'
+" Taskwarrior integration
+Plug 'blindFS/vim-taskwarrior'
+Plug 'tbabej/taskwiki'
+
+" Programming
 
 " Git integration
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Sensible markdown integration
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+" Langauage server integration
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 
-" Python stuff
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Completion suggestions
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ }))
+Plug 'prabirshrestha/asyncomplete-file.vim'
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'Vimjas/vim-python-pep8-indent'
-" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'heavenshell/vim-pydocstring'
-Plug 'vim-python/python-syntax'
+" Show function signatures
+let g:echodoc#enable_at_startup = 1
+Plug 'Shougo/echodoc.vim'
+
+" Python
 let g:python_highlight_all = 1
+Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
+let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
+Plug 'heavenshell/vim-pydocstring'
+au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['/Users/hornm/.vim/run_pyls_with_venv.sh']},
+        \ 'whitelist': ['python'],
+        \ 'workspace_config': {
+        \   'pyls': {
+        \      'plugins': {
+        \         'pyflakes': {'enabled': v:true},
+        \         'pydocstyle': {'enabled': v:true}
+        \      }
+        \   }
+        \ }
+        \ })
 
-Plug 'vim-scripts/vim-auto-save'
-let g:auto_save_silent = 1  " do not display the auto-save notification
 
-" Documentation stuff
-Plug 'vimwiki/vimwiki'
-Plug 'tbabej/taskwiki'
-
-" VOoM outliner
-Plug 'vim-voom/VOoM'
-
-" Allow to paste clipboard images into Markdown image link
-Plug 'ferrine/md-img-paste.vim'
 call plug#end()

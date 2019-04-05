@@ -1,23 +1,3 @@
-" Project related commands
-function! ShowProjects()
-    enew
-    call project#config#welcome()
-endfunction
-command! -nargs=0 Projects call ShowProjects()
-command! Proj Projects
-
-" Truely toggle voom and not only hide on the side
-function! ToggleVoom()
-    if !exists('b:voom_active')
-        let b:voom_active=1
-        execute('Voom')
-    else
-        execute('Voomquit')
-        unlet b:voom_active
-    endif
-endfunction
-command! -nargs=0 Vtoggle call ToggleVoom()
-
 " -------------- pipenv stuff --------------
 " Functions and commands for usage as ide
 function! GetKernelFromPipenv()
@@ -29,7 +9,6 @@ endfunction
 function! StartConsolePipenv(console)
     let a:flags = '--kernel ' . GetKernelFromPipenv()
     let a:command=a:console . ' ' . a:flags
-    echo a:command
     call jobstart(a:command)
 endfunction
 
