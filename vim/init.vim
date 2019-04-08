@@ -19,8 +19,11 @@ set noshowmode          " Dont show the mode, we have airline for that
 set termguicolors
 let &t_8f = "\e[38;2;%lu;%lu;%lum"
 let &t_8b = "\e[48;2;%lu;%lu;%lum"
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
 
 set background=dark
+let g:gruvbox_italic=1
 colorscheme gruvbox
 set laststatus=2        " Always show status line
 set list                " Show tab and EOL
