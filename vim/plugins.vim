@@ -63,24 +63,34 @@ Plug 'airblade/vim-gitgutter'
 
 " Langauage server integration
 Plug 'prabirshrestha/async.vim'
+highlight link LspErrorHighlight SpellCap
+highlight link LspWarningHighlight SpellBad
+highlight link LspInformationHighlight SpellBad
+highlight link LspHintHighlight SpellBad
+let g:lsp_signs_enabled = 0         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_virtual_text_enabled = 0 " Have active until new sign api is in neovim
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
+let g:lsp_signs_hint = {'text': 'i'} " icons require GUI
 Plug 'prabirshrestha/vim-lsp'
 
 " Completion suggestions
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
-Plug 'prabirshrestha/asyncomplete-file.vim'
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
+" Plug 'prabirshrestha/asyncomplete-buffer.vim'
+" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+"     \ 'name': 'buffer',
+"     \ 'whitelist': ['*'],
+"     \ 'blacklist': ['go'],
+"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
+"     \ }))
+" Plug 'prabirshrestha/asyncomplete-file.vim'
+" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+"     \ 'name': 'file',
+"     \ 'whitelist': ['*'],
+"     \ 'priority': 10,
+"     \ 'completor': function('asyncomplete#sources#file#completor')
+"     \ }))
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " Show function signatures
@@ -93,6 +103,7 @@ Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
 let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
 Plug 'heavenshell/vim-pydocstring'
+" TODO: Write a function which looks for Pipfile, requirements.txt etc.
 au User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
         \ 'cmd': {server_info->['/Users/hornm/.vim/run_pyls_with_venv.sh']},

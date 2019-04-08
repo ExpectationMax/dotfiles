@@ -15,8 +15,12 @@ set noswapfile
 " Appearance
 set number
 set noshowmode          " Dont show the mode, we have airline for that
+
+set termguicolors
+let &t_8f = "\e[38;2;%lu;%lu;%lum"
+let &t_8b = "\e[48;2;%lu;%lu;%lum"
+
 set background=dark
-let g:gruvbox_italic=1
 colorscheme gruvbox
 set laststatus=2        " Always show status line
 set list                " Show tab and EOL
@@ -40,8 +44,8 @@ set smartcase
 
 " Completion
 set shortmess+=c " Hide messages
-set completeopt+=preview
-
+" Don't use preview, echodoc is sufficient for most cases
+set completeopt=menuone,noinsert,noselect
 
 " Customized spell-file
 set spellfile=~/.vim/spell/en.utf-8.add
@@ -72,6 +76,18 @@ function SetupLatex()
     :setlocal spell
 endfunction
 
+function SetupLsp()
+  :nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
+  :nmap <buffer> gd <plug>(lsp-definition)
+  :nmap <buffer> <leader>lr <plug>(lsp-rename)
+  :nmap <buffer> <leader>lf <plug>(lsp-document-format)
+  :nmap <buffer> <leader>lt <plug>(lsp-type-definition)
+  :nmap <buffer> <leader>lx <plug>(lsp-references)
+  :nmap <buffer> <leader>lh <plug>(lsp-hover)
+  :imap <buffer> <C-h> <plug>(lsp-hover)
+  :nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
+endfunction
+
 function SetupMarkdown()
     :setlocal colorcolumn=80
     :setlocal tw=79
@@ -85,6 +101,7 @@ function SetupPython()
     :setlocal colorcolumn=80
     :setlocal tw=79
     :setlocal signcolumn=yes
+    :call SetupLsp()
 endfunction
 
 function SetupTerminal()
@@ -95,9 +112,11 @@ autocmd Filetype gitcommit call SetupGit()
 autocmd Filetype latex call SetupLatex()
 autocmd Filetype markdown call SetupMarkdown()
 autocmd Filetype python call SetupPython()
-autocmd TermOpen * call SetupTerminal()
+if has('nvim')
+    autocmd TermOpen * call SetupTerminal()
+endif
 
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " General keybindings
 " Disable regular arrow keys
@@ -122,8 +141,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 tnoremap <C-x> <C-\><C-n>
-
-
 
 syntax on
 filetype plugin indent on

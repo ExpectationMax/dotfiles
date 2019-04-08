@@ -9,12 +9,12 @@
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
     ~/.taskrc: home/taskrc
+    ~/.vimrc: home/vimrc
     ~/.config/nvim/init.vim: config/nvim/init.vim
     ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
     ~/.vim/init.vim: vim/init.vim
     ~/.vim/plugins.vim: vim/plugins.vim
     ~/.vim/custom_commands.vim: vim/custom_commands.vim
-    ~/.vim/ls-settings.json: vim/ls-settings.json
     ~/.vim/spell: vim/spell
     ~/.vim/run_pyls_with_venv.sh: vim/run_pyls_with_venv.sh
     ~/.vim/pydocstring_template: vim/pydocstring_template

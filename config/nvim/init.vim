@@ -1,2 +1,2 @@
-" Just load the vim config
+" Just load the joint neovim & vim config
 source ~/.vim/init.vim
