@@ -112,7 +112,8 @@ au User lsp_setup call lsp#register_server({
         \   'pyls': {
         \      'plugins': {
         \         'pyflakes': {'enabled': v:true},
-        \         'pydocstyle': {'enabled': v:true}
+        \         'pydocstyle': {'enabled': v:true},
+        \         'pylint': {'enabled': v:true}
         \      }
         \   }
         \ }
