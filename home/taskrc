@@ -32,8 +32,6 @@ include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/light-16.theme
 include ~/.taskrc_sync_settings
 
 # Contexts
-context.home=proj:Home
-context.work=proj:Work
 context.studies=proj:Studies
 
 uda.reviewed.type=date
@@ -42,4 +40,4 @@ report._reviewed.description=Tasksh review report.  Adjust the filter to your ne
 report._reviewed.columns=uuid
 report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
-context=work
+context.work=-home
