@@ -72,7 +72,7 @@ function SetupGit()
     :setlocal spell
 endfunction
 
-function SetupLatex()
+function SetupTex()
     :setlocal colorcolumn=80
     :setlocal tw=79
     :setlocal signcolumn=yes
@@ -80,16 +80,16 @@ function SetupLatex()
 endfunction
 
 function SetupLsp()
-  :nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
-  :nmap <buffer> gd <plug>(lsp-definition)
-  :nmap <buffer> <leader>lr <plug>(lsp-rename)
-  :nmap <buffer> <leader>lf <plug>(lsp-document-format)
-  :vmap <buffer> <C-f> <plug>(lsp-document-format)
-  :nmap <buffer> <leader>lt <plug>(lsp-type-definition)
-  :nmap <buffer> <leader>lx <plug>(lsp-references)
-  :nmap <buffer> <leader>lh <plug>(lsp-hover)
-  :imap <buffer> <C-h> <plug>(lsp-hover)
-  :nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
+    :nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
+    :nmap <buffer> gd <plug>(lsp-definition)
+    :nmap <buffer> <leader>lr <plug>(lsp-rename)
+    :nmap <buffer> <leader>lf <plug>(lsp-document-format)
+    :vmap <buffer> <C-f> <plug>(lsp-document-format)
+    :nmap <buffer> <leader>lt <plug>(lsp-type-definition)
+    :nmap <buffer> <leader>lx <plug>(lsp-references)
+    :nmap <buffer> <leader>lh <plug>(lsp-hover)
+    :imap <buffer> <C-h> <plug>(lsp-hover)
+    :nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
 endfunction
 
 function SetupMarkdown()
@@ -113,7 +113,7 @@ function SetupTerminal()
 endfunction
 
 autocmd Filetype gitcommit call SetupGit()
-autocmd Filetype latex call SetupLatex()
+autocmd Filetype tex call SetupTex()
 autocmd Filetype markdown call SetupMarkdown()
 autocmd Filetype python call SetupPython()
 if has('nvim')

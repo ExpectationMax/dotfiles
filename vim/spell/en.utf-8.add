@@ -8,3 +8,7 @@ reparametrize
 jacobian
 broadcasted
 stochasticity
+regularizers
+Hacky
+Autoencoders
+backpropagation
