@@ -119,5 +119,8 @@ au User lsp_setup call lsp#register_server({
         \ }
         \ })
 
+" Run code directly in ipython kernel
+Plug 'bfredl/nvim-ipy'
+
 
 call plug#end()
