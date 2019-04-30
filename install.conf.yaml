@@ -43,7 +43,7 @@
     stdout: true
     description: Install python3 and pipenv
   - 
-    command: brew install sip --without-python@2 && brew install pyqt --with-python3 --without-python@2
+    command: brew install sip && brew install pyqt --with-python3 --without-python@2
     stdin: true
     stdout: true
     description: Install qt support for python to allow usage of qtconsole
