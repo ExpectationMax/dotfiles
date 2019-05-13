@@ -61,6 +61,13 @@ for d in glob('~/.vim/spell/*.add', 1, 1)
     endif
 endfor
 
+" Customize netrw
+let g:netrw_liststyle = 3     " view dir listing as tree
+let g:netrw_banner = 0        " remove banner
+let g:netrw_browse_split = 2  " open files in vertical splits
+let g:netrw_altv = 1          " open splits to the right
+let g:netrw_winsize = 25      " make split area 25% of the window size
+
 " Python paths
 let g:python3_host_prog = "/usr/local/bin/python3"
 
