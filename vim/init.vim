@@ -71,8 +71,6 @@ let g:netrw_winsize = 25      " make split area 25% of the window size
 " Python paths
 let g:python3_host_prog = "/usr/local/bin/python3"
 
-" Convert tex expressions into unicode
-
 source ~/.vim/custom_commands.vim
 
 function SetupGit()
@@ -117,14 +115,21 @@ endfunction
 
 function SetupTerminal()
     :setlocal nonumber norelativenumber
+    :startinsert
 endfunction
 
 autocmd Filetype gitcommit call SetupGit()
+autocmd FileType gitcommit set bufhidden=delete  " Delete gitcommit buffer when hidden
+let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+
 autocmd Filetype tex call SetupTex()
 autocmd Filetype markdown call SetupMarkdown()
 autocmd Filetype python call SetupPython()
 if has('nvim')
+    " Remove line numbers and go to insert mode when creating a new terminal
     autocmd TermOpen * call SetupTerminal()
+    " Go to insert mode as soon as focusing on terminal
+    autocmd FocusGained,BufEnter,BufWinEnter,WinEnter term://* startinsert
 endif
 
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif

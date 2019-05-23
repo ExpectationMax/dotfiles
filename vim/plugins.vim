@@ -24,7 +24,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
 " Window and buffer management
-Plug 'qpkorr/vim-bufkill'     " Adds command :BD to delete a buffer while leaving splits intact
+" Plug 'qpkorr/vim-bufkill'     " Adds command :BD to delete a buffer while leaving splits intact
 let g:windowswap_map_keys = 0 " Prevent default bindings
 Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 
