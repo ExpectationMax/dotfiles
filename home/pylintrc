@@ -1,6 +1,6 @@
 [MASTER]
 
-init-hook="from pylint_venv import inithook; inithook()"
+init-hook="from pylint_venv import inithook; inithook(ignore_active_venv=True)"
 
 [TYPECHECK]
 
