@@ -32,23 +32,13 @@
     stdin: true
     stdout: true
     description: Install homebrew
+  - [brew install python, Installing python]
+  - [brew install pyenv, Installing pyenv]
+  - [brew install pipenv, Installing pipenv]
+  - [brew install sip, Installing sip]
+  - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
   - 
-    command: brew tap homebrew/cask-fonts && brew cask install font-fira-code
-    stdin: true
-    stdout: true
-    description: Add fonts tap and install Fira Code
-  - 
-    command: brew install python && brew install pyenv && brew install pipenv
-    stdin: true
-    stdout: true
-    description: Install python3 and pipenv
-  - 
-    command: brew install sip && brew install pyqt --with-python3 --without-python@2
-    stdin: true
-    stdout: true
-    description: Install qt support for python to allow usage of qtconsole
-  - 
-    command: brew install neovim fzf editorconfig ripgrep
+    command: brew install neovim fzf ripgrep
     stdin: true
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
@@ -57,11 +47,18 @@
     stdin: true
     stdout: true
     description: Install taskwarrior and taskwarrior shell
+  - [python3 -m venv --clear ~/.neovim_venv, Setting up neovim venv]
   - 
-    command: pip3 install --upgrade --no-cache pynvim neovim jupyter python_language_server[all] flake8 pep8-naming pylint-venv numpy notedown jupyter_qtconsole_colorschemes tasklib
-    description: Install neovim jupyter numpy and python_language_server into users global python environment
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter python_language_server[all] flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
+    description: Setting up neovim venv
+    stdin: true
+    stdout: false
+  - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
+  - 
+    command: brew tap homebrew/cask-fonts || brew cask install font-fira-code
     stdin: true
     stdout: true
+    description: Add fonts tap and install Fira Code
   - 
     command: brew cask install kitty google-chrome
     stdin: true

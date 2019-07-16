@@ -69,7 +69,7 @@ let g:netrw_banner = 0        " remove banner
 let g:netrw_winsize = 15      " make split area 25% of the window size
 
 " Python paths
-let g:python3_host_prog = "/usr/local/bin/python3"
+let g:python3_host_prog = $HOME . "/.neovim_venv/bin/python3"
 
 source ~/.vim/custom_commands.vim
 
