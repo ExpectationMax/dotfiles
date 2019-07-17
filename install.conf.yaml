@@ -54,6 +54,8 @@
     stdin: true
     stdout: false
   - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
+  - [brew install pipx, Installing pipx and neovim-remote]
+  - [pipx install neovim-remote, Installing neovim-remote executable]
   - 
     command: brew tap homebrew/cask-fonts || brew cask install font-fira-code
     stdin: true
