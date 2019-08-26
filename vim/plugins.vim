@@ -117,7 +117,7 @@ Plug 'heavenshell/vim-pydocstring'
 " TODO: Write a function which looks for Pipfile, requirements.txt etc.
 au User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
-        \ 'cmd': {server_info->['/Users/hornm/.vim/run_pyls_with_venv.sh']},
+        \ 'cmd': {server_info->[$HOME.'/.vim/run_pyls_with_venv.sh']},
         \ 'whitelist': ['python'],
         \ 'workspace_config': {
         \   'pyls': {
