@@ -82,7 +82,7 @@ let g:asyncomplete_remove_duplicates = 1
 let g:asyncomplete_smart_completion = 1
 let g:asyncomplete_auto_popup = 1
 
-Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete.vim', {'for': 'python'}
 " Allow entering enter when popup is open
 autocmd filetype python inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
 autocmd filetype python inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
@@ -102,7 +102,7 @@ autocmd filetype python inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomple
 "     \ 'priority': 10,
 "     \ 'completor': function('asyncomplete#sources#file#completor')
 "     \ }))
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim', {'for': 'python'}
 
 " Show function signatures
 let g:echodoc#enable_at_startup = 1
