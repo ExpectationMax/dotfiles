@@ -69,12 +69,14 @@ highlight link LspErrorHighlight SpellCap
 highlight link LspWarningHighlight SpellBad
 highlight link LspInformationHighlight SpellBad
 highlight link LspHintHighlight SpellBad
-let g:lsp_signs_enabled = 0         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_virtual_text_enabled = 0 " Have active until new sign api is in neovim
+let g:lsp_highlight_references_enabled = 1 " highlight variable under cursor
+let g:lsp_diagnostics_echo_cursor = 1      " enable echo under cursor when in normal mode
+let g:lsp_signs_enabled = 1                " enable signs
 let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
-let g:lsp_signs_hint = {'text': 'i'} " icons require GUI
+let g:lsp_signs_warning = {'text': '‼'}
+let g:lsp_signs_hint = {'text': 'i'}
+let g:lsp_virtual_text_enabled = 0         " Disable as signs are sufficient
+
 Plug 'prabirshrestha/vim-lsp'
 
 " Completion suggestions
@@ -87,26 +89,22 @@ Plug 'prabirshrestha/asyncomplete.vim', {'for': 'python'}
 autocmd filetype python inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
 autocmd filetype python inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
 autocmd filetype python inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-" Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-"     \ 'name': 'buffer',
-"     \ 'whitelist': ['*'],
-"     \ 'blacklist': ['go'],
-"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
-"     \ }))
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-"     \ 'name': 'file',
-"     \ 'whitelist': ['*'],
-"     \ 'blacklist': ['python'],
-"     \ 'priority': 10,
-"     \ 'completor': function('asyncomplete#sources#file#completor')
-"     \ }))
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ }))
+Plug 'prabirshrestha/asyncomplete-file.vim'
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': [],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
 Plug 'prabirshrestha/asyncomplete-lsp.vim', {'for': 'python'}
-
-" Show function signatures
-let g:echodoc#enable_at_startup = 1
-Plug 'Shougo/echodoc.vim'
 
 " Python
 let g:python_highlight_all = 1

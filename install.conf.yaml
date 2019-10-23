@@ -49,7 +49,7 @@
     description: Install taskwarrior and taskwarrior shell
   - [python3 -m venv --clear ~/.neovim_venv, Setting up neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter python_language_server[all] flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter 'python_language_server[all]' flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
     description: Setting up neovim venv
     stdin: true
     stdout: false

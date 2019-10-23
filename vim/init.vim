@@ -95,6 +95,7 @@ function SetupLsp()
     :nmap <buffer> <leader>lh <plug>(lsp-hover)
     :imap <buffer> <C-h> <plug>(lsp-hover)
     :nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
+    :set foldmethod=expr foldexpr=lsp#ui#vim#folding#foldexpr() foldtext=lsp#ui#vim#folding#foldtext()
 endfunction
 
 function SetupMarkdown()
