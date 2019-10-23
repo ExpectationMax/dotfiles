@@ -84,16 +84,16 @@ let g:asyncomplete_remove_duplicates = 1
 let g:asyncomplete_smart_completion = 1
 let g:asyncomplete_auto_popup = 1
 
-Plug 'prabirshrestha/asyncomplete.vim', {'for': 'python'}
+Plug 'prabirshrestha/asyncomplete.vim'
 " Allow entering enter when popup is open
-autocmd filetype python inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
-autocmd filetype python inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
-autocmd filetype python inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
+inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
+inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
+    \ 'blacklist': ['go', 'python'],
     \ 'completor': function('asyncomplete#sources#buffer#completor'),
     \ }))
 Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -104,7 +104,7 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
-Plug 'prabirshrestha/asyncomplete-lsp.vim', {'for': 'python'}
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " Python
 let g:python_highlight_all = 1
