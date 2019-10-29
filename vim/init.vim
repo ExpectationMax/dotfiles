@@ -141,6 +141,8 @@ noremap <up> <NOP>
 noremap <down> <NOP>
 noremap <left> <NOP>
 noremap <right> <NOP>
+" Disable Ex mode
+nnoremap Q <Nop>
 " Window management
 nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
