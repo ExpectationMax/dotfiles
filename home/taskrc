@@ -32,7 +32,6 @@ include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/dark-256.theme
 include ~/.taskrc_sync_settings
 
 # Contexts
-context.studies=proj:Studies
 context.work=-home
 
 uda.reviewed.type=date
@@ -44,3 +43,9 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +P
 urgency.user.tag.backlog.coefficient=-2
 urgency.due.coefficient=2
 due=7
+report.next.filter=status:pending limit:page +READY
+context.Grass=proj:Grass
+context.Hierlemann=proj:Hierlemann
+context.Courses=proj:Courses
+context.Home=+home
+urgency.annotations.coefficient=0
