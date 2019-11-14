@@ -8,6 +8,7 @@
 - link:
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
+    ~/.zshrc: home/zshrc
     ~/.taskrc: home/taskrc
     ~/.vimrc: home/vimrc
     ~/.pylintrc: home/pylintrc
