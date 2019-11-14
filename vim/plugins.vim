@@ -32,6 +32,14 @@ Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+" Editorconfig
+Plug 'editorconfig/editorconfig-vim'
+
+let g:voom_python_versions = [3]
+let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'python': 'python'}
+Plug 'vim-voom/VOoM'
+
+
 " Project and time management
 
 " Markdown
@@ -93,7 +101,8 @@ Plug 'prabirshrestha/asyncomplete-buffer.vim'
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
-    \ 'blacklist': ['go', 'python'],
+    \ 'blacklist': ['go', 'python', 'terminal'],
+    \ 'events': ['TextChanged','InsertLeave','BufWinEnter','BufWritePost'],
     \ 'completor': function('asyncomplete#sources#buffer#completor'),
     \ }))
 Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -127,6 +136,21 @@ au User lsp_setup call lsp#register_server({
         \   }
         \ }
         \ })
+" au User lsp_setup call lsp#register_server({
+"         \ 'name': 'pyls',
+"         \ 'cmd': {server_info->[$HOME.'/.vim/run_pyls_with_venv.sh']},
+"         \ 'whitelist': ['python'],
+"         \ 'workspace_config': {
+"         \   'pyls': {
+"         \      'plugins': {
+"         \         'pyflakes': {'enabled': v:true},
+"         \         'pydocstyle': {'enabled': v:true},
+"         \         'pylint': {'enabled': v:true}
+"         \      }
+"         \   }
+"         \ }
+"         \ })
+
 
 " Run code directly in ipython kernel
 Plug 'bfredl/nvim-ipy'
