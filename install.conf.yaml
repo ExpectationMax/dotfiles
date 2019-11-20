@@ -33,13 +33,13 @@
     stdin: true
     stdout: true
     description: Install homebrew
-  - [brew install python, Installing python]
+  - [brew install python && brew pin python, Installing python]
   - [brew install pyenv, Installing pyenv]
   - [brew install pipenv, Installing pipenv]
   - [brew install sip, Installing sip]
   - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
   - 
-    command: brew install neovim fzf ripgrep
+    command: brew install neovim fzf ripgrep editorconfig
     stdin: true
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
@@ -63,7 +63,7 @@
     stdout: true
     description: Add fonts tap and install Fira Code
   - 
-    command: brew cask install kitty google-chrome
+    command: brew cask install vimr kitty google-chrome
     stdin: true
     stdout: true
-    description: Install kitty terminal emulator and google chrome
+    description: Install VimR, kitty terminal emulator and Google Chrome
