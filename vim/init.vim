@@ -33,7 +33,7 @@ set conceallevel=2
 " Beviour
 " One tab equals 4 spaces, an entered tab is automatically converted
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
-set formatoptions+=qrn1
+set formatoptions=jn1croql
 
 " split are to the right and bottom
 set splitbelow
