@@ -67,6 +67,9 @@ Plug 'tbabej/taskwiki'
 " Terminal
 Plug 'kassio/neoterm'
 
+" TOML files
+Plug 'cespare/vim-toml'
+
 " Git integration
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
