@@ -36,6 +36,8 @@
     description: Install homebrew
   - [brew install python && brew pin python, Installing python]
   - [brew install pyenv, Installing pyenv]
+  - [pyenv install 3.6.9, Installing python 3.6.9]
+  - [pyenv install 3.7.4, Installing python 3.7.4]
   - [brew install pipenv, Installing pipenv]
   - [brew install sip, Installing sip]
   - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
@@ -49,14 +51,14 @@
     stdin: true
     stdout: true
     description: Install taskwarrior and taskwarrior shell
-  - [python3 -m venv --clear ~/.neovim_venv, Setting up neovim venv]
+  - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
     command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter 'python_language_server[all]' flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
-    description: Setting up neovim venv
+    description: Set up neevim venv
     stdin: true
     stdout: false
   - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
-  - [brew install pipx, Installing pipx and neovim-remote]
+  - [brew install pipx, Installing pipx]
   - [pipx install neovim-remote, Installing neovim-remote executable]
   - 
     command: brew tap homebrew/cask-fonts || brew cask install font-fira-code
