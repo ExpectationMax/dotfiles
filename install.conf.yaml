@@ -9,6 +9,7 @@
     ~/.bash_profile: home/bash_profile
     ~/.bashrc: home/bashrc
     ~/.zshrc: home/zshrc
+    ~/.zprofile: home/zprofile
     ~/.taskrc: home/taskrc
     ~/.vimrc: home/vimrc
     ~/.pylintrc: home/pylintrc

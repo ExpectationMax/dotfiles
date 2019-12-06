@@ -1,0 +1,6 @@
+# source '/etc/zprofile'
+path=("$HOME/.local/bin" $path)
+path=("$HOME/.poetry/bin" $path)
+path=("/Users/hornm/.pyenv/shims" $path)
+source '/usr/local/Cellar/pyenv/1.2.14_1/libexec/../completions/pyenv.zsh'
+export PATH
