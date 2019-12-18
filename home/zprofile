@@ -1,4 +1,3 @@
-# source '/etc/zprofile'
 path=("$HOME/.local/bin" $path)
 path=("$HOME/.poetry/bin" $path)
 path=("/Users/hornm/.pyenv/shims" $path)
