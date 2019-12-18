@@ -58,6 +58,12 @@ Plug 'ferrine/md-img-paste.vim'
 let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
 let g:vimwiki_global_ext = 0
 Plug 'vimwiki/vimwiki'
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+augroup end
 
 " Taskwarrior integration
 Plug 'blindFS/vim-taskwarrior'
@@ -103,8 +109,8 @@ inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go', 'python', 'terminal'],
+    \ 'whitelist': ['markdown', 'vimwiki', 'vim'],
+    \ 'blacklist': ['*'],
     \ 'events': ['TextChanged','InsertLeave','BufWinEnter','BufWritePost'],
     \ 'completor': function('asyncomplete#sources#buffer#completor'),
     \ }))
@@ -134,7 +140,7 @@ au User lsp_setup call lsp#register_server({
         \      'plugins': {
         \         'pyflakes': {'enabled': v:true},
         \         'pydocstyle': {'enabled': v:true},
-        \         'pylint': {'enabled': v:true}
+        \         'pylint': {'enabled': v:false}
         \      }
         \   }
         \ }
