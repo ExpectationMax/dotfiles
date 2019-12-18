@@ -125,6 +125,7 @@ let $GIT_EDITOR = 'nvr -cc split --remote-wait'
 
 autocmd Filetype tex call SetupTex()
 autocmd Filetype markdown call SetupMarkdown()
+autocmd Filetype vimwiki call SetupMarkdown()
 autocmd Filetype python call SetupPython()
 if has('nvim')
     " Remove line numbers and go to insert mode when creating a new terminal
