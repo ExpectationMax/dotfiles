@@ -124,6 +124,20 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ }))
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_executive_for = {
+  \ 'python': 'vim_lsp'
+  \ }
+let g:vista_fzf_preview = ['right:50%']
+let g:vista#renderer#enable_icon = 1
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+
+Plug 'liuchengxu/vista.vim'
+
+
 " Python
 let g:python_highlight_all = 1
 Plug 'vim-python/python-syntax'
