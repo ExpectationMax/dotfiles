@@ -15,6 +15,7 @@ set noswapfile
 " Appearance
 set number
 set noshowmode          " Dont show the mode, we have airline for that
+set showtabline=1       " Show tabline only if more than one tab is open
 
 set termguicolors
 let &t_8f = "\e[38;2;%lu;%lu;%lum"
