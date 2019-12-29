@@ -39,6 +39,7 @@
   - [pyenv install 3.6.9, Installing python 3.6.9]
   - [pyenv install 3.7.4, Installing python 3.7.4]
   - [brew install pipenv, Installing pipenv]
+  - [curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python, Installing poetry]
   - [brew install sip, Installing sip]
   - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
   - 
