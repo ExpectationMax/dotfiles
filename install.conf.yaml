@@ -42,6 +42,7 @@
   - [curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python, Installing poetry]
   - [brew install sip, Installing sip]
   - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
+  - [brew install pandoc, Installing pandoc]
   - 
     command: brew install neovim fzf ripgrep editorconfig
     stdin: true

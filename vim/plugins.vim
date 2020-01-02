@@ -63,15 +63,18 @@ let g:mdip_imgdir = 'img'
 Plug 'ferrine/md-img-paste.vim'
 
 " vimwiki
-let g:vimwiki_list = [{'path': '~/PhDwiki/', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'}]
+let g:vimwiki_list = [{
+  \ 'path': '~/PhDwiki/',
+  \ 'syntax': 'markdown',
+  \ 'ext': '.md',
+  \ 'index': 'Home',
+  \ 'auto_toc': 1,
+  \ 'auto_diary_index': 1,
+  \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+  \ }]
 let g:vimwiki_global_ext = 0
 Plug 'vimwiki/vimwiki'
 command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
-    autocmd!
-    " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-augroup end
 
 " Taskwarrior integration
 Plug 'blindFS/vim-taskwarrior'
