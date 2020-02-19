@@ -117,14 +117,14 @@ Plug 'prabirshrestha/asyncomplete.vim'
 inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
 inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
 inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['markdown', 'vimwiki', 'vim'],
-    \ 'blacklist': ['*'],
-    \ 'events': ['TextChanged','InsertLeave','BufWinEnter','BufWritePost'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
+" Plug 'prabirshrestha/asyncomplete-buffer.vim'
+" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+"     \ 'name': 'buffer',
+"     \ 'whitelist': ['markdown', 'vimwiki', 'vim'],
+"     \ 'blacklist': ['*'],
+"     \ 'events': ['TextChanged','InsertLeave','BufWinEnter','BufWritePost'],
+"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
+"     \ }))
 Plug 'prabirshrestha/asyncomplete-file.vim'
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
     \ 'name': 'file',

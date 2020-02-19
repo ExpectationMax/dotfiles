@@ -8,13 +8,13 @@ endif
 source ~/.vim/plug.vim
 source ~/.vim/plugins.vim
 
-" set encoding, no
+" set encoding, no swapfile
 set encoding=utf8
 set noswapfile
 
 " Appearance
 set number
-set noshowmode          " Dont show the mode, we have airline for that
+set noshowmode          " Dont show the mode, we have lightline for that
 set showtabline=1       " Show tabline only if more than one tab is open
 
 set termguicolors
@@ -132,7 +132,9 @@ if has('nvim')
     " Remove line numbers and go to insert mode when creating a new terminal
     autocmd TermOpen * call SetupTerminal()
     " Go to insert mode as soon as focusing on terminal
-    autocmd FocusGained,BufEnter,BufWinEnter,WinEnter term://* startinsert
+    " autocmd FocusGained,BufEnter,BufWinEnter,WinEnter term://* startinsert
+    " Removed as it is anoying when opening a term in a tab and switching
+    " through tabs
 endif
 
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
