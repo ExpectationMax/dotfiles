@@ -175,6 +175,13 @@ au User lsp_setup call lsp#register_server({
         \ 'cmd': {server_info->[$HOME.'/.local/bin/texlab']},
         \ 'whitelist': ['latex', 'tex', 'bib', 'bibtex'],
         \ })
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd', '-background-index']},
+        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        \ })
+endif
 " au User lsp_setup call lsp#register_server({
 "         \ 'name': 'pyls',
 "         \ 'cmd': {server_info->[$HOME.'/.vim/run_pyls_with_venv.sh']},
