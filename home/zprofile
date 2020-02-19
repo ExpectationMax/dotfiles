@@ -1,5 +1,11 @@
-path=("$HOME/.local/bin" $path)
-path=("$HOME/.poetry/bin" $path)
-path=("/Users/hornm/.pyenv/shims" $path)
+path=("$HOME/.local/bin" $path)  # user pip
+path=("$HOME/.poetry/bin" $path)  # poetry
+path=("/Users/hornm/.pyenv/shims" $path)  # pyenv
+path=("/usr/local/opt/llvm/bin" $path)  # llvm
+
 source '/usr/local/Cellar/pyenv/1.2.14_1/libexec/../completions/pyenv.zsh'
 export PATH
+
+# llvm
+export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
