@@ -17,10 +17,12 @@
     ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
     ~/.vim/init.vim: vim/init.vim
     ~/.vim/plugins.vim: vim/plugins.vim
+    ~/.vim/lsp.lua: vim/lsp.lua
     ~/.vim/custom_commands.vim: vim/custom_commands.vim
     ~/.vim/spell: vim/spell
     ~/.vim/run_pyls_with_venv.sh: vim/run_pyls_with_venv.sh
     ~/.vim/pydocstring_template: vim/pydocstring_template
+    ~/.config/nvim/lua/tagfunc_nvim_lsp.lua: config/nvim/lua/tagfunc_nvim_lsp.lua
     ~/.config/pycodestyle: config/pycodestyle
     ~/.config/kitty/kitty.conf: config/kitty.conf
     ~/.jupyter/jupyter_qtconsole_config.py: jupyter/jupyter_qtconsole_config.py
@@ -39,7 +41,7 @@
   - [pyenv install 3.6.9, Installing python 3.6.9]
   - [pyenv install 3.7.4, Installing python 3.7.4]
   - [brew install pipenv, Installing pipenv]
-  - [curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python, Installing poetry]
+  - ["curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python", Installing poetry]
   - [brew install sip, Installing sip]
   - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
   - [brew install pandoc, Installing pandoc]
@@ -56,7 +58,7 @@
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
     command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter 'python_language_server[all]' flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
-    description: Set up neevim venv
+    description: Set up neovim venv
     stdin: true
     stdout: false
   - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
@@ -68,7 +70,7 @@
     stdout: true
     description: Add fonts tap and install Fira Code
   - 
-    command: brew cask install vimr kitty google-chrome
+    command: brew cask install vimr kitty
     stdin: true
     stdout: true
-    description: Install VimR, kitty terminal emulator and Google Chrome
+    description: Install VimR and kitty terminal emulator

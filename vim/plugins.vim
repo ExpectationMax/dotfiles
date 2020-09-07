@@ -2,7 +2,9 @@ call plug#begin('~/.vim/plugged')
 " General
 
 " Appearance
-Plug 'morhetz/gruvbox'
+let g:gruvbox_filetype_hi_groups = 1
+let g:gruvbox_plugin_hi_groups = 1
+Plug 'lifepillar/vim-gruvbox8'
 " Configure lightline
 let g:lightline = {
   \ 'colorscheme': 'jellybeans',
@@ -32,7 +34,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
 " Window and buffer management
-" Plug 'qpkorr/vim-bufkill'     " Adds command :BD to delete a buffer while leaving splits intact
+Plug 'qpkorr/vim-bufkill'     " Adds command :BD to delete a buffer while leaving splits intact
 let g:windowswap_map_keys = 0 " Prevent default bindings
 Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 
@@ -47,16 +49,9 @@ let g:voom_python_versions = [3]
 let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'python': 'python'}
 Plug 'vim-voom/VOoM'
 
-
 " Project and time management
 
 " Markdown
-" Disable initial folding when opening markdown document
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_auto_insert_bullets = 1
-let g:vim_markdown_new_list_item_indent = 2
-Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 " Allow to paste clipboard images into Markdown image link
 let g:mdip_imgdir = 'img'
@@ -75,10 +70,17 @@ let g:vimwiki_list = [{
 let g:vimwiki_global_ext = 0
 Plug 'vimwiki/vimwiki'
 command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+augroup end
 
 " Taskwarrior integration
 Plug 'blindFS/vim-taskwarrior'
-Plug 'tbabej/taskwiki'
+" It seems like the current version breaks navigation in vimwiki. Looks like
+" it overrides the bindings for it.
+" Plug 'tools-life/taskwiki'
 
 " Programming
 " Terminal
@@ -91,114 +93,120 @@ Plug 'cespare/vim-toml'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Langauage server integration
-Plug 'prabirshrestha/async.vim'
-highlight link LspErrorHighlight SpellCap
-highlight link LspWarningHighlight SpellBad
-highlight link LspInformationHighlight SpellBad
-highlight link LspHintHighlight SpellBad
-let g:lsp_highlight_references_enabled = 1 " highlight variable under cursor
-let g:lsp_diagnostics_echo_cursor = 1      " enable echo under cursor when in normal mode
-let g:lsp_signs_enabled = 1                " enable signs
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '‼'}
-let g:lsp_signs_hint = {'text': 'i'}
-let g:lsp_virtual_text_enabled = 0         " Disable as signs are sufficient
+" Completion
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" Enter should close popup window and do newline
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-Plug 'prabirshrestha/vim-lsp'
-
-" Completion suggestions
-let g:asyncomplete_remove_duplicates = 1
-let g:asyncomplete_smart_completion = 1
-let g:asyncomplete_auto_popup = 1
-
-Plug 'prabirshrestha/asyncomplete.vim'
-" Allow entering enter when popup is open
-inoremap <buffer> <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
-inoremap <buffer> <expr> <C-n> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
-inoremap <buffer> <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-" Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-"     \ 'name': 'buffer',
-"     \ 'whitelist': ['markdown', 'vimwiki', 'vim'],
-"     \ 'blacklist': ['*'],
-"     \ 'events': ['TextChanged','InsertLeave','BufWinEnter','BufWritePost'],
-"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
-"     \ }))
-Plug 'prabirshrestha/asyncomplete-file.vim'
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': [],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-let g:vista_executive_for = {
-  \ 'python': 'vim_lsp'
-  \ }
-let g:vista_fzf_preview = ['right:50%']
-let g:vista#renderer#enable_icon = 1
-let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
-
-Plug 'liuchengxu/vista.vim'
-
+" Language server support
+Plug 'neovim/nvim-lspconfig'
 
 " Python
 let g:python_highlight_all = 1
 Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
-let g:pydocstring_templates_dir = "~/.vim/pydocstring_template"
+let g:pydocstring_doq_path = $HOME."/.neovim_venv/bin/doq"
+let g:pydocstring_formatter = "google"
 Plug 'heavenshell/vim-pydocstring'
-" TODO: Write a function which looks for Pipfile, requirements.txt etc.
-au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->[$HOME.'/.vim/run_pyls_with_venv.sh']},
-        \ 'whitelist': ['python'],
-        \ 'workspace_config': {
-        \   'pyls': {
-        \      'plugins': {
-        \         'pyflakes': {'enabled': v:true},
-        \         'pydocstyle': {'enabled': v:true},
-        \         'pylint': {'enabled': v:false}
-        \      }
-        \   }
-        \ }
-        \ })
-au User lsp_setup call lsp#register_server({
-        \ 'name': 'texlab',
-        \ 'cmd': {server_info->[$HOME.'/.local/bin/texlab']},
-        \ 'whitelist': ['latex', 'tex', 'bib', 'bibtex'],
-        \ })
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd', '-background-index']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
-" au User lsp_setup call lsp#register_server({
-"         \ 'name': 'pyls',
-"         \ 'cmd': {server_info->[$HOME.'/.vim/run_pyls_with_venv.sh']},
-"         \ 'whitelist': ['python'],
-"         \ 'workspace_config': {
-"         \   'pyls': {
-"         \      'plugins': {
-"         \         'pyflakes': {'enabled': v:true},
-"         \         'pydocstyle': {'enabled': v:true},
-"         \         'pylint': {'enabled': v:true}
-"         \      }
-"         \   }
-"         \ }
-"         \ })
-
-
-" Run code directly in ipython kernel
 Plug 'bfredl/nvim-ipy'
-
 call plug#end()
+
+" Language server protocol
+highlight! link LspReferenceText LspReference
+highlight! link LspReferenceRead LspReference
+highlight! link LspReferenceWrite LspReference
+
+sign define LspDiagnosticsErrorSign text=✗ texthl=ALEErrorSign linehl= numhl=
+sign define LspDiagnosticsWarningSign text=‼ texthl=ALEWarningSign linehl= numhl=
+sign define LspDiagnosticsInformationSign text=i texthl=ALEInfoSign linehl= numhl=
+sign define LspDiagnosticsHintSign text=h linehl= numhl=
+
+lua << EOF
+--- Some generally useful functions
+require('os')
+local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
+local function path_join(...)
+    return table.concat(vim.tbl_flatten {...}, path_sep)
+end
+
+--- Regiser lsp servers
+local nvim_lsp = require('nvim_lsp')
+local ncm2 = require('ncm2')
+
+local function project_root_or_cur_dir(path)
+    return nvim_lsp.util.root_pattern('pyproject.toml', 'pipfile', '.git')(path) or vim.fn.getcwd()
+end
+
+nvim_lsp.pyls.setup{
+    cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")};
+    root_dir = project_root_or_cur_dir;
+    on_init = ncm2.register_lsp_source;
+    settings = {
+        pyls = {
+           plugins ={
+              pyflakes = {enabled = true},
+              pydocstyle = {enabled = true},
+              pylint = {enabled = false}
+           }
+        }
+    }
+};
+
+nvim_lsp.texlab.setup{
+    settings = {
+        latex = {
+          build = {
+            onSave = true;
+          }
+        }
+      }
+}
+
+--- Define our own callbacks
+local util = require 'vim.lsp.util'
+local vim = vim
+local api = vim.api
+local buf = require 'vim.lsp.buf'
+
+vim.lsp.callbacks['textDocument/publishDiagnostics'] = function(_, _, result)
+  if not result then return end
+  local uri = result.uri
+  local bufnr = vim.uri_to_bufnr(uri)
+  if not bufnr then
+    err_message("LSP.publishDiagnostics: Couldn't find buffer for ", uri)
+    return
+  end
+
+  -- Unloaded buffers should not handle diagnostics.
+  --    When the buffer is loaded, we'll call on_attach, which sends textDocument/didOpen.
+  --    This should trigger another publish of the diagnostics.
+  --
+  -- In particular, this stops a ton of spam when first starting a server for current
+  -- unloaded buffers.
+  if not api.nvim_buf_is_loaded(bufnr) then
+    return
+  end
+
+  util.buf_clear_diagnostics(bufnr)
+
+  -- https://microsoft.github.io/language-server-protocol/specifications/specification-current/#diagnostic
+  -- The diagnostic's severity. Can be omitted. If omitted it is up to the
+  -- client to interpret diagnostics as error, warning, info or hint.
+  -- TODO: Replace this with server-specific heuristics to infer severity.
+  for _, diagnostic in ipairs(result.diagnostics) do
+    if diagnostic.severity == nil then
+      diagnostic.severity = protocol.DiagnosticSeverity.Error
+    end
+  end
+
+  util.buf_diagnostics_save_positions(bufnr, result.diagnostics)
+  util.buf_diagnostics_underline(bufnr, result.diagnostics)
+  -- util.buf_diagnostics_virtual_text(bufnr, result.diagnostics)
+  util.buf_diagnostics_signs(bufnr, result.diagnostics)
+  vim.api.nvim_command("doautocmd User LspDiagnosticsChanged")
+end
+EOF
