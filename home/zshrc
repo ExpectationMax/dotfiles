@@ -28,3 +28,4 @@ set-window-title
 add-zsh-hook precmd set-window-title
 
 PROMPT='%F{blue}%B%~%b%f %F{green}%#%f '
+export GPG_TTY=$(tty)
