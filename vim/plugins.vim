@@ -29,11 +29,11 @@ let g:lightline.tab = {
 Plug 'itchyny/lightline.vim'
 
 " Saving, navigation and text objects
-Plug 'vim-scripts/vim-auto-save'
-let g:auto_save = 1
-let g:auto_save_in_insert_mode = 0
-let g:auto_save_no_updatetime = 1
-let g:auto_save_silent = 1
+" Plug 'vim-scripts/vim-auto-save'
+" let g:auto_save = 1
+" let g:auto_save_in_insert_mode = 0
+" let g:auto_save_no_updatetime = 1
+" let g:auto_save_silent = 1
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
@@ -88,6 +88,7 @@ Plug 'blindFS/vim-taskwarrior'
 
 " Programming
 " Terminal
+let g:neoterm_default_mod = 'botright'
 Plug 'kassio/neoterm'
 
 " TOML files
