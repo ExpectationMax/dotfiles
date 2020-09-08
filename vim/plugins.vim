@@ -10,10 +10,14 @@ let g:lightline = {
   \ 'colorscheme': 'jellybeans',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+  \   'right': [ [ 'lineinfo' ],
+  \            [ 'lspstatus' ],
+  \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
   \ },
   \ 'component_function': {
-  \   'gitbranch': 'fugitive#Head'
+  \   'gitbranch': 'fugitive#Head',
+  \   'lspstatus': 'LspStatus'
   \ },
   \ }
 
@@ -98,12 +102,16 @@ Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-aspell'
 autocmd BufEnter * call ncm2#enable_for_buffer()
 " Enter should close popup window and do newline
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 " Language server support
+" Predefined configurations for different language servers
 Plug 'neovim/nvim-lspconfig'
+" Status bar containing language server information
+Plug 'nvim-lua/lsp-status.nvim'
 
 " Python
 let g:python_highlight_all = 1
@@ -135,36 +143,52 @@ end
 
 --- Regiser lsp servers
 local nvim_lsp = require('nvim_lsp')
+local configs = require'nvim_lsp/configs'
 local ncm2 = require('ncm2')
+
+local lsp_status = require('lsp-status')
+lsp_status.config({
+    indicator_errors = "✗",
+    indicator_warnings = "‼",
+    indicator_info = "i",
+    indicator_hint = "h"
+})
+lsp_status.register_progress()
 
 local function project_root_or_cur_dir(path)
     return nvim_lsp.util.root_pattern('pyproject.toml', 'pipfile', '.git')(path) or vim.fn.getcwd()
 end
 
-nvim_lsp.pyls.setup{
-    cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")};
-    root_dir = project_root_or_cur_dir;
-    on_init = ncm2.register_lsp_source;
+nvim_lsp.pyls.setup({
+    cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
+    root_dir = project_root_or_cur_dir,
+    on_init = ncm2.register_lsp_source,
+    on_attach = lsp_status.on_attach,
+    capabilities = vim.tbl_extend('keep', configs.pyls.capabilities or {}, lsp_status.capabilities),
     settings = {
         pyls = {
            plugins ={
-              pyflakes = {enabled = true},
-              pydocstyle = {enabled = true},
-              pylint = {enabled = false}
+                pyflakes = {enabled = true},
+                pydocstyle = {enabled = true},
+                pylint = {enabled = false},
+                mypy_ls = {
+                    enabled = true,
+                    live_mode = true
+                }
            }
         }
     }
-};
+});
 
-nvim_lsp.texlab.setup{
+nvim_lsp.texlab.setup({
     settings = {
         latex = {
           build = {
-            onSave = true;
+            onSave = true
           }
         }
       }
-}
+})
 
 --- Define our own callbacks
 local util = require 'vim.lsp.util'

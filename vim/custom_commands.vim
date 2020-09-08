@@ -54,6 +54,20 @@ function! GetPythonVenv()
     endif
 endfunction
 
+function! LspRename()
+    call inputsave()
+    let l:newname = input('Rename to: ')
+    call inputrestore()
+    call luaeval('vim.lsp.buf.rename("'.l:newname.'")')
+endfunction
+
+function! LspStatus() abort
+    if luaeval('#vim.lsp.buf_get_clients() > 0')
+      return luaeval("require('lsp-status').status()")
+    endif
+    return ''
+endfunction
+
 command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'poetry run python -m ipykernel'

@@ -111,19 +111,20 @@ function SetupLsp()
     nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+    inoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> <buffer> <leader>ls    <cmd>lua vim.lsp.buf.document_symbol()<CR>
     nnoremap <silent> <buffer> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-    " nmap <buffer> <leader>lr <plug>(lsp-rename)
+    nnoremap <buffer> <leader>lr <cmd>call LspRename()<CR>
     " nmap <buffer> <leader>lf <plug>(lsp-document-format)
     " vmap <buffer> <C-f> <plug>(lsp-document-format)
     " nmap <buffer> <leader>lt <plug>(lsp-type-definition)
     " nmap <buffer> <leader>lx <plug>(lsp-references)
     " nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
-    " :set foldmethod=expr foldexpr=lsp#ui#vim#folding#foldexpr() foldtext=lsp#ui#vim#folding#foldtext()
     autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorHold  <buffer> lua vim.lsp.util.show_line_diagnostics()
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
     set tagfunc=v:lua.tagfunc_nvim_lsp
 endfunction
 
