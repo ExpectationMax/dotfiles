@@ -124,7 +124,7 @@ function SetupLsp()
     autocmd CursorHold  <buffer> lua vim.lsp.util.show_line_diagnostics()
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+    autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
     set tagfunc=v:lua.tagfunc_nvim_lsp
 endfunction
 

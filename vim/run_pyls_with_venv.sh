@@ -2,8 +2,10 @@
 DETECTED_VIRTUAL_ENV=$(PIPENV_IGNORE_VIRTUALENVS=1 pipenv --venv 2>/dev/null)
 # If we dont find a pipenv environemnt try poetry
 if [ -z "${DETECTED_VIRTUAL_ENV}" ]; then
-    DETECTED_VIRTUAL_ENV=$(poetry env list --full-path)
+    DETECTED_VIRTUAL_ENV=$(poetry env info --path)
 fi
+
+echo $DETECTED_VIRTUAL_ENV
 
 if [ -z "${DETECTED_VIRTUAL_ENV}" ]; then
    ~/.neovim_venv/bin/python3 -m pyls "$@" 2> ~/.vim/pyls_errors.log

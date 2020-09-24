@@ -103,7 +103,7 @@ Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-aspell'
+Plug 'fgrsnau/ncm2-aspell'
 autocmd BufEnter * call ncm2#enable_for_buffer()
 " Enter should close popup window and do newline
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
@@ -113,6 +113,16 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 Plug 'neovim/nvim-lspconfig'
 " Status bar containing language server information
 Plug 'nvim-lua/lsp-status.nvim'
+" Sidebar containing document symbols
+let g:vista_default_executive = 'nvim_lsp'
+let g:vista#renderer#enable_icon = 1
+let g:vista_executive_for = {
+  \ 'vimwiki': 'markdown',
+  \ 'pandoc': 'markdown',
+  \ 'markdown': 'toc',
+  \ }
+let g:vista_fzf_preview = ['right:50%']
+Plug 'liuchengxu/vista.vim'
 
 " Python
 let g:python_highlight_all = 1
@@ -173,7 +183,7 @@ nvim_lsp.pyls.setup({
                 pydocstyle = {enabled = true},
                 pylint = {enabled = false},
                 mypy_ls = {
-                    enabled = true,
+                    enabled = false,
                     live_mode = true
                 }
            }

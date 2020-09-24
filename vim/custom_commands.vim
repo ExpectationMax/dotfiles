@@ -68,9 +68,22 @@ function! LspStatus() abort
     return ''
 endfunction
 
+function! Preserve(command)
+    try
+        " Preparation: save last search, and cursor position.
+        let l:win_view = winsaveview()
+        let l:old_query = getreg('/')
+        silent! execute 'keepjumps ' . a:command
+    finally
+        " try restore / reg and cursor position
+        call winrestview(l:win_view)
+        call setreg('/', l:old_query)
+    endtry
+endfunction
+
 command! -nargs=0 RunQtPipenv call StartConsolePipenv('jupyter qtconsole')
 command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'pipenv run python -m ipykernel'
-command! -nargs=0 RunPipenvKernel terminal /bin/bash -i -c 'poetry run python -m ipykernel'
+command! -nargs=0 RunPoetryKernel terminal /bin/bash -i -c 'poetry run python -m ipykernel'
 command! -nargs=0 ConnectToPipenvKernel call ConnectToPipenvKernel()
 command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --existing")
 command! -nargs=0 ConnectConsole terminal /bin/bash -i -c 'jupyter console --existing'

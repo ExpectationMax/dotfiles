@@ -17,7 +17,6 @@
     ~/.config/nvim/ginit.vim: config/nvim/ginit.vim
     ~/.vim/init.vim: vim/init.vim
     ~/.vim/plugins.vim: vim/plugins.vim
-    ~/.vim/lsp.lua: vim/lsp.lua
     ~/.vim/custom_commands.vim: vim/custom_commands.vim
     ~/.vim/spell: vim/spell
     ~/.vim/run_pyls_with_venv.sh: vim/run_pyls_with_venv.sh
@@ -42,8 +41,7 @@
   - [pyenv install 3.7.4, Installing python 3.7.4]
   - [brew install pipenv, Installing pipenv]
   - ["curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python", Installing poetry]
-  - [brew install sip, Installing sip]
-  - [brew install pyqt --with-python3 --without-python@2, Installing pyqt]
+  - [brew install pyqt, Installing pyqt]
   - [brew install pandoc, Installing pandoc]
   - 
     command: brew install neovim fzf ripgrep editorconfig
@@ -57,12 +55,13 @@
     description: Install taskwarrior and taskwarrior shell
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter 'python_language_server[all]' flake8 pep8-naming numpy jupyter_qtconsole_colorschemes tasklib
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole 'python_language_server[all]' mypy-ls pyls-black flake8 pep8-naming jedi jupyter_qtconsole_colorschemes tasklib
     description: Set up neovim venv
     stdin: true
     stdout: false
   - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
   - [brew install pipx, Installing pipx]
+  - [pipx reinstall-all, Reinstall pipx packages in case system python was upgraded]
   - [pipx install neovim-remote, Installing neovim-remote executable]
   - 
     command: brew tap homebrew/cask-fonts || brew cask install font-fira-code
