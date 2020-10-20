@@ -19,6 +19,8 @@ set number
 set noshowmode          " Dont show the mode, we have lightline for that
 set showtabline=1       " Show tabline only if more than one tab is open
 
+set guifont=Fira\ Code\ Retina:h14
+
 set termguicolors
 " let &t_8f = "\e[38;2;%lu;%lu;%lum"
 " let &t_8b = "\e[48;2;%lu;%lu;%lum"
@@ -107,7 +109,7 @@ function SetupTex()
 endfunction
 
 function SetupLsp()
-    nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
+    " nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
     nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -166,6 +168,8 @@ autocmd Filetype tex call SetupTex()
 autocmd Filetype markdown call SetupMarkdown()
 autocmd Filetype vimwiki call SetupMarkdown()
 autocmd Filetype python call SetupPython()
+autocmd Filetype cpp call SetupLsp()
+autocmd Filetype hpp call SetupLsp()
 autocmd BufNewFile,BufReadPost *.{yaml,yml} call SetupYaml()
 autocmd BufNewFile,BufRead Dvcfile,*.dvc call SetupYaml()
 

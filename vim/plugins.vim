@@ -50,7 +50,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'editorconfig/editorconfig-vim'
 
 let g:voom_python_versions = [3]
-let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex', 'python': 'python'}
+let g:voom_ft_modes = {'markdown': 'markdown', 'vimwiki': 'markdown', 'tex': 'latex', 'python': 'python'}
 Plug 'vim-voom/VOoM'
 
 " Project and time management
@@ -192,15 +192,27 @@ nvim_lsp.pyls.setup({
 });
 
 nvim_lsp.texlab.setup({
+    on_init = ncm2.register_lsp_source,
+    on_attach = lsp_status.on_attach,
     settings = {
         latex = {
           build = {
+            executable = "latexmk",
+            args = {"-pdf", "-interaction=nonstopmode", "-synctex=1", "-pvc", "%f"},
             onSave = true
+          },
+          forwardSearch = {
+            executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
+            args = {"%l", "%p", "%f"}
           }
         }
       }
 })
 
+nvim_lsp.clangd.setup({
+    on_init = ncm2.register_lsp_source,
+    on_attach = lsp_status.on_attach
+})
 --- Define our own callbacks
 local util = require 'vim.lsp.util'
 local vim = vim
