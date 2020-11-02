@@ -43,7 +43,7 @@ let g:windowswap_map_keys = 0 " Prevent default bindings
 Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 
 " Fuzzy search through files buffers etc
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " Editorconfig
@@ -167,7 +167,7 @@ lsp_status.config({
 lsp_status.register_progress()
 
 local function project_root_or_cur_dir(path)
-    return nvim_lsp.util.root_pattern('pyproject.toml', 'pipfile', '.git')(path) or vim.fn.getcwd()
+    return nvim_lsp.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
 end
 
 nvim_lsp.pyls.setup({
@@ -198,7 +198,7 @@ nvim_lsp.texlab.setup({
         latex = {
           build = {
             executable = "latexmk",
-            args = {"-pdf", "-interaction=nonstopmode", "-synctex=1", "-pvc", "%f"},
+            args = {"-interaction=nonstopmode", "-synctex=1", "%f"},
             onSave = true
           },
           forwardSearch = {

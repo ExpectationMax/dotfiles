@@ -36,7 +36,7 @@ colorscheme gruvbox8
 highlight LspDiagnosticsErrorFloating guifg=#fb4934 gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
 highlight LspDiagnosticsWarningFloating guifg=#fabd2f gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
 highlight LspDiagnosticsInfoFloating guifg=#83a598 gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
-" Hishlighting applied to code
+" Highlighting applied to code
 highlight LspDiagnosticsUnderlineError guifg=NONE guibg=NONE guisp=#fb4934 gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
 highlight LspDiagnosticsUnderlineWarning guifg=NONE guibg=NONE guisp=#fabd2f gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
 highlight LspDiagnosticsUnderlineInfo guifg=NONE guibg=NONE guisp=#83a598 gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
@@ -103,7 +103,6 @@ endfunction
 function SetupTex()
     setlocal colorcolumn=120
     setlocal tw=119
-    setlocal signcolumn=yes
     setlocal spell
     call SetupLsp()
 endfunction
@@ -127,7 +126,9 @@ function SetupLsp()
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
-    set tagfunc=v:lua.tagfunc_nvim_lsp
+    lua require 'tagfunc_nvim_lsp'
+    setlocal tagfunc=v:lua.tagfunc_nvim_lsp
+    setlocal signcolumn=yes
 endfunction
 
 function SetupMarkdown()
@@ -150,7 +151,6 @@ function SetupPython()
     setlocal signcolumn=yes
     setlocal spell
     setlocal tabstop=4 shiftwidth=4 expandtab
-    lua require 'tagfunc_nvim_lsp'
     call SetupLsp()
 endfunction
 
