@@ -4,7 +4,7 @@ path=("/Users/hornm/.pyenv/shims" $path)  # pyenv
 path=("/usr/local/opt/make/libexec/gnubin" $path)  # Recent version of make
 path=("/usr/local/opt/llvm/bin" $path)  # llvm
 
-source '/usr/local/Cellar/pyenv/1.2.14_1/libexec/../completions/pyenv.zsh'
+eval "$(pyenv init -)"
 export PATH
 
 # llvm
