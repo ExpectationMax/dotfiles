@@ -51,6 +51,11 @@ set list                " Show tab and EOL
 set listchars=trail:·,tab:▸\  " Use the following symbols
 set conceallevel=2
 
+" Folding
+set foldmethod=syntax
+set foldlevel=20
+
+
 set updatetime=1000
 
 " Beviour
