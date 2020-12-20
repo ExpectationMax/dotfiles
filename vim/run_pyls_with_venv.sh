@@ -2,7 +2,7 @@
 DETECTED_VIRTUAL_ENV=$(PIPENV_IGNORE_VIRTUALENVS=1 pipenv --venv 2>/dev/null)
 # If we dont find a pipenv environemnt try poetry
 if [ -z "${DETECTED_VIRTUAL_ENV}" ]; then
-    DETECTED_VIRTUAL_ENV=$(poetry env info --path)
+    DETECTED_VIRTUAL_ENV=$(poetry env info --path 2>/dev/null)
 fi
 
 echo $DETECTED_VIRTUAL_ENV

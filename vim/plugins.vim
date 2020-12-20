@@ -12,12 +12,10 @@ let g:lightline = {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
   \   'right': [ [ 'lineinfo' ],
-  \            [ 'lspstatus' ],
   \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
   \ },
   \ 'component_function': {
   \   'gitbranch': 'fugitive#Head',
-  \   'lspstatus': 'LspStatus'
   \ },
   \ }
 
@@ -27,6 +25,8 @@ let g:lightline.tab = {
     \ 'active': [ 'tabnum', 'filename', 'modified' ],
     \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
 Plug 'itchyny/lightline.vim'
+
+Plug 'knsh14/vim-github-link'
 
 " Saving, navigation and text objects
 " Plug 'vim-scripts/vim-auto-save'
@@ -50,7 +50,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'editorconfig/editorconfig-vim'
 
 let g:voom_python_versions = [3]
-let g:voom_ft_modes = {'markdown': 'markdown', 'vimwiki': 'markdown', 'tex': 'latex', 'python': 'python'}
+let g:voom_ft_modes = {'markdown': 'markdown', 'wiki': 'markdown', 'tex': 'latex', 'python': 'python'}
 Plug 'vim-voom/VOoM'
 
 " Project and time management
@@ -62,29 +62,39 @@ let g:mdip_imgdir = 'img'
 Plug 'ferrine/md-img-paste.vim'
 
 " vimwiki
-let g:vimwiki_list = [{
-  \ 'path': '~/PhDwiki/',
-  \ 'syntax': 'markdown',
-  \ 'ext': '.md',
-  \ 'index': 'Home',
-  \ 'auto_toc': 1,
-  \ 'auto_diary_index': 1,
-  \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-  \ }]
-let g:vimwiki_global_ext = 0
-Plug 'vimwiki/vimwiki'
-command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
-    autocmd!
-    " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-augroup end
+" let g:vimwiki_list = [{
+"   \ 'path': '~/PhDwiki/',
+"   \ 'syntax': 'markdown',
+"   \ 'ext': '.wiki',
+"   \ 'index': 'Home',
+"   \ 'auto_toc': 1,
+"   \ 'auto_diary_index': 1,
+"   \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+"   \ }]
+" let g:vimwiki_global_ext = 0
+" let g:vimwiki_markdown_link_ext = 1
 
-" Taskwarrior integration
-Plug 'blindFS/vim-taskwarrior'
-" It seems like the current version breaks navigation in vimwiki. Looks like
-" it overrides the bindings for it.
-" Plug 'tools-life/taskwiki'
+" Plug 'vimwiki/vimwiki'
+" command! Diary VimwikiDiaryIndex
+" augroup vimwikigroup
+"     autocmd!
+"     " automatically update links on read diary
+"     autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+" augroup end
+
+let g:wiki_root = '~/PhDwiki'
+let g:wiki_link_extension = '.wiki'
+let g:wiki_journal = {
+    \ 'name': 'diary',
+    \ 'frequency': 'daily',
+    \ 'date_format': {
+    \   'daily' : '%Y-%m-%d',
+    \   'weekly' : '%Y_w%V',
+    \   'monthly' : '%Y_m%m',
+    \ },
+    \}
+Plug 'lervag/wiki.vim'
+Plug 'lervag/wiki-ft.vim'
 
 " Programming
 " Terminal
@@ -112,17 +122,17 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 " Predefined configurations for different language servers
 Plug 'neovim/nvim-lspconfig'
 " Status bar containing language server information
-Plug 'nvim-lua/lsp-status.nvim'
+" Plug 'nvim-lua/lsp-status.nvim'
 " Sidebar containing document symbols
-let g:vista_default_executive = 'nvim_lsp'
-let g:vista#renderer#enable_icon = 1
-let g:vista_executive_for = {
-  \ 'vimwiki': 'markdown',
-  \ 'pandoc': 'markdown',
-  \ 'markdown': 'toc',
-  \ }
-let g:vista_fzf_preview = ['right:50%']
-Plug 'liuchengxu/vista.vim'
+" let g:vista_default_executive = 'nvim_lsp'
+" let g:vista#renderer#enable_icon = 1
+" let g:vista_executive_for = {
+"   \ 'vimwiki': 'markdown',
+"   \ 'pandoc': 'markdown',
+"   \ 'markdown': 'toc',
+"   \ }
+" let g:vista_fzf_preview = ['right:50%']
+" Plug 'liuchengxu/vista.vim'
 
 " Python
 let g:python_highlight_all = 1
@@ -153,18 +163,18 @@ local function path_join(...)
 end
 
 --- Regiser lsp servers
-local nvim_lsp = require('nvim_lsp')
-local configs = require'nvim_lsp/configs'
+local nvim_lsp = require('lspconfig')
+local configs = require('lspconfig/configs')
 local ncm2 = require('ncm2')
 
-local lsp_status = require('lsp-status')
-lsp_status.config({
-    indicator_errors = "✗",
-    indicator_warnings = "‼",
-    indicator_info = "i",
-    indicator_hint = "h"
-})
-lsp_status.register_progress()
+--- local lsp_status = require('lsp-status')
+--- lsp_status.config({
+---     indicator_errors = "✗",
+---     indicator_warnings = "‼",
+---     indicator_info = "i",
+---     indicator_hint = "h"
+--- })
+--- lsp_status.register_progress()
 
 local function project_root_or_cur_dir(path)
     return nvim_lsp.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
@@ -174,8 +184,6 @@ nvim_lsp.pyls.setup({
     cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
     root_dir = project_root_or_cur_dir,
     on_init = ncm2.register_lsp_source,
-    on_attach = lsp_status.on_attach,
-    capabilities = vim.tbl_extend('keep', configs.pyls.capabilities or {}, lsp_status.capabilities),
     settings = {
         pyls = {
            plugins ={
@@ -193,7 +201,7 @@ nvim_lsp.pyls.setup({
 
 nvim_lsp.texlab.setup({
     on_init = ncm2.register_lsp_source,
-    on_attach = lsp_status.on_attach,
+---    on_attach = lsp_status.on_attach,
     settings = {
         latex = {
           build = {
@@ -211,7 +219,7 @@ nvim_lsp.texlab.setup({
 
 nvim_lsp.clangd.setup({
     on_init = ncm2.register_lsp_source,
-    on_attach = lsp_status.on_attach
+---    on_attach = lsp_status.on_attach
 })
 --- Define our own callbacks
 local util = require 'vim.lsp.util'
