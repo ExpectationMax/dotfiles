@@ -1,6 +1,14 @@
 call plug#begin('~/.vim/plugged')
 " General
 
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
+
 " Appearance
 let g:gruvbox_filetype_hi_groups = 1
 let g:gruvbox_plugin_hi_groups = 1
@@ -12,12 +20,14 @@ let g:lightline = {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
   \   'right': [ [ 'lineinfo' ],
-  \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
+  \            [ 'lsp_status', 'fileformat', 'fileencoding', 'filetype' ] ]
   \ },
   \ 'component_function': {
   \   'gitbranch': 'fugitive#Head',
+  \   'lsp_status': 'LspStatus'
   \ },
   \ }
+
 
 " Configure tabline
 let g:lightline.tabline = {'left': [ ['tabs'] ]}
@@ -83,7 +93,9 @@ Plug 'ferrine/md-img-paste.vim'
 " augroup end
 
 let g:wiki_root = '~/PhDwiki'
-let g:wiki_link_extension = '.wiki'
+let g:wiki_link_extension = '.md'
+let g:wiki_filetypes = ['md']
+let g:wiki_link_target_type = 'md'
 let g:wiki_journal = {
     \ 'name': 'diary',
     \ 'frequency': 'daily',
@@ -109,12 +121,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Completion
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'fgrsnau/ncm2-aspell'
-autocmd BufEnter * call ncm2#enable_for_buffer()
+Plug 'nvim-lua/completion-nvim'
+
+" Plug 'ncm2/ncm2'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
+" Plug 'fgrsnau/ncm2-aspell'
+" autocmd BufEnter * call ncm2#enable_for_buffer()
 " Enter should close popup window and do newline
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
@@ -122,7 +136,7 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 " Predefined configurations for different language servers
 Plug 'neovim/nvim-lspconfig'
 " Status bar containing language server information
-" Plug 'nvim-lua/lsp-status.nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 " Sidebar containing document symbols
 " let g:vista_default_executive = 'nvim_lsp'
 " let g:vista#renderer#enable_icon = 1
@@ -149,10 +163,10 @@ highlight! link LspReferenceText LspReference
 highlight! link LspReferenceRead LspReference
 highlight! link LspReferenceWrite LspReference
 
-sign define LspDiagnosticsErrorSign text=✗ texthl=ALEErrorSign linehl= numhl=
-sign define LspDiagnosticsWarningSign text=‼ texthl=ALEWarningSign linehl= numhl=
-sign define LspDiagnosticsInformationSign text=i texthl=ALEInfoSign linehl= numhl=
-sign define LspDiagnosticsHintSign text=h linehl= numhl=
+sign define LspDiagnosticsSignError text=✗ texthl=ALEErrorSign linehl= numhl=
+sign define LspDiagnosticsSignWarning text=‼ texthl=ALEWarningSign linehl= numhl=
+sign define LspDiagnosticsSignInformation text=i texthl=ALEInfoSign linehl= numhl=
+sign define LspDiagnosticsSignHint text=h linehl= numhl=
 
 lua << EOF
 --- Some generally useful functions
@@ -165,16 +179,21 @@ end
 --- Regiser lsp servers
 local nvim_lsp = require('lspconfig')
 local configs = require('lspconfig/configs')
-local ncm2 = require('ncm2')
+local completion = require('completion')
 
---- local lsp_status = require('lsp-status')
---- lsp_status.config({
----     indicator_errors = "✗",
----     indicator_warnings = "‼",
----     indicator_info = "i",
----     indicator_hint = "h"
---- })
---- lsp_status.register_progress()
+local lsp_status = require('lsp-status')
+lsp_status.config({
+    indicator_errors = "✗",
+    indicator_warnings = "‼",
+    indicator_info = "i",
+    indicator_hint = "h"
+})
+lsp_status.register_progress()
+
+local function on_attach(client)
+    completion.on_attach(client)
+    lsp_status.on_attach(client)
+end
 
 local function project_root_or_cur_dir(path)
     return nvim_lsp.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
@@ -183,7 +202,7 @@ end
 nvim_lsp.pyls.setup({
     cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
     root_dir = project_root_or_cur_dir,
-    on_init = ncm2.register_lsp_source,
+    on_attach = on_attach,
     settings = {
         pyls = {
            plugins ={
@@ -196,12 +215,12 @@ nvim_lsp.pyls.setup({
                 }
            }
         }
-    }
+    },
+    capabilities = vim.tbl_extend('keep', configs.pyls.capabilities or {}, lsp_status.capabilities)
 });
 
 nvim_lsp.texlab.setup({
-    on_init = ncm2.register_lsp_source,
----    on_attach = lsp_status.on_attach,
+    on_attach = on_attach,
     settings = {
         latex = {
           build = {
@@ -214,54 +233,19 @@ nvim_lsp.texlab.setup({
             args = {"%l", "%p", "%f"}
           }
         }
-      }
+      },
+    capabilities = vim.tbl_extend('keep', configs.texlab.capabilities or {}, lsp_status.capabilities)
 })
 
 nvim_lsp.clangd.setup({
-    on_init = ncm2.register_lsp_source,
----    on_attach = lsp_status.on_attach
+    on_attach = on_attach,
+    capabilities = vim.tbl_extend('keep', configs.clangd.capabilities or {}, lsp_status.capabilities)
 })
---- Define our own callbacks
-local util = require 'vim.lsp.util'
-local vim = vim
-local api = vim.api
-local buf = require 'vim.lsp.buf'
 
-vim.lsp.callbacks['textDocument/publishDiagnostics'] = function(_, _, result)
-  if not result then return end
-  local uri = result.uri
-  local bufnr = vim.uri_to_bufnr(uri)
-  if not bufnr then
-    err_message("LSP.publishDiagnostics: Couldn't find buffer for ", uri)
-    return
-  end
-
-  -- Unloaded buffers should not handle diagnostics.
-  --    When the buffer is loaded, we'll call on_attach, which sends textDocument/didOpen.
-  --    This should trigger another publish of the diagnostics.
-  --
-  -- In particular, this stops a ton of spam when first starting a server for current
-  -- unloaded buffers.
-  if not api.nvim_buf_is_loaded(bufnr) then
-    return
-  end
-
-  util.buf_clear_diagnostics(bufnr)
-
-  -- https://microsoft.github.io/language-server-protocol/specifications/specification-current/#diagnostic
-  -- The diagnostic's severity. Can be omitted. If omitted it is up to the
-  -- client to interpret diagnostics as error, warning, info or hint.
-  -- TODO: Replace this with server-specific heuristics to infer severity.
-  for _, diagnostic in ipairs(result.diagnostics) do
-    if diagnostic.severity == nil then
-      diagnostic.severity = protocol.DiagnosticSeverity.Error
-    end
-  end
-
-  util.buf_diagnostics_save_positions(bufnr, result.diagnostics)
-  util.buf_diagnostics_underline(bufnr, result.diagnostics)
-  -- util.buf_diagnostics_virtual_text(bufnr, result.diagnostics)
-  util.buf_diagnostics_signs(bufnr, result.diagnostics)
-  vim.api.nvim_command("doautocmd User LspDiagnosticsChanged")
-end
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+        virtual_text = false
+    }
+)
 EOF

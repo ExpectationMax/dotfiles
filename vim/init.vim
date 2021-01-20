@@ -127,7 +127,7 @@ function SetupLsp()
     " nmap <buffer> <leader>lx <plug>(lsp-references)
     " nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
     autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorHold  <buffer> lua vim.lsp.util.show_line_diagnostics()
+    autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
@@ -189,10 +189,10 @@ endif
 
 " General keybindings
 " Disable regular arrow keys
-noremap <up> <NOP>
-noremap <down> <NOP>
-noremap <left> <NOP>
-noremap <right> <NOP>
+" noremap <up> <NOP>
+" noremap <down> <NOP>
+" noremap <left> <NOP>
+" noremap <right> <NOP>
 " Disable default vim completion. We have NCM2 for that.
 inoremap <C-n> <NOP>
 " Disable Ex mode
