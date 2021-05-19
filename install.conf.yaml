@@ -38,8 +38,10 @@
     description: Install homebrew
   - [brew install python && brew pin python, Installing python]
   - [brew install pyenv, Installing pyenv]
-  - [pyenv install 3.6.9, Installing python 3.6.9]
-  - [pyenv install 3.7.4, Installing python 3.7.4]
+  - [pyenv install 3.6.10, Installing python 3.6.10]
+  - [pyenv install 3.7.9, Installing python 3.7.9]
+  - [pyenv install 3.6.10, Installing python 3.6.10]
+  - [pyenv install 3.8.6, Installing python 3.8.6]
   - [brew install pipenv, Installing pipenv]
   - ["curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python", Installing poetry]
   - [brew install pyqt, Installing pyqt]
@@ -65,12 +67,12 @@
   - [pipx reinstall-all, Reinstall pipx packages in case system python was upgraded]
   - [pipx install neovim-remote, Installing neovim-remote executable]
   - 
-    command: brew tap homebrew/cask-fonts || brew cask install font-fira-code
+    command: brew tap homebrew/cask-fonts || brew install --cask font-fira-code
     stdin: true
     stdout: true
     description: Add fonts tap and install Fira Code
   - 
-    command: brew cask install vimr kitty
+    command: brew install --cask kitty google-chrome google-drive macpass slack slackcat obsidian marked
     stdin: true
     stdout: true
-    description: Install VimR and kitty terminal emulator
+    description: Install kitty terminal emulator, Google Chrome, macpass, slack, obsidian, marked
