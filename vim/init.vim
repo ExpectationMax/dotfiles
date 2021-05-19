@@ -113,7 +113,7 @@ function SetupTex()
 endfunction
 
 function SetupLsp()
-    " nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
+    nnoremap <silent> <buffer> <leader>ld <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
     nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -121,6 +121,7 @@ function SetupLsp()
     nnoremap <silent> <buffer> <leader>ls    <cmd>lua vim.lsp.buf.document_symbol()<CR>
     nnoremap <silent> <buffer> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
     nnoremap <buffer> <leader>lr <cmd>call LspRename()<CR>
+    nnoremap <silent> <buffer> <leader>lf <cmd>call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')<CR>
     " nmap <buffer> <leader>lf <plug>(lsp-document-format)
     " vmap <buffer> <C-f> <plug>(lsp-document-format)
     " nmap <buffer> <leader>lt <plug>(lsp-type-definition)
@@ -130,7 +131,7 @@ function SetupLsp()
     autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
+    " autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
     lua require 'tagfunc_nvim_lsp'
     setlocal tagfunc=v:lua.tagfunc_nvim_lsp
     setlocal signcolumn=yes
@@ -176,7 +177,7 @@ autocmd Filetype python call SetupPython()
 autocmd Filetype cpp call SetupLsp()
 autocmd Filetype hpp call SetupLsp()
 autocmd BufNewFile,BufReadPost *.{yaml,yml} call SetupYaml()
-autocmd BufNewFile,BufRead Dvcfile,*.dvc call SetupYaml()
+autocmd! BufNewFile,BufRead Dvcfile,*.dvc,dvc.lock call SetupYaml()
 
 if has('nvim')
     " Remove line numbers and go to insert mode when creating a new terminal

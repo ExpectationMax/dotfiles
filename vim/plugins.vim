@@ -72,41 +72,25 @@ let g:mdip_imgdir = 'img'
 Plug 'ferrine/md-img-paste.vim'
 
 " vimwiki
-" let g:vimwiki_list = [{
-"   \ 'path': '~/PhDwiki/',
-"   \ 'syntax': 'markdown',
-"   \ 'ext': '.wiki',
-"   \ 'index': 'Home',
-"   \ 'auto_toc': 1,
-"   \ 'auto_diary_index': 1,
-"   \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-"   \ }]
-" let g:vimwiki_global_ext = 0
-" let g:vimwiki_markdown_link_ext = 1
+let g:vimwiki_list = [{
+  \ 'path': '~/PhDwiki/',
+  \ 'syntax': 'markdown',
+  \ 'ext': '.md',
+  \ 'index': 'index',
+  \ 'auto_toc': 1,
+  \ 'auto_diary_index': 1,
+  \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+  \ }]
+let g:vimwiki_global_ext = 0
+let g:vimwiki_markdown_link_ext = 1
 
-" Plug 'vimwiki/vimwiki'
-" command! Diary VimwikiDiaryIndex
-" augroup vimwikigroup
-"     autocmd!
-"     " automatically update links on read diary
-"     autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-" augroup end
-
-let g:wiki_root = '~/PhDwiki'
-let g:wiki_link_extension = '.md'
-let g:wiki_filetypes = ['md']
-let g:wiki_link_target_type = 'md'
-let g:wiki_journal = {
-    \ 'name': 'diary',
-    \ 'frequency': 'daily',
-    \ 'date_format': {
-    \   'daily' : '%Y-%m-%d',
-    \   'weekly' : '%Y_w%V',
-    \   'monthly' : '%Y_m%m',
-    \ },
-    \}
-Plug 'lervag/wiki.vim'
-Plug 'lervag/wiki-ft.vim'
+Plug 'vimwiki/vimwiki'
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+augroup end
 
 " Programming
 " Terminal
