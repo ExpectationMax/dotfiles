@@ -58,10 +58,10 @@
     description: Install taskwarrior and taskwarrior shell
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole 'python_language_server[all]' mypy-ls pyls-black flake8 pep8-naming jedi jupyter_qtconsole_colorschemes tasklib
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole python_language_server jupyter_qtconsole_colorschemes
     description: Set up neovim venv
     stdin: true
-    stdout: false
+    stdout: true
   - ['~/.neovim_venv/bin/pip install --upgrade --no-cache git+https://github.com/ExpectationMax/pylint-venv.git', Installing custom pylint-venv]
   - [brew install pipx, Installing pipx]
   - [pipx reinstall-all, Reinstall pipx packages in case system python was upgraded]
