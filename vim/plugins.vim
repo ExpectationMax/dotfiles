@@ -72,14 +72,24 @@ let g:mdip_imgdir = 'img'
 Plug 'ferrine/md-img-paste.vim'
 
 " vimwiki
-let g:vimwiki_list = [{
-  \ 'path': '~/PhDwiki/',
-  \ 'syntax': 'markdown',
-  \ 'ext': '.md',
-  \ 'index': 'index',
-  \ 'auto_toc': 1,
-  \ 'auto_diary_index': 1,
-  \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+let g:vimwiki_list = [
+    \ {
+      \ 'path': '~/Internship/',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'index': 'index',
+      \ 'auto_toc': 1,
+      \ 'auto_diary_index': 1,
+      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+      \ },
+    \ {
+      \ 'path': '~/PhDwiki/',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'index': 'index',
+      \ 'auto_toc': 1,
+      \ 'auto_diary_index': 1,
+      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
   \ }]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_markdown_link_ext = 1
@@ -91,6 +101,29 @@ augroup vimwikigroup
     " automatically update links on read diary
     autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
 augroup end
+
+" Template for diary entries
+au BufNewFile ~/Internship/diary/*.md
+      \ call append(0,[
+      \ "# " . split(expand('%:r'),'/')[-1], ""])
+au BufNewFile ~/PhDwiki/diary/*.md
+      \ call append(0,[
+      \ "# " . split(expand('%:r'),'/')[-1], ""])
+
+
+" pandoc: Citation and advanced markdown support
+let g:pandoc#filetypes#handled = ["pandoc", "markdown"]
+let g:pandoc#biblio#bibs = ["/Users/hornm/Internship/references.bib"]
+let g:pandoc#biblio#use_bibtool = 1
+let g:pandoc#completion#bib#mode = 'citeproc'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+
+" Activate syntax plugin
+augroup pandoc_syntax
+  autocmd! FileType vimwiki set syntax=markdown.pandoc
+augroup END
+
 
 " Programming
 " Terminal
@@ -105,7 +138,21 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Completion
+let g:completion_auto_change_source = 1
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_chain_complete_list = {
+    \ 'default': [
+        \ {'complete_items': ['lsp', 'snippet']},
+    \ ],
+    \ 'vimwiki': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
+    \ 'pandoc': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
+\}
+    "\{'complete_items': ['path'], 'triggered_only': ['/']},
 Plug 'nvim-lua/completion-nvim'
+augroup completion_markdown
+    autocmd!
+    autocmd filetype markdown,pandoc,vimwiki lua require'completion'.on_attach()
+augroup end
 
 " Plug 'ncm2/ncm2'
 " Plug 'roxma/nvim-yarp'
@@ -114,7 +161,7 @@ Plug 'nvim-lua/completion-nvim'
 " Plug 'fgrsnau/ncm2-aspell'
 " autocmd BufEnter * call ncm2#enable_for_buffer()
 " Enter should close popup window and do newline
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<cr>" : "\<CR>")
 
 " Language server support
 " Predefined configurations for different language servers
@@ -164,6 +211,10 @@ end
 local nvim_lsp = require('lspconfig')
 local configs = require('lspconfig/configs')
 local completion = require('completion')
+
+completion.addCompletionSource('vimwiki', require('vimwiki').complete_item)
+completion.addCompletionSource('pandoc', require('pandoc').complete_item)
+
 
 local lsp_status = require('lsp-status')
 lsp_status.config({
