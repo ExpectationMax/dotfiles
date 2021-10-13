@@ -37,17 +37,27 @@
     description: Install homebrew
   - [brew install python && brew pin python, Installing python]
   - [brew install pyenv, Installing pyenv]
-  - [pyenv install 3.6.10, Installing python 3.6.10]
-  - [pyenv install 3.7.9, Installing python 3.7.9]
-  - [pyenv install 3.6.10, Installing python 3.6.10]
-  - [pyenv install 3.8.6, Installing python 3.8.6]
-  - [brew install pipenv, Installing pipenv]
+  - [pyenv install 3.8.12, Installing python 3.8.6]
+  - [pyenv install 3.9.7, Installing python 3.9.7]
   - ["curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python", Installing poetry]
-  - [brew install pyqt, Installing pyqt]
-  - [brew install pandoc, Installing pandoc]
-  - [brew install pandoc-citeproc.rb, Installing pandoc citeproc]
+  -
+    command: brew install pyqt
+    description: Installing pyqt
+    stderr: true
   - 
-    command: brew install neovim fzf ripgrep editorconfig
+    command: brew install pandoc
+    description: Installing pandoc
+    stderr: true
+  - 
+    command: brew install pandoc-citeproc.rb
+    description: Installing pandoc citeproc
+    stderr: true
+  - 
+    command: brew install neovim
+    description: Install neovim
+    stderr: true
+  - 
+    command: brew install fzf ripgrep editorconfig
     stdin: true
     stdout: true
     description: Install neovim, fzf, ripgrep and editorconfig
@@ -58,7 +68,7 @@
     description: Install taskwarrior and taskwarrior shell
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole python_language_server jupyter_qtconsole_colorschemes
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole python-lsp-server flake8 pyflakes pep8-naming mypy-ls python-lsp-black pyls-isort rope pydocstyle jupyter_qtconsole_colorschemes
     description: Set up neovim venv
     stdin: true
     stdout: true
