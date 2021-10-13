@@ -114,7 +114,7 @@ endfunction
 
 function SetupLsp()
     nnoremap <silent> <buffer> <leader>ld <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-    nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
     inoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -128,7 +128,7 @@ function SetupLsp()
     " nmap <buffer> <leader>lx <plug>(lsp-references)
     " nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
     autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()
+    autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     " autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
@@ -152,8 +152,8 @@ function SetupYaml()
 endfunction
 
 function SetupPython()
-    setlocal colorcolumn=80
-    setlocal tw=79
+    setlocal colorcolumn=101
+    setlocal tw=100
     setlocal signcolumn=yes
     setlocal spell
     setlocal tabstop=4 shiftwidth=4 expandtab

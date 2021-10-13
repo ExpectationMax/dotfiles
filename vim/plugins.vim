@@ -234,24 +234,31 @@ local function project_root_or_cur_dir(path)
     return nvim_lsp.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
 end
 
-nvim_lsp.pyls.setup({
+nvim_lsp.pylsp.setup({
     cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
     root_dir = project_root_or_cur_dir,
     on_attach = on_attach,
     settings = {
-        pyls = {
-           plugins ={
-                pyflakes = {enabled = true},
-                pydocstyle = {enabled = true},
+        pylsp = {
+            configurationSources = {"flake8"},
+            plugins ={
+                pyflakes = {enabled = false},
+                pycodestyle = {enabled = false},
+                pydocstyle = {enabled = false},
                 pylint = {enabled = false},
                 mypy_ls = {
                     enabled = false,
                     live_mode = true
+                },
+                black = {enabled = true},
+                flake8 = {
+                    enabled = true,
+                    executable = "~/.neovim_venv/bin/flake8"
                 }
-           }
+            }
         }
     },
-    capabilities = vim.tbl_extend('keep', configs.pyls.capabilities or {}, lsp_status.capabilities)
+    capabilities = vim.tbl_extend('keep', configs.pylsp.capabilities or {}, lsp_status.capabilities)
 });
 
 nvim_lsp.texlab.setup({
