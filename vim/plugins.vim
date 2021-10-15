@@ -110,10 +110,9 @@ au BufNewFile ~/PhDwiki/diary/*.md
       \ call append(0,[
       \ "# " . split(expand('%:r'),'/')[-1], ""])
 
-
 " pandoc: Citation and advanced markdown support
 let g:pandoc#filetypes#handled = ["pandoc", "markdown"]
-let g:pandoc#biblio#bibs = ["/Users/hornm/Internship/references.bib"]
+let g:pandoc#biblio#bibs = [$HOME."/Internship/references.bib"]
 let g:pandoc#biblio#use_bibtool = 1
 let g:pandoc#completion#bib#mode = 'citeproc'
 Plug 'vim-pandoc/vim-pandoc'
@@ -123,6 +122,12 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 augroup pandoc_syntax
   autocmd! FileType vimwiki set syntax=markdown.pandoc
 augroup END
+
+" Zettelkasten
+let g:zettel_format = "/zettelkasten/%y%m%d-%H%M"
+let g:zettel_date_format = "%d.%m.%y"
+let g:zettel_options = [{"template" :  $HOME."/Internship/templates/zettel_vim.md"}]
+Plug 'michal-h21/vim-zettel'
 
 
 " Programming
