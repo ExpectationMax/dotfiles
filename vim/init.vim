@@ -109,6 +109,10 @@ function SetupTex()
     setlocal colorcolumn=120
     setlocal tw=119
     setlocal spell
+    setlocal spelllang=en_gb
+    setlocal nosmartindent
+    setlocal wildignore+=*.acn,*.aux,*.bbl,*.bcf,*.blg,*.fdb_latexmk,*.fls,*.glg,*.glo,*.gls,*.idx,*.ilg,*.ind,*.ist,*.log,*.,run.xml,*.toc
+    setlocal tabstop=2 softtabstop=2 shiftwidth=2 autoindent
     call SetupLsp()
 endfunction
 
@@ -178,6 +182,7 @@ autocmd Filetype cpp call SetupLsp()
 autocmd Filetype hpp call SetupLsp()
 autocmd BufNewFile,BufReadPost *.{yaml,yml} call SetupYaml()
 autocmd! BufNewFile,BufRead Dvcfile,*.dvc,dvc.lock call SetupYaml()
+autocmd Filetype javascript,typescript,solidity call SetupLsp()
 
 if has('nvim')
     " Remove line numbers and go to insert mode when creating a new terminal
@@ -206,6 +211,7 @@ tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
+tnoremap <C-w>N <C-\><C-n>
 tnoremap <C-w>h <C-\><C-n><C-w>h
 tnoremap <C-w>j <C-\><C-n><C-w>j
 tnoremap <C-w>k <C-\><C-n><C-w>k
@@ -214,5 +220,4 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-tnoremap <C-x> <C-\><C-n>
 

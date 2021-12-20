@@ -74,15 +74,6 @@ Plug 'ferrine/md-img-paste.vim'
 " vimwiki
 let g:vimwiki_list = [
     \ {
-      \ 'path': '~/Internship/',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md',
-      \ 'index': 'index',
-      \ 'auto_toc': 1,
-      \ 'auto_diary_index': 1,
-      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-      \ },
-    \ {
       \ 'path': '~/PhDwiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md',
@@ -90,7 +81,16 @@ let g:vimwiki_list = [
       \ 'auto_toc': 1,
       \ 'auto_diary_index': 1,
       \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-  \ }]
+  \ },
+    \ {
+      \ 'path': '~/Internship/',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'index': 'index',
+      \ 'auto_toc': 1,
+      \ 'auto_diary_index': 1,
+      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
+      \ }]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_markdown_link_ext = 1
 
@@ -143,21 +143,23 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Completion
-let g:completion_auto_change_source = 1
-let g:completion_confirm_key = "\<C-y>"
-let g:completion_chain_complete_list = {
-    \ 'default': [
-        \ {'complete_items': ['lsp', 'snippet']},
-    \ ],
-    \ 'vimwiki': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
-    \ 'pandoc': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
-\}
-    "\{'complete_items': ['path'], 'triggered_only': ['/']},
-Plug 'nvim-lua/completion-nvim'
-augroup completion_markdown
-    autocmd!
-    autocmd filetype markdown,pandoc,vimwiki lua require'completion'.on_attach()
-augroup end
+" let g:completion_auto_change_source = 1
+" let g:completion_confirm_key = "\<C-y>"
+" let g:completion_chain_complete_list = {
+"     \ 'default': [
+"         \ {'complete_items': ['lsp', 'snippet']},
+"     \ ],
+"     \ 'vimwiki': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
+"     \ 'pandoc': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
+" \}
+"     "\{'complete_items': ['path'], 'triggered_only': ['/']},
+" Plug 'nvim-lua/completion-nvim'
+" augroup completion_markdown
+"     autocmd!
+"     autocmd filetype markdown,pandoc,vimwiki lua require'completion'.on_attach()
+" augroup end
+
+Plug 'tomlion/vim-solidity'
 
 " Plug 'ncm2/ncm2'
 " Plug 'roxma/nvim-yarp'
@@ -171,6 +173,8 @@ inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<cr>" : "\<CR>")
 " Language server support
 " Predefined configurations for different language servers
 Plug 'neovim/nvim-lspconfig'
+let g:coq_settings = { 'auto_start': 'shut-up' }
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
 " Status bar containing language server information
 Plug 'nvim-lua/lsp-status.nvim'
 " Sidebar containing document symbols
@@ -215,10 +219,10 @@ end
 --- Regiser lsp servers
 local nvim_lsp = require('lspconfig')
 local configs = require('lspconfig/configs')
-local completion = require('completion')
+local coq = require('coq')
 
-completion.addCompletionSource('vimwiki', require('vimwiki').complete_item)
-completion.addCompletionSource('pandoc', require('pandoc').complete_item)
+--- completion.addCompletionSource('vimwiki', require('vimwiki').complete_item)
+--- completion.addCompletionSource('pandoc', require('pandoc').complete_item)
 
 
 local lsp_status = require('lsp-status')
@@ -231,7 +235,6 @@ lsp_status.config({
 lsp_status.register_progress()
 
 local function on_attach(client)
-    completion.on_attach(client)
     lsp_status.on_attach(client)
 end
 
@@ -263,21 +266,29 @@ nvim_lsp.pylsp.setup({
             }
         }
     },
-    capabilities = vim.tbl_extend('keep', configs.pylsp.capabilities or {}, lsp_status.capabilities)
+    capabilities = coq.lsp_ensure_capabilities(vim.tbl_extend('keep', configs.pylsp.capabilities or {}, lsp_status.capabilities))
 });
+
+nvim_lsp.tsserver.setup({
+   on_attach = on_attach
+})
+nvim_lsp.solang.setup({
+    capabilities = coq.lsp_ensure_capabilities(vim.tbl_extend('keep', configs.solang.capabilities or {}, lsp_status.capabilities))
+    })
 
 nvim_lsp.texlab.setup({
     on_attach = on_attach,
     settings = {
-        latex = {
+        texlab = {
           build = {
             executable = "latexmk",
-            args = {"-interaction=nonstopmode", "-synctex=1", "%f"},
-            onSave = true
+            args = {"-interaction=nonstopmode", "-synctex=1", "-pv", "%f"},
+            onSave = false,
+            forwardSearchAfter = true,
           },
           forwardSearch = {
             executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-            args = {"%l", "%p", "%f"}
+            args = {"-g", "%l", "%p", "%f"}
           }
         }
       },
