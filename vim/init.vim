@@ -76,7 +76,7 @@ set smartcase
 " Completion
 set shortmess+=c " Hide messages
 " Don't use preview, echodoc is sufficient for most cases
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noselect
 
 " Customized spell-file
 set spellfile=~/.vim/spell/en.utf-8.add
@@ -113,33 +113,33 @@ function SetupTex()
     setlocal nosmartindent
     setlocal wildignore+=*.acn,*.aux,*.bbl,*.bcf,*.blg,*.fdb_latexmk,*.fls,*.glg,*.glo,*.gls,*.idx,*.ilg,*.ind,*.ist,*.log,*.,run.xml,*.toc
     setlocal tabstop=2 softtabstop=2 shiftwidth=2 autoindent
-    call SetupLsp()
+    " call SetupLsp()
 endfunction
 
-function SetupLsp()
-    nnoremap <silent> <buffer> <leader>ld <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-    nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-    inoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> <buffer> <leader>ls    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-    nnoremap <silent> <buffer> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-    nnoremap <buffer> <leader>lr <cmd>call LspRename()<CR>
-    nnoremap <silent> <buffer> <leader>lf <cmd>call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')<CR>
-    " nmap <buffer> <leader>lf <plug>(lsp-document-format)
-    " vmap <buffer> <C-f> <plug>(lsp-document-format)
-    " nmap <buffer> <leader>lt <plug>(lsp-type-definition)
-    " nmap <buffer> <leader>lx <plug>(lsp-references)
-    " nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
-    autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
-    autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    " autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
-    lua require 'tagfunc_nvim_lsp'
-    setlocal tagfunc=v:lua.tagfunc_nvim_lsp
-    setlocal signcolumn=yes
-endfunction
+" function SetupLsp()
+"     nnoremap <silent> <buffer> <leader>ld <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+"     nnoremap <silent> <buffer> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+"     nnoremap <silent> <buffer> K  <cmd>lua vim.lsp.buf.hover()<CR>
+"     nnoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+"     inoremap <silent> <buffer> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+"     nnoremap <silent> <buffer> <leader>ls    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+"     nnoremap <silent> <buffer> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"     nnoremap <buffer> <leader>lr <cmd>call LspRename()<CR>
+"     nnoremap <silent> <buffer> <leader>lf <cmd>call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')<CR>
+"     " nmap <buffer> <leader>lf <plug>(lsp-document-format)
+"     " vmap <buffer> <C-f> <plug>(lsp-document-format)
+"     " nmap <buffer> <leader>lt <plug>(lsp-type-definition)
+"     " nmap <buffer> <leader>lx <plug>(lsp-references)
+"     " nmap <buffer> <leader>ls <plug>(lsp-document-symbol)
+"     autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+"     autocmd CursorHold  <buffer> lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
+"     autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+"     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+"     " autocmd BufWritePre <buffer> call Preserve('lua vim.lsp.buf.formatting_sync(nil, 1000)')
+"     lua require 'tagfunc_nvim_lsp'
+"     setlocal tagfunc=v:lua.tagfunc_nvim_lsp
+"     setlocal signcolumn=yes
+" endfunction
 
 function SetupMarkdown()
     setlocal colorcolumn=80
@@ -161,7 +161,7 @@ function SetupPython()
     setlocal signcolumn=yes
     setlocal spell
     setlocal tabstop=4 shiftwidth=4 expandtab
-    call SetupLsp()
+    " call SetupLsp()
 endfunction
 
 function SetupTerminal()
@@ -178,11 +178,9 @@ autocmd Filetype tex call SetupTex()
 autocmd Filetype markdown call SetupMarkdown()
 autocmd Filetype vimwiki call SetupMarkdown()
 autocmd Filetype python call SetupPython()
-autocmd Filetype cpp call SetupLsp()
-autocmd Filetype hpp call SetupLsp()
 autocmd BufNewFile,BufReadPost *.{yaml,yml} call SetupYaml()
 autocmd! BufNewFile,BufRead Dvcfile,*.dvc,dvc.lock call SetupYaml()
-autocmd Filetype javascript,typescript,solidity call SetupLsp()
+" autocmd Filetype javascript,typescript,solidity call SetupLsp()
 
 if has('nvim')
     " Remove line numbers and go to insert mode when creating a new terminal
@@ -220,4 +218,3 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-

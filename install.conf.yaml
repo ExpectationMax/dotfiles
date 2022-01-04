@@ -49,10 +49,6 @@
     description: Installing pandoc
     stderr: true
   - 
-    command: brew install pandoc-citeproc.rb
-    description: Installing pandoc citeproc
-    stderr: true
-  - 
     command: brew install neovim
     description: Install neovim
     stderr: true

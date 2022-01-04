@@ -143,50 +143,28 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Completion
-" let g:completion_auto_change_source = 1
-" let g:completion_confirm_key = "\<C-y>"
-" let g:completion_chain_complete_list = {
-"     \ 'default': [
-"         \ {'complete_items': ['lsp', 'snippet']},
-"     \ ],
-"     \ 'vimwiki': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
-"     \ 'pandoc': [{'complete_items': ['pandoc', 'path'], 'triggered_only': ['@', '/']}],
-" \}
-"     "\{'complete_items': ['path'], 'triggered_only': ['/']},
-" Plug 'nvim-lua/completion-nvim'
-" augroup completion_markdown
-"     autocmd!
-"     autocmd filetype markdown,pandoc,vimwiki lua require'completion'.on_attach()
-" augroup end
-
-Plug 'tomlion/vim-solidity'
-
-" Plug 'ncm2/ncm2'
-" Plug 'roxma/nvim-yarp'
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-path'
-" Plug 'fgrsnau/ncm2-aspell'
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" Enter should close popup window and do newline
-inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<cr>" : "\<CR>")
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 
 " Language server support
+" Highlighting matching to gruvbox theme
+highlight! link LspReferenceText LspReference
+highlight! link LspReferenceRead LspReference
+highlight! link LspReferenceWrite LspReference
+
+sign define LspDiagnosticsSignError text=✗ texthl=ALEErrorSign linehl= numhl=
+sign define LspDiagnosticsSignWarning text=‼ texthl=ALEWarningSign linehl= numhl=
+sign define LspDiagnosticsSignInformation text=i texthl=ALEInfoSign linehl= numhl=
+sign define LspDiagnosticsSignHint text=h linehl= numhl=
+
 " Predefined configurations for different language servers
 Plug 'neovim/nvim-lspconfig'
-let g:coq_settings = { 'auto_start': 'shut-up' }
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+
 " Status bar containing language server information
 Plug 'nvim-lua/lsp-status.nvim'
-" Sidebar containing document symbols
-" let g:vista_default_executive = 'nvim_lsp'
-" let g:vista#renderer#enable_icon = 1
-" let g:vista_executive_for = {
-"   \ 'vimwiki': 'markdown',
-"   \ 'pandoc': 'markdown',
-"   \ 'markdown': 'toc',
-"   \ }
-" let g:vista_fzf_preview = ['right:50%']
-" Plug 'liuchengxu/vista.vim'
 
 " Python
 let g:python_highlight_all = 1
@@ -198,15 +176,9 @@ Plug 'heavenshell/vim-pydocstring'
 Plug 'bfredl/nvim-ipy'
 call plug#end()
 
-" Language server protocol
-highlight! link LspReferenceText LspReference
-highlight! link LspReferenceRead LspReference
-highlight! link LspReferenceWrite LspReference
+" Solidity
+Plug 'tomlion/vim-solidity'
 
-sign define LspDiagnosticsSignError text=✗ texthl=ALEErrorSign linehl= numhl=
-sign define LspDiagnosticsSignWarning text=‼ texthl=ALEWarningSign linehl= numhl=
-sign define LspDiagnosticsSignInformation text=i texthl=ALEInfoSign linehl= numhl=
-sign define LspDiagnosticsSignHint text=h linehl= numhl=
 
 lua << EOF
 --- Some generally useful functions
@@ -216,14 +188,49 @@ local function path_join(...)
     return table.concat(vim.tbl_flatten {...}, path_sep)
 end
 
+--- Completion and snippets
+local cmp = require('cmp')
+
+cmp.setup({
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<C-y>'] = cmp.mapping.confirm({
+            select = true,
+            behavior = cmp.ConfirmBehavior.Replace,
+        })
+    },
+    sources = cmp.config.sources(
+    {
+      { name = 'nvim_lsp' },
+    },
+    {
+      { name = 'buffer' },
+    })
+})
+
+-- `/` cmdline setup.
+-- cmp.setup.cmdline('/', {
+--   sources = {
+--     { name = 'buffer' }
+--   }
+-- })
+-- `:` cmdline setup.
+-- cmp.setup.cmdline(':', {
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   }, {
+--     { name = 'cmdline' }
+--   })
+-- })
+
+
 --- Regiser lsp servers
-local nvim_lsp = require('lspconfig')
-local configs = require('lspconfig/configs')
-local coq = require('coq')
-
---- completion.addCompletionSource('vimwiki', require('vimwiki').complete_item)
---- completion.addCompletionSource('pandoc', require('pandoc').complete_item)
-
+local lspconfig = require('lspconfig')
 
 local lsp_status = require('lsp-status')
 lsp_status.config({
@@ -234,17 +241,50 @@ lsp_status.config({
 })
 lsp_status.register_progress()
 
-local function on_attach(client)
+local function on_attach(client, bufnr)
     lsp_status.on_attach(client)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    local opts = { noremap=true, silent=true }
+
+    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+    buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 local function project_root_or_cur_dir(path)
-    return nvim_lsp.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
+    return lspconfig.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
 end
 
-nvim_lsp.pylsp.setup({
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
+lspconfig.pylsp.setup({
     cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
-    root_dir = project_root_or_cur_dir,
     on_attach = on_attach,
     settings = {
         pylsp = {
@@ -266,39 +306,39 @@ nvim_lsp.pylsp.setup({
             }
         }
     },
-    capabilities = coq.lsp_ensure_capabilities(vim.tbl_extend('keep', configs.pylsp.capabilities or {}, lsp_status.capabilities))
+    capabilities = capabilities
 });
 
-nvim_lsp.tsserver.setup({
-   on_attach = on_attach
-})
-nvim_lsp.solang.setup({
-    capabilities = coq.lsp_ensure_capabilities(vim.tbl_extend('keep', configs.solang.capabilities or {}, lsp_status.capabilities))
-    })
-
-nvim_lsp.texlab.setup({
-    on_attach = on_attach,
-    settings = {
-        texlab = {
-          build = {
-            executable = "latexmk",
-            args = {"-interaction=nonstopmode", "-synctex=1", "-pv", "%f"},
-            onSave = false,
-            forwardSearchAfter = true,
-          },
-          forwardSearch = {
-            executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-            args = {"-g", "%l", "%p", "%f"}
-          }
-        }
-      },
-    capabilities = vim.tbl_extend('keep', configs.texlab.capabilities or {}, lsp_status.capabilities)
-})
-
-nvim_lsp.clangd.setup({
-    on_attach = on_attach,
-    capabilities = vim.tbl_extend('keep', configs.clangd.capabilities or {}, lsp_status.capabilities)
-})
+--- nvim_lsp.tsserver.setup({
+---    on_attach = on_attach
+--- })
+--- nvim_lsp.solang.setup({
+---     capabilities = vim.tbl_extend('keep', configs.solang.capabilities or {}, lsp_status.capabilities)
+---     })
+--- 
+--- nvim_lsp.texlab.setup({
+---     on_attach = on_attach,
+---     settings = {
+---         texlab = {
+---           build = {
+---             executable = "latexmk",
+---             args = {"-interaction=nonstopmode", "-synctex=1", "-pv", "%f"},
+---             onSave = false,
+---             forwardSearchAfter = true,
+---           },
+---           forwardSearch = {
+---             executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
+---             args = {"-g", "%l", "%p", "%f"}
+---           }
+---         }
+---       },
+---     capabilities = vim.tbl_extend('keep', configs.texlab.capabilities or {}, lsp_status.capabilities)
+--- })
+--- 
+--- nvim_lsp.clangd.setup({
+---     on_attach = on_attach,
+---     capabilities = vim.tbl_extend('keep', configs.clangd.capabilities or {}, lsp_status.capabilities)
+--- })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
