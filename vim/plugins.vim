@@ -53,8 +53,10 @@ let g:windowswap_map_keys = 0 " Prevent default bindings
 Plug 'wesQ3/vim-windowswap'   " Allow swapping of windows between splits
 
 " Fuzzy search through files buffers etc
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Editorconfig
 Plug 'editorconfig/editorconfig-vim'
@@ -136,10 +138,11 @@ let g:pydocstring_doq_path = $HOME."/.neovim_venv/bin/doq"
 let g:pydocstring_formatter = "google"
 Plug 'heavenshell/vim-pydocstring'
 Plug 'bfredl/nvim-ipy'
-call plug#end()
 
 " Solidity
 Plug 'tomlion/vim-solidity'
+call plug#end()
+
 
 
 lua << EOF
@@ -352,29 +355,46 @@ require("nvim-treesitter.configs").setup({
 --- nvim_lsp.tsserver.setup({
 ---    on_attach = on_attach
 --- })
---- nvim_lsp.solang.setup({
----     capabilities = vim.tbl_extend('keep', configs.solang.capabilities or {}, lsp_status.capabilities)
----     })
---- 
---- nvim_lsp.texlab.setup({
----     on_attach = on_attach,
----     settings = {
----         texlab = {
----           build = {
----             executable = "latexmk",
----             args = {"-interaction=nonstopmode", "-synctex=1", "-pv", "%f"},
----             onSave = false,
----             forwardSearchAfter = true,
----           },
----           forwardSearch = {
----             executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
----             args = {"-g", "%l", "%p", "%f"}
----           }
----         }
----       },
----     capabilities = vim.tbl_extend('keep', configs.texlab.capabilities or {}, lsp_status.capabilities)
---- })
---- 
+
+lspconfig.solidity_ls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        solidity = {
+            defaultCompiler = "localFile",
+            compileUsingLocalVersion = "/Users/hornm/Downloads/soljson-latest.js",
+            packageDefaultDependenciesContractsDirectory = "contracts",
+            packageDefaultDependenciesDirectory = "",
+            remappings = {
+                "@openzeppelin/=/Users/hornm/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.4.2"
+            },
+            enabledAsYouTypeCompilationErrorCheck = true,
+            validationDelay = 500
+        }
+    },
+    
+
+})
+
+lspconfig.texlab.setup({
+    on_attach = on_attach,
+    settings = {
+        texlab = {
+          build = {
+            executable = "latexmk",
+            args = {"-interaction=nonstopmode", "-synctex=1", "-pv", "%f"},
+            onSave = false,
+            forwardSearchAfter = true,
+          },
+          forwardSearch = {
+            executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
+            args = {"-g", "%l", "%p", "%f"}
+          }
+        }
+      },
+    capabilities = capabilities
+})
+
 --- nvim_lsp.clangd.setup({
 ---     on_attach = on_attach,
 ---     capabilities = vim.tbl_extend('keep', configs.clangd.capabilities or {}, lsp_status.capabilities)

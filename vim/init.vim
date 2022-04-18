@@ -90,11 +90,11 @@ for d in glob('~/.vim/spell/*.add', 1, 1)
 endfor
 
 " Customize netrw
-let g:netrw_liststyle = 3     " view dir listing as tree
-let g:netrw_banner = 0        " remove banner
-" let g:netrw_browse_split = 2  " open files in vertical splits
-" let g:netrw_altv = 1          " open splits to the right
-let g:netrw_winsize = 15      " make split area 25% of the window size
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
 " Python paths
 let g:python3_host_prog = $HOME . "/.neovim_venv/bin/python3"
