@@ -31,3 +31,7 @@ PROMPT='%F{blue}%B%~%b%f %F{green}%#%f '
 export GPG_TTY=$(tty)
 
 export PATH="$HOME/.poetry/bin:$PATH"
+export PATH=$PATH:/$HOME/.toolbox/bin
+export PATH="$HOME/bin:$PATH"
+eval "$(pyenv init -)"
+alias vim=nvim

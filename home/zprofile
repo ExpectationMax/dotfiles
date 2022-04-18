@@ -7,5 +7,7 @@ export PATH
 # Locale settings
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export ZK_NOTEBOOK_DIR="$HOME/Notes"
 export VISUAL=nvim
 export EDITOR=$VISUAL
+eval "$(pyenv init --path)"
