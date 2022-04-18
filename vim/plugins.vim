@@ -67,67 +67,17 @@ Plug 'vim-voom/VOoM'
 
 " Markdown
 Plug 'godlygeek/tabular'
+Plug 'ellisonleao/glow.nvim'
+
 " Allow to paste clipboard images into Markdown image link
 let g:mdip_imgdir = 'img'
 Plug 'ferrine/md-img-paste.vim'
 
-" vimwiki
-let g:vimwiki_list = [
-    \ {
-      \ 'path': '~/PhDwiki/',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md',
-      \ 'index': 'index',
-      \ 'auto_toc': 1,
-      \ 'auto_diary_index': 1,
-      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-  \ },
-    \ {
-      \ 'path': '~/Internship/',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md',
-      \ 'index': 'index',
-      \ 'auto_toc': 1,
-      \ 'auto_diary_index': 1,
-      \ 'nested_syntaxes': {'python': 'python', 'bash': 'bash'}
-      \ }]
-let g:vimwiki_global_ext = 0
-let g:vimwiki_markdown_link_ext = 1
-
-Plug 'vimwiki/vimwiki'
-command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
-    autocmd!
-    " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-augroup end
-
-" Template for diary entries
-au BufNewFile ~/Internship/diary/*.md
-      \ call append(0,[
-      \ "# " . split(expand('%:r'),'/')[-1], ""])
-au BufNewFile ~/PhDwiki/diary/*.md
-      \ call append(0,[
-      \ "# " . split(expand('%:r'),'/')[-1], ""])
-
-" pandoc: Citation and advanced markdown support
-let g:pandoc#filetypes#handled = ["pandoc", "markdown"]
-let g:pandoc#biblio#bibs = [$HOME."/Internship/references.bib"]
-let g:pandoc#biblio#use_bibtool = 1
-let g:pandoc#completion#bib#mode = 'citeproc'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-
-" Activate syntax plugin
-augroup pandoc_syntax
-  autocmd! FileType vimwiki set syntax=markdown.pandoc
-augroup END
-
 " Zettelkasten
-let g:zettel_format = "/zettelkasten/%y%m%d-%H%M"
-let g:zettel_date_format = "%d.%m.%y"
-let g:zettel_options = [{"template" :  $HOME."/Internship/templates/zettel_vim.md"}]
-Plug 'michal-h21/vim-zettel'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'mickael-menu/zk-nvim'
 
 
 " Programming
@@ -144,10 +94,15 @@ Plug 'airblade/vim-gitgutter'
 
 " Completion
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'jc-doyle/cmp-pandoc-references'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+
+" Signature help
+Plug 'ray-x/lsp_signature.nvim'
+
 
 " Snippets
 Plug 'L3MON4D3/LuaSnip'
@@ -174,8 +129,9 @@ Plug 'nvim-lua/lsp-status.nvim'
 
 " Python
 let g:python_highlight_all = 1
-Plug 'vim-python/python-syntax'
-Plug 'Vimjas/vim-python-pep8-indent'
+# Plug 'vim-python/python-syntax'
+# Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'vim-python-indent-black'
 let g:pydocstring_doq_path = $HOME."/.neovim_venv/bin/doq"
 let g:pydocstring_formatter = "google"
 Plug 'heavenshell/vim-pydocstring'
@@ -213,23 +169,19 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<C-y>'] = cmp.mapping.confirm({
-            select = true,
+        ['<CR>'] = cmp.mapping.confirm({
+            select = false,
             behavior = cmp.ConfirmBehavior.Replace,
         }),
         ['<Tab>'] = function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
+          if luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           else
             fallback()
           end
         end,
         ['<S-Tab>'] = function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.jumpable(-1) then
+          if luasnip.jumpable(-1) then
             luasnip.jump(-1)
           else
             fallback()
@@ -239,11 +191,13 @@ cmp.setup({
     sources = cmp.config.sources(
     {
       { name = 'nvim_lsp' },
-      { name = 'luasnip' }
+      { name = 'luasnip' },
+      { name = 'pandoc_references' }
     },
     {
       { name = 'buffer' },
-    })
+    }),
+    experimental = { ghost_text = true },
 })
 
 -- `/` cmdline setup.
@@ -266,6 +220,7 @@ cmp.setup({
 local lspconfig = require('lspconfig')
 
 local lsp_status = require('lsp-status')
+local lsp_signature = require('lsp_signature')
 lsp_status.config({
     indicator_errors = "✗",
     indicator_warnings = "‼",
@@ -273,9 +228,17 @@ lsp_status.config({
     indicator_hint = "h"
 })
 lsp_status.register_progress()
+lsp_signature_cfg = {
+    bind = false,
+    fix_pos = true,
+    hint_enable = true,
+    hint_prefix = "",
+    floating_window = false,
+}
 
 local function on_attach(client, bufnr)
     lsp_status.on_attach(client)
+    lsp_signature.on_attach(lsp_signature_cfg)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -316,17 +279,24 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     'additionalTextEdits',
   }
 }
-
 lspconfig.pylsp.setup({
-    cmd = {path_join(os.getenv("HOME"), ".vim/run_pyls_with_venv.sh")},
+    cmd = {path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), path_join(os.getenv("HOME"), ".neovim_venv/bin/python"), "-m", "pylsp"},
     on_attach = on_attach,
     settings = {
         pylsp = {
             configurationSources = {"flake8"},
             plugins ={
+                rope_completion = {enabled = false},
+                jedi_completion = {enabled = false},
+                preload = {enabled = false},
                 pyflakes = {enabled = false},
                 pycodestyle = {enabled = false},
-                pydocstyle = {enabled = false},
+                pydocstyle = {
+                  enabled = true,
+                  convention = 'google',
+                  ignore = {"D102"},
+                  addIgnore = {"D102", "D107"}
+                },
                 pylint = {enabled = false},
                 mypy_ls = {
                     enabled = false,
@@ -335,13 +305,49 @@ lspconfig.pylsp.setup({
                 black = {enabled = true},
                 flake8 = {
                     enabled = true,
-                    executable = "~/.neovim_venv/bin/flake8"
+                    executable = "~/.neovim_venv/bin/flake8",
+                    ignore = {"D102"},
+                    maxLineLength = 101
                 }
             }
         }
     },
     capabilities = capabilities
 });
+
+lspconfig.jedi_language_server.setup({
+    cmd = {path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), path_join(os.getenv("HOME"), ".neovim_venv/bin/jedi-language-server")},
+    on_attach = on_attach,
+    capabilities = capabilities,
+});
+
+require("zk").setup({
+  -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
+  -- it's recommended to use "telescope" or "fzf"
+  picker = "telescope",
+
+  lsp = {
+    -- `config` is passed to `vim.lsp.start_client(config)`
+    config = {
+      cmd = { "zk", "lsp" },
+      name = "zk",
+      on_attach = on_attach
+      -- etc, see `:h vim.lsp.start_client()`
+    },
+
+    -- automatically attach buffers in a zk notebook that match the given filetypes
+    auto_attach = {
+      enabled = true,
+      filetypes = { "markdown" },
+    },
+  },
+})
+
+require("nvim-treesitter.configs").setup({
+  highlight = {
+    additional_vim_regex_highlighting = { "markdown" }
+  },
+})
 
 --- nvim_lsp.tsserver.setup({
 ---    on_attach = on_attach
