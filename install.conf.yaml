@@ -54,10 +54,10 @@
     description: Install neovim
     stderr: true
   - 
-    command: brew install fzf ripgrep editorconfig
+    command: brew install ripgrep editorconfig
     stdin: true
     stdout: true
-    description: Install neovim, fzf, ripgrep and editorconfig
+    description: Install ripgrep and editorconfig
   - 
     command: brew install task timewarrior tasksh
     stdin: true

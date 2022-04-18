@@ -95,6 +95,9 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
+let ghregex='\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_list_hide='__pycache__'
+let g:netrw_list_hide.=',' . ghregex
 
 " Python paths
 let g:python3_host_prog = $HOME . "/.neovim_venv/bin/python3"

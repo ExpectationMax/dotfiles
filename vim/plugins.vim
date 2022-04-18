@@ -131,9 +131,11 @@ Plug 'nvim-lua/lsp-status.nvim'
 
 " Python
 let g:python_highlight_all = 1
-# Plug 'vim-python/python-syntax'
-# Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'vim-python-indent-black'
+" Plug 'vim-python/python-syntax'
+" Plug 'Vimjas/vim-python-pep8-indent'
+let g:black_virtualenv = $HOME."/.neovim_venv"
+Plug 'EgZvor/vim-black'
+Plug 'jeetsukumaran/vim-python-indent-black'
 let g:pydocstring_doq_path = $HOME."/.neovim_venv/bin/doq"
 let g:pydocstring_formatter = "google"
 Plug 'heavenshell/vim-pydocstring'
