@@ -72,8 +72,7 @@ Plug 'godlygeek/tabular'
 Plug 'ellisonleao/glow.nvim'
 
 " Allow to paste clipboard images into Markdown image link
-let g:mdip_imgdir = 'img'
-Plug 'ferrine/md-img-paste.vim'
+Plug 'ekickx/clipboard-image.nvim'
 
 " Zettelkasten
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -154,6 +153,14 @@ local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
 local function path_join(...)
     return table.concat(vim.tbl_flatten {...}, path_sep)
 end
+
+--- Paste images to markdown
+require'clipboard-image'.setup({
+    default = {
+        img_dir = {os.getenv("HOME"), "Notes", "assets", "img"},
+    }
+})
+
 
 --- Completion and snippets
 local cmp = require('cmp')

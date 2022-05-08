@@ -194,6 +194,9 @@ if has('nvim')
     " through tabs
 endif
 
+" Setup Zettelkasten shortcuts
+nnoremap <leader>zn :ZkNew { title = vim.fn.input("Title: "), dir = vim.fn.input("Group: ") }<CR>
+
 " General keybindings
 " Disable regular arrow keys
 " noremap <up> <NOP>
