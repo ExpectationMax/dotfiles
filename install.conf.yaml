@@ -79,7 +79,7 @@
     stdout: true
     description: Add fonts tap and install Fira Code
   - 
-    command: brew install --cask kitty google-chrome google-drive slack obsidian marked
+    command: brew install --cask kitty google-chrome google-drive slack obsidian marked cryptomator
     stdin: true
     stdout: true
     description: Install kitty terminal emulator, Google Chrome, slack, obsidian, marked
