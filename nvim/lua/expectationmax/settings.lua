@@ -23,10 +23,13 @@ vim.opt.smartcase = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
+
+vim.opt.updatetime = 1000
+
 vim.opt.signcolumn = "yes"
-
-vim.opt.updatetime = 50
-
 vim.opt.colorcolumn = "80"
 
 vim.opt.completeopt = "menuone,preview"
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true

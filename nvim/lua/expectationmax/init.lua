@@ -1,4 +1,5 @@
 require("expectationmax.environment")
 require("expectationmax.packer")
 require("expectationmax.settings")
+require("expectationmax.filetypes")
 require("expectationmax.remap")

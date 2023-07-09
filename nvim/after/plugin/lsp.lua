@@ -2,7 +2,7 @@ local os = require("os")
 local utils = require("expectationmax.utils")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local cmp_select_opts = {behavior = cmp.SelectBehavior.Select}
+local cmp_select_opts = {behavior = cmp.SelectBehavior.Insert}
 
 local luasnip_jump_forward = cmp.mapping(
   function(fallback)
@@ -117,7 +117,41 @@ local function on_attach(client, bufnr)
     buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
     buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
     buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
+    vim.opt_local.tagfunc = "v:lua.vim.lsp.tagfunc"
+    vim.api.nvim_create_autocmd("CursorHold", {
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight
+    })
+    vim.api.nvim_create_autocmd("CursorHoldI", {
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references
+    })
+    vim.api.nvim_set_hl(0, "LspReference", {
+        bg = "#665c54",
+        ctermbg = 59,
+    })
+    vim.api.nvim_set_hl(0, "LspReferenceText", {
+        link = "LspReference",
+    })
+    vim.api.nvim_set_hl(0, "LspReferenceRead", {
+        link = "LspReference",
+    })
+    vim.api.nvim_set_hl(0, "LspReferenceWrite", {
+        link = "LspReference",
+    })
+    --[[
+    vim.api.nvim_create_autocmd("CursorHold", {
+        buffer = bufnr,
+        callback = function ()
+            vim.diagnostic.open_float({ focusable = false })
+        end
+    })
+    --]]
 end
 
 local function project_root_or_cur_dir(path)
@@ -151,10 +185,6 @@ lspconfig.pylsp.setup({
                   addIgnore = {"D102", "D107"}
                 },
                 pylint = {enabled = false},
-                mypy_ls = {
-                    enabled = false,
-                    live_mode = true
-                },
                 black = {enabled = true},
                 flake8 = {
                     enabled = true,
@@ -165,9 +195,46 @@ lspconfig.pylsp.setup({
             }
         }
     },
-});
-
+})
 lspconfig.jedi_language_server.setup({
     cmd = {utils.path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/jedi-language-server")},
     on_attach = on_attach,
-});
+    on_init = function(client)
+        client.server_capabilities.renameProvider = nil
+    end
+})
+
+-- Override rename behavior to show quickfix list with changes.
+local default_rename = vim.lsp.handlers["textDocument/rename"]
+local my_rename_handle = function(err, result, ...)
+    -- Run default rename handler and add renamed locations to qf list.
+    default_rename(err, result, ...)
+    if result.documentChanges then
+        local entries = {}
+        for _, changes in ipairs(result.documentChanges) do
+            -- As we call the default rename fuctionality before, the files
+            -- should already be opened and have a bufnr.
+
+            local bufnr = vim.uri_to_bufnr(changes.textDocument.uri)
+
+            for _, edit in ipairs(changes.edits) do
+                local start_line = edit.range.start.line + 1
+                local end_line = edit.range["end"].line + 1
+                local line = vim.api.nvim_buf_get_lines(bufnr, start_line, end_line, false)[1]
+
+                table.insert(entries, {
+                    bufnr = bufnr,
+                    lnum = start_line,
+                    end_lnum = end_line,
+                    col = edit.range.start.character + 1,
+                    end_col = edit.range["end"].character + 1,
+                    text = line,
+                })
+            end
+        end
+        vim.fn.setqflist({}, "r", { title = "[LSP] Rename", items = entries })
+        vim.api.nvim_command("botright cwindow")
+    end
+end
+vim.lsp.handlers["textDocument/rename"] = my_rename_handle
+
