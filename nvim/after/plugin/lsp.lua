@@ -3,6 +3,7 @@ local utils = require("expectationmax.utils")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local cmp_select_opts = {behavior = cmp.SelectBehavior.Insert}
+local lspkind = require("lspkind")
 
 local luasnip_jump_forward = cmp.mapping(
   function(fallback)
@@ -78,17 +79,7 @@ cmp.setup({
   },
   formatting = {
     fields = {'abbr', 'menu', 'kind'},
-    format = function(entry, item)
-      local short_name = {
-        nvim_lsp = 'LSP',
-        nvim_lua = 'nvim'
-      }
-
-      local menu_name = short_name[entry.source.name] or entry.source.name
-
-      item.menu = string.format('[%s]', menu_name)
-      return item
-    end,
+    format = lspkind.cmp_format()
   },
 })
 

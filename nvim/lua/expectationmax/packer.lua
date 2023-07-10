@@ -22,5 +22,11 @@ return require("packer").startup(function(use)
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-path")
   use("hrsh7th/nvim-cmp")
+  use("onsails/lspkind.nvim")
+
+  use({
+      'nvim-lualine/lualine.nvim',
+      requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  })
 
 end)

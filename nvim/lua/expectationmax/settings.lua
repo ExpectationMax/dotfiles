@@ -33,3 +33,6 @@ vim.opt.completeopt = "menuone,preview"
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
+vim.opt.showmode = false
+vim.opt.showtabline = 1
