@@ -95,7 +95,7 @@ local function on_attach(client, bufnr)
     buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    -- buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
     buf_set_keymap("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
@@ -171,16 +171,15 @@ lspconfig.pylsp.setup({
                 pycodestyle = {enabled = false},
                 pydocstyle = {
                   enabled = true,
-                  convention = "google",
-                  ignore = {"D102"},
-                  addIgnore = {"D102", "D107"}
+                  convention = "pep257",
+                  addIgnore = {"D102", "D104", "D107", "D2", "D3", "D4"},
                 },
                 pylint = {enabled = false},
                 black = {enabled = true},
                 flake8 = {
                     enabled = true,
                     executable = "~/.neovim_venv/bin/flake8",
-                    ignore = {"D102"},
+                    ignore = {"D102", "D104", "D2", "D3", "D4"},
                     maxLineLength = 101
                 }
             }
