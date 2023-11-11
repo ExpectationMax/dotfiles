@@ -1,9 +1,9 @@
 -- Git windows from nvr
-vim.env.GIT_EDITOR = "nvr -cc split --remote-wait"
+vim.env.GIT_EDITOR = "nvr --remote-wait"
 local gitGrp = vim.api.nvim_create_augroup("CloseGit", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "gitcommit", "gitrebase", "gitconfig" },
-    command = "silent! set bufhidden=delete",
+    command = "silent! set bufhidden=wipe",
     group = gitGrp,
 })
 

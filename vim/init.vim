@@ -27,10 +27,7 @@ set termguicolors
 " let &t_ZH="\e[3m"
 " let &t_ZR="\e[23m"
 set background=dark
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_contrast_light = 'hard'
-colorscheme gruvbox8
+colorscheme gruvbox
 
 " Highlighting applied to floating window
 highlight LspDiagnosticsErrorFloating guifg=#fb4934 gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE

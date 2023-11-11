@@ -10,9 +10,7 @@ function! LspStatus() abort
 endfunction
 
 " Appearance
-let g:gruvbox_filetype_hi_groups = 1
-let g:gruvbox_plugin_hi_groups = 1
-Plug 'lifepillar/vim-gruvbox8'
+Plug 'ellisonleao/gruvbox.nvim'
 " Configure lightline
 let g:lightline = {
   \ 'colorscheme': 'jellybeans',
@@ -280,8 +278,7 @@ local function project_root_or_cur_dir(path)
     return lspconfig.util.root_pattern('pyproject.toml', 'Pipfile', '.git')(path) or vim.fn.getcwd()
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {

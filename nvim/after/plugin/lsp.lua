@@ -84,6 +84,7 @@ cmp.setup({
 })
 
 local lspconfig = require("lspconfig")
+local configs = require("lspconfig/configs")
 
 local function on_attach(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -110,18 +111,23 @@ local function on_attach(client, bufnr)
     buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
     vim.opt_local.tagfunc = "v:lua.vim.lsp.tagfunc"
-    vim.api.nvim_create_autocmd("CursorHold", {
-        buffer = bufnr,
-        callback = vim.lsp.buf.document_highlight
-    })
-    vim.api.nvim_create_autocmd("CursorHoldI", {
-        buffer = bufnr,
-        callback = vim.lsp.buf.document_highlight
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-        buffer = bufnr,
-        callback = vim.lsp.buf.clear_references
-    })
+
+    if client.server_capabilities.documentHighlight ~= nil then
+        vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight
+        })
+        vim.api.nvim_create_autocmd("CursorHoldI", {
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references
+        })
+    end
+
+    
     vim.api.nvim_set_hl(0, "LspReference", {
         bg = "#665c54",
         ctermbg = 59,
@@ -192,6 +198,20 @@ lspconfig.jedi_language_server.setup({
     on_init = function(client)
         client.server_capabilities.renameProvider = nil
     end
+})
+configs.zk = {
+  default_config = {
+    cmd = {'zk', 'lsp'},
+    filetypes = {'markdown'},
+    root_dir = function()
+      return vim.loop.cwd()
+    end,
+    settings = {}
+  };
+}
+
+lspconfig.zk.setup({
+    on_attach = on_attach
 })
 
 -- Override rename behavior to show quickfix list with changes.
