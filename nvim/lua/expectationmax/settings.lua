@@ -36,3 +36,6 @@ vim.opt.splitright = true
 
 vim.opt.showmode = false
 vim.opt.showtabline = 1
+
+vim.opt.winblend = 8
+vim.opt.pumblend = 8
