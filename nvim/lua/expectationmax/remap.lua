@@ -24,6 +24,4 @@ vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>")
 vim.keymap.set("n", "Q", "<Nop>")
 
 -- Project management
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-
-
+vim.api.nvim_set_keymap("n", "<leader>pe", "", { desc = "Open explorer", callback = vim.cmd.Ex })
