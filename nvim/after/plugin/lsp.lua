@@ -199,20 +199,6 @@ lspconfig.jedi_language_server.setup({
         client.server_capabilities.renameProvider = nil
     end
 })
-configs.zk = {
-  default_config = {
-    cmd = {'zk', 'lsp'},
-    filetypes = {'markdown'},
-    root_dir = function()
-      return vim.loop.cwd()
-    end,
-    settings = {}
-  };
-}
-
-lspconfig.zk.setup({
-    on_attach = on_attach
-})
 
 -- Override rename behavior to show quickfix list with changes.
 local default_rename = vim.lsp.handlers["textDocument/rename"]
