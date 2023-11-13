@@ -2,6 +2,7 @@ return {
     "OscarCreator/rsync.nvim",
     build = "make",
     dependencies = {"nvim-lua/plenary.nvim"},
+    event = { "BufWritePre" },
     opts = {
         -- triggers sync when git repo was changed
         fugitive_sync = true,
