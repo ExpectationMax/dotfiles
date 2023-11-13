@@ -20,7 +20,8 @@ return {
             {"<leader>pg", function() require("telescope.builtin").live_grep() end, desc = "Project grep (live)"},
             {"<leader>ps", function() require("telescope.builtin").grep_string( { search = vim.fn.input("Grep > ") } ) end, desc = "Project grep (not live)"},
             {"<C-p>", function() require("telescope.builtin").git_files() end, desc = "Project find git files"}
-        }
+        },
+        cmd = { "Telescope" }
     },
     {"nvim-telescope/telescope-fzy-native.nvim", lazy = true}
 }
