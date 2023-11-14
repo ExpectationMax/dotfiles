@@ -3,7 +3,9 @@ function config()
     wk.register(
         {
             p = { name = "Project" },
-            z = { name = "Zettelkasten" }
+            z = { name = "Zettelkasten" },
+            g = { name = "git" }
+
         },
         { prefix = "<leader>" }
     )
