@@ -200,3 +200,7 @@ local my_rename_handle = function(err, result, ...)
 end
 vim.lsp.handlers["textDocument/rename"] = my_rename_handle
 
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  { focus = false }
+)
