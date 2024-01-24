@@ -136,6 +136,36 @@ lspconfig.jedi_language_server.setup({
     end
 })
 
+lspconfig.clangd.setup({})
+
+local my_arduino_fqbn = {
+    ["/Users/hornm/Projects/google_home_timer/google_home_timer_display"] = "rp2040:rp2040:rpipicow",
+}
+
+local DEFAULT_FQBN = "arduino:avr:uno"
+
+lspconfig.arduino_language_server.setup({
+    on_new_config = function (config, root_dir)
+        local fqbn = my_arduino_fqbn[root_dir]
+        if not fqbn then
+            vim.notify(("Could not find which FQBN to use in %q. Defaulting to %q."):format(root_dir, DEFAULT_FQBN))
+            fqbn = DEFAULT_FQBN
+        end
+        config.cmd = {
+            "arduino-language-server",
+            "-clangd", "/opt/homebrew/Cellar/llvm/17.0.6/bin/clangd",
+            -- "-clangd", "/usr/bin/clangd",
+            "-cli", "/opt/homebrew/bin/arduino-cli",
+            "-cli-config", utils.path_join(os.getenv("HOME"), "Library/Arduino15/arduino-cli.yaml"),
+            -- "-log",
+            "-fqbn",
+            fqbn
+        }
+    end,
+    root_dir = project_root_or_cur_dir,
+    on_attach = on_attach
+})
+
 -- Override rename behavior to show quickfix list with changes.
 local default_rename = vim.lsp.handlers["textDocument/rename"]
 local my_rename_handle = function(err, result, ...)
