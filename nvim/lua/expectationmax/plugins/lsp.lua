@@ -4,7 +4,7 @@ return {
     {"neovim/nvim-lspconfig"},
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
-    "L3MON4D3/LuaSnip",
+    {"L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp"},
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/nvim-cmp",

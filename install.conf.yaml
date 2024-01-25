@@ -65,7 +65,8 @@
     description: Install taskwarrior and taskwarrior shell
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim doq jupyter qtconsole jedi-language-server python-lsp-server flake8 pep8-naming mypy-ls python-lsp-black pyls-isort pydocstyle jupyter_qtconsole_colorschemes
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter qtconsole python-lsp-server pylsp-mypy python-lsp-ruff jupyter_qtconsole_colorschemes
+    # command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter qtconsole jedi-language-server python-lsp-server pylsp-mypy python-lsp-ruff jupyter_qtconsole_colorschemes
     description: Set up neovim venv
     stdin: true
     stdout: true

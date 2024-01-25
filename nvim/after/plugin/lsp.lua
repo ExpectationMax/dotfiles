@@ -107,34 +107,40 @@ lspconfig.pylsp.setup({
             configurationSources = {"flake8"},
             plugins ={
                 rope_completion = {enabled = false},
-                jedi_completion = {enabled = false},
-                preload = {enabled = false},
+                jedi_completion = {
+                    enabled = true,
+                    include_params = true,
+                    eager = true,
+                    fuzzy = true,
+                },
+                preload = {enabled = true},
                 pyflakes = {enabled = false},
                 pycodestyle = {enabled = false},
                 pydocstyle = {
-                  enabled = true,
+                  enabled = false,
                   convention = "pep257",
                   addIgnore = {"D102", "D104", "D107", "D2", "D3", "D4"},
                 },
                 pylint = {enabled = false},
-                black = {enabled = true},
+                black = {enabled = false},
                 flake8 = {
-                    enabled = true,
+                    enabled = false,
                     executable = "~/.neovim_venv/bin/flake8",
                     ignore = {"D102", "D104", "D2", "D3", "D4"},
                     maxLineLength = 101
+                },
+                ruff = {
+                    enabled = true
+                },
+                mypy = {
+                    enabled = true,
+                    live_mode = true,
                 }
             }
         }
     },
 })
-lspconfig.jedi_language_server.setup({
-    cmd = {utils.path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/jedi-language-server")},
-    on_attach = on_attach,
-    on_init = function(client)
-        client.server_capabilities.renameProvider = nil
-    end
-})
+
 
 lspconfig.clangd.setup({})
 
