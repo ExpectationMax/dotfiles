@@ -37,7 +37,7 @@ vim.opt.splitright = true
 vim.opt.showmode = false
 vim.opt.showtabline = 1
 
-vim.opt.winblend = 8
-vim.opt.pumblend = 8
+vim.opt.winblend = 15
+vim.opt.pumblend = 15
 
 vim.opt.winbar = "%m %f"

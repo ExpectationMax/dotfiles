@@ -10,5 +10,5 @@ return {
         sync_on_save = true
     },
     keys = { {"<leader>pu", vim.cmd.RsyncUp, desc="Project upload via rsync"} },
-    cmd = {"RsyncUp", "RsyncUpFile"}
+    cmd = {"RsyncUp", "RsyncUpFile", "RsyncDown"}
 }

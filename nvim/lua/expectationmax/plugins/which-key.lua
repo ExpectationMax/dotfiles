@@ -5,7 +5,8 @@ function config()
             p = { name = "Project" },
             z = { name = "Zettelkasten" },
             g = { name = "git" },
-            o = { name = "ollama" }
+            o = { name = "ollama" },
+            d = { name = "Debugger" },
         },
         { prefix = "<leader>" }
     )
