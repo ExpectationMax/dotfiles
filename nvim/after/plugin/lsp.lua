@@ -60,6 +60,16 @@ cmp.setup({
     }),
     ["<C-f>"] = luasnip_jump_forward,
     ["<C-b>"] = luasnip_jump_backward,
+    ['<C-x>'] = cmp.mapping(
+      cmp.mapping.complete({
+        config = {
+          sources = cmp.config.sources({
+            { name = 'cmp_ai' },
+          }),
+        },
+      }),
+      { 'i' }
+    ),
   },
   sources = cmp.config.sources(
     {

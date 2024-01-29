@@ -10,4 +10,6 @@ export LANG=en_US.UTF-8
 export ZK_NOTEBOOK_DIR="$HOME/Notes"
 export VISUAL=nvim
 export EDITOR=$VISUAL
+alias ask="ollama run mistral"
+alias ask_code="ollama run codellama"
 eval "$(pyenv init --path)"
