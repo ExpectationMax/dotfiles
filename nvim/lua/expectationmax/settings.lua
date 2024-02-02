@@ -41,3 +41,5 @@ vim.opt.winblend = 15
 vim.opt.pumblend = 15
 
 vim.opt.winbar = "%m %f"
+
+vim.opt.clipboard:append("unnamedplus")
