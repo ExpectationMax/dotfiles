@@ -6,7 +6,7 @@ return {
     },
     opts = {
         options = {
-            theme = "gruvbox",
+            theme = "tokyonight",
             globalstatus = true
         },
         sections = {
