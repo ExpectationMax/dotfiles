@@ -45,7 +45,7 @@ return {
         docstring = {
             prompt = "Adapt the docstring of this python code to follow googles docstring convention. "
                 .. response_format_replace .. "\n\n" .. selection,
-            action = "display"
+            action = "display_replace"
         },
     }
   }
