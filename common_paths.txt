@@ -1,0 +1,4 @@
+Projects
+.dotfiles
+.dotfiles/nvim/
+.dotfiles/nvim/lua/expectationmax
