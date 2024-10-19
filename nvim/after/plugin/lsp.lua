@@ -194,6 +194,31 @@ lspconfig.arduino_language_server.setup({
     on_attach = on_attach
 })
 
+lspconfig.rust_analyzer.setup({
+    on_attach = function(client, bufnr)
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        on_attach(client, bufnr)
+    end,
+    settings = {
+            ["rust-analyzer"] = {
+                imports = {
+                    granularity = {
+                        group = "module",
+                    },
+                    prefix = "self",
+                },
+                cargo = {
+                    buildScripts = {
+                        enable = true,
+                    },
+                },
+                procMacro = {
+                    enable = true
+                },
+            }
+        }
+})
+
 -- Override rename behavior to show quickfix list with changes.
 local default_rename = vim.lsp.handlers["textDocument/rename"]
 local my_rename_handle = function(err, result, ...)
