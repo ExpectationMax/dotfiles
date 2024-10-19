@@ -102,14 +102,12 @@ function M.on_attach(client, bufnr)
     vim.api.nvim_set_hl(0, "LspReferenceWrite", {
         link = "LspReference",
     })
-    --[[
     vim.api.nvim_create_autocmd("CursorHold", {
         buffer = bufnr,
         callback = function ()
             vim.diagnostic.open_float({ focusable = false })
         end
     })
-    --]]
 end
 
 return M

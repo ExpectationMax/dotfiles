@@ -9,7 +9,7 @@ return {
     keys={
         {"<C-S-n>", function() require("harpoon"):list():next() end, desc = "Harpoon next"},
         {"<C-S-p>", function() require("harpoon"):list():prev() end, desc = "Harpoon previous"},
-        {"<C-S-m>", function() require("harpoon"):list():append() end, desc = "Harpoon mark"},
+        {"<C-S-m>", function() require("harpoon"):list():add() end, desc = "Harpoon mark"},
         {"<C-S-h>", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon ui (help)"},
     },
     opts={

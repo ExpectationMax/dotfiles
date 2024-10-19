@@ -100,14 +100,17 @@ local function project_root_or_cur_dir(path)
     return lspconfig.util.root_pattern("pyproject.toml", "Pipfile", ".git")(path) or vim.fn.getcwd()
 end
 
-
-local lsp_defaults = lspconfig.util.default_config
+lsp_defaults = lspconfig.util.default_config
 
 lsp_defaults.capabilities = vim.tbl_deep_extend(
   'force',
   lsp_defaults.capabilities,
   require('cmp_nvim_lsp').default_capabilities()
 )
+
+lspconfig.rust_analyzer.setup({
+    on_attach = on_attach,
+})
 
 lspconfig.pylsp.setup({
     cmd = {utils.path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/python"), "-m", "pylsp"},
@@ -122,6 +125,14 @@ lspconfig.pylsp.setup({
                     include_params = true,
                     eager = true,
                     fuzzy = true,
+                    include_class_objects = true,
+                    cache_for = {
+                        "pandas",
+                        "numpy",
+                        "polars",
+                        "torch",
+                        "matplotlib"
+                    }
                 },
                 preload = {enabled = true},
                 pyflakes = {enabled = false},
@@ -140,7 +151,8 @@ lspconfig.pylsp.setup({
                     maxLineLength = 101
                 },
                 ruff = {
-                    enabled = true
+                    enabled = true,
+                    formatEnabled = true
                 },
                 mypy = {
                     enabled = true,
@@ -210,8 +222,10 @@ local my_rename_handle = function(err, result, ...)
                 })
             end
         end
-        vim.fn.setqflist({}, "r", { title = "[LSP] Rename", items = entries })
-        vim.api.nvim_command("botright cwindow")
+        if #entries > 1 then
+            vim.fn.setqflist({}, "r", { title = "[LSP] Rename", items = entries })
+            vim.api.nvim_command("botright cwindow")
+        end
     end
 end
 vim.lsp.handlers["textDocument/rename"] = my_rename_handle

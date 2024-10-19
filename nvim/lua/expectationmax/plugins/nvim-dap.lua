@@ -18,7 +18,46 @@ return {
                     print(python_path)
                     return python_path
                 end
-            end
+                local python_configs = require('dap').configurations.python
+                table.insert(python_configs, {
+                    name = "Pytest: Current File",
+                    type = "python",
+                    request = "launch",
+                    module = "pytest",
+                    args = {
+                        "${file}",
+                        "-sv",
+                        "--log-cli-level=INFO",
+                    },
+                    console = "integratedTerminal",
+                })
+                table.insert(python_configs, {
+                    name = "Pytest: All tests",
+                    type = "python",
+                    request = "launch",
+                    module = "pytest",
+                    args = {
+                        "-sv",
+                        "--log-cli-level=INFO",
+                    },
+                    console = "integratedTerminal",
+                })
+                table.insert(python_configs, {
+                    name = "Pytest: All tests, additional cli parameters",
+                    type = "python",
+                    request = "launch",
+                    module = "pytest",
+                    args = function()
+                        args = {
+                            "-sv",
+                            "--log-cli-level=INFO",
+                        }
+                        args = vim.list_extend(args, vim.split(vim.fn.input('Arguments: '), " "))
+                        return args
+                    end,
+                    console = "integratedTerminal",
+                })
+            end,
         }
     },
     main = "dapui",
@@ -36,6 +75,9 @@ return {
         end
         dap.listeners.before.event_exited.dapui_config = function()
             dapui.close()
+        end
+        dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
+            dap.set_exception_breakpoints({ "userUnhandled" })
         end
         vim.fn.sign_define("DapBreakpoint",{ text = "", texthl = "", linehl = "", numhl = "", color = "red"})
         vim.fn.sign_define("DapStopped",{ text = "", texthl = "", linehl = "", numhl = "", color = "green"})

@@ -1,7 +1,8 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(pyenv init -)"
 path=("$HOME/.local/bin" $path)  # user pip
 path=("$HOME/.poetry/bin" $path)  # poetry
+path=("$HOME/.cargo/bin" $path)  # Cargo
+path=("$HOME/bin" $path)  # Custom binaries
 
 export PATH
 # Locale settings
@@ -10,6 +11,3 @@ export LANG=en_US.UTF-8
 export ZK_NOTEBOOK_DIR="$HOME/Notes"
 export VISUAL=nvim
 export EDITOR=$VISUAL
-alias ask="ollama run mistral"
-alias ask_code="ollama run codellama"
-eval "$(pyenv init --path)"

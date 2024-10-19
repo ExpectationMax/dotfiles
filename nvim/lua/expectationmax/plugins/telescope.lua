@@ -57,7 +57,8 @@ return {
                     require("telescope.builtin").find_files { cwd = vim.fn.stdpath 'config' }
                 end, 
                 desc = '[S]earch [N]eovim files'
-            }
+            },
+            {"<leader>gb", function() require("telescope.builtin").git_branches() end, desc = "[G]it [b]ranches"}
         },
         cmd = { "Telescope" }
     },

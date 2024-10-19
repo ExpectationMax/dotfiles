@@ -11,7 +11,7 @@ return {
               max_lines = 100,
               provider = 'Ollama',
               provider_options = {
-                model = 'codellama:13b-python',
+                model = 'llama3:text',
               },
               notify = true,
               notify_callback = function(msg)
@@ -34,3 +34,5 @@ return {
     "hrsh7th/nvim-cmp",
     "onsails/lspkind.nvim"
 }
+
+

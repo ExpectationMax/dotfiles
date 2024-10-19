@@ -43,3 +43,8 @@ vim.opt.pumblend = 15
 vim.opt.winbar = "%m %f"
 
 vim.opt.clipboard:append("unnamedplus")
+
+vim.opt.list = true
+vim.opt.listchars = { trail = '·', tab = '>~' }
+
+vim.opt.spell = true

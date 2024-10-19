@@ -1,23 +1,22 @@
-function config()
-    local wk = require("which-key")
-    wk.register(
-        {
-            p = { name = "[P]roject" },
-            z = { name = "[Z]ettelkasten" },
-            g = { name = "[G]it" },
-            o = { name = "[O]llama" },
-            d = { name = "[D]ebugger" },
-            s = { name = "[S]earch"}
-        },
-        { prefix = "<leader>" }
-    )
-end
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
+  config=true,
+  opts = {
+    icons = {
+       mappings = false,
+       rules = false,
+    },
+    spec = {
+        { "<leader>d", group = "[D]ebugger" },
+        { "<leader>z", group = "[Z]ettelkasten" },
+        { "<leader>g", group = "[G]it" },
+        { "<leader>p", group = "[P]roject" },
+        { "<leader>s", group = "[S]roject" },
+    }
+  },
   init = function()
     vim.o.timeout = true
     vim.o.timeoutlen = 300
   end,
-  config=config
 }

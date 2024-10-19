@@ -4,6 +4,7 @@ selection = "```$ftype\n$sel\n```"
 
 return {
   "nomnivore/ollama.nvim",
+  enabled=false,
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
@@ -39,7 +40,7 @@ return {
   },
 
   opts = {
-    model = "codellama",
+    model = "llama3",
     -- your configuration overrides
     prompts = {
         docstring = {
