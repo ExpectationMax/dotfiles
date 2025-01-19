@@ -108,9 +108,9 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
   require('cmp_nvim_lsp').default_capabilities()
 )
 
-lspconfig.rust_analyzer.setup({
-    on_attach = on_attach,
-})
+-- lspconfig.rust_analyzer.setup({
+--     on_attach = on_attach,
+-- })
 
 lspconfig.pylsp.setup({
     cmd = {utils.path_join(os.getenv("HOME"), ".vim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/python"), "-m", "pylsp"},
