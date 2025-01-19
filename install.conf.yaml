@@ -13,7 +13,7 @@
     ~/.taskrc: home/taskrc
     ~/.vimrc: home/vimrc
     ~/.pylintrc: home/pylintrc
-    ~/.config/nvim: config/nvim
+    ~/.config/nvim: nvim
     ~/.vim/init.vim: vim/init.vim
     ~/.vim/plugins.vim: vim/plugins.vim
     ~/.vim/custom_commands.vim: vim/custom_commands.vim
