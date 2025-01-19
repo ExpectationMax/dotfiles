@@ -25,3 +25,8 @@ vim.keymap.set("n", "Q", "<Nop>")
 
 -- Project management
 vim.api.nvim_set_keymap("n", "<leader>pe", "", { desc = "Open explorer", callback = vim.cmd.Ex })
+
+
+-- Keep selection after indentation
+vim.keymap.set("v", ">", ">gv")
+vim.keymap.set("v", "<", "<gv")
