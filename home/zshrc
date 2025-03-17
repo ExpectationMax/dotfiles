@@ -7,6 +7,8 @@ zstyle :compinstall filename $HOME'/.zshrc'
 autoload -Uz compinit
 compinit
 
+source <(fzf --zsh)
+
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
@@ -31,8 +33,6 @@ PROMPT='%F{blue}%B%~%b%f %F{green}%#%f '
 export GPG_TTY=$(tty)
 
 alias vim=nvim
-alias ask="ollama run mistral"
-alias ask_code="ollama run codellama"
 
 function proj () {
     # Goto project.

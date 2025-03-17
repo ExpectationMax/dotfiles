@@ -35,8 +35,8 @@
   - [brew install pyenv, Installing pyenv]
   - [pyenv install 3.9.13, Installing python 3.9.3]
   - 
-    command: brew install neovim ripgrep fd
-    description: Install neovim, ripgrep and fd
+    command: brew install neovim ripgrep fd fzy coreutils fzf
+    description: Install neovim, ripgrep, fd, fzy, coreutils, fzf
     stderr: true
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
