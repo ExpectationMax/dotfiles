@@ -5,72 +5,82 @@ function M.path_join(...)
     return table.concat(vim.tbl_flatten {...}, M.path_sep)
 end
 
+function M.python_project_root(path)
+    return lspconfig.util.root_pattern("pyproject.toml", "Pipfile", ".git")(path) or vim.fn.getcwd()
+end
+
+
 function M.on_attach(client, bufnr)
     local wk = require("which-key")
     local tb = require("telescope.builtin")
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+    end
+
+    local function client_supports_method(client, method, bufnr)
+    if vim.fn.has 'nvim-0.11' == 1 then
+        return client:supports_method(method, bufnr)
+      else
+        return client.supports_method(method, { bufnr = bufnr })
+      end
+    end
 
     local opts = { noremap=true, silent=true }
-    wk.register({
-        ["<leader>l"] = {
-            name = "+lsp",
-            a = {vim.lsp.buf.code_action, "Action"},
+    wk.add({
+        buffer = bufnr,
+        { "<leader>l",  group = "lsp" },
+        { "<leader>la", vim.lsp.buf.code_action,  desc = "[A]ction" },
 
-            c = {
-                name = "+calls",
-                i = {tb.lsp_incomming_calls, "Incomming"},
-                o = {tb.lsp_incomming_calls, "Outgoing"},
-            },
+        { "<leader>lc",  group = "calls" },
+        { "<leader>lci", tb.lsp_incoming_calls,  desc = "[C]alls [I]ncoming" },
+        { "<leader>lco", tb.lsp_outgoing_calls,  desc = "[C]alls [O]utgoing" },
 
-            d = {
-                name= "+diagnosics",
-                d = {function() tb.diagnostics({bufnr=bufnr}) end, "Document"},
-                w = {tb.diagnostics, "Workspace"},
-                h = {vim.diagnostic.open_float, "Hovering float"}
-            },
+        { "<leader>ld",  group = "diagnosics" },
+        { "<leader>ldd", function() tb.diagnostics({bufnr=bufnr}) end,  desc = "[D]iagnositics [D]ocument" },
+        { "<leader>ldh", vim.diagnostic.open_float,  desc = "[D]iagnostics [H]overing float" },
+        { "<leader>ldq", vim.diagnostic.setloclist,  desc = "[D]iagnositcs to [q]ickfix list" },
+        { "<leader>ldw", tb.diagnostics,  desc = "[D]iagnostics [W]orkspace" },
 
-            f = {vim.lsp.buf.format, "Format"},
+        { "<leader>lf", vim.lsp.buf.format,  desc = "Format" },
 
-            g = {
-                name = "+goto",
-                d = {tb.lsp_definitions, "Goto definition(s)"},
-                D = {vim.lsp.buf.declaration, "Goto declaration"},
-                i = {tb.lsp_implementations, "Goto implementation(s)"},
-                t = {tb.lsp_type_definitions, "Goto type definition(s)"},
-            },
+        { "<leader>lg",  group = "goto" },
+        { "<leader>lgD", vim.lsp.buf.declaration,  desc = "[G]oto [D]eclaration" },
+        { "<leader>lgd", tb.lsp_definitions,  desc = "[G]oto [d]efinition(s)" },
+        { "<leader>lgi", tb.lsp_implementations,  desc = "[G]oto [i]mplementation(s)" },
+        { "<leader>lgr", tb.lsp_references,  desc = "[G]oto [r]eferences" },
+        { "<leader>lgt", tb.lsp_type_definitions,  desc = "[G]oto [t]ype definition(s)" },
 
-            h = {vim.lsp.buf.hover, "Hover"},
+        { "<leader>lh", vim.lsp.buf.hover,  desc = "[H]Hover" },
+        { "<leader>lrn", vim.lsp.buf.rename,  desc = "[R]e[n]ame" },
 
-            re = {tb.lsp_references, "References"},
-            rn = {vim.lsp.buf.rename, "Rename"},
+        { "<leader>ls",  group = "symbols" },
+        { "<leader>lsd", tb.lsp_document_symbols, buffer = bufrn, desc = "Document" },
+        { "<leader>lsw", tb.lsp_workspace_symbols,  desc = "Workspace" },
 
-            s = {
-                name = "+symbols",
-                d = {tb.lsp_document_symbols, "Document"},
-                w = {tb.lsp_workspace_symbols, "Workspace"},
-            },
-
-            w = {
-                name = "+workspace folders",
-                a = {vim.lsp.buf.add_workspace_folder, "Add workspace folder"},
-                r = {vim.lsp.buf.remove_workspace_folder, "Remove workspace folder"},
-                l = {function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "List workspace folders"},
-            },
+        { "<leader>lt",  group = "toggle" },
+        {
+            "<leader>lth",
+            function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr })
+            end,
+            desc = "[T]oggle Inlay [H]ints"
         },
-    }, {buffer = bufnr, mode="n"})
 
-    buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    -- buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    buf_set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    -- buf_set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    buf_set_keymap("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
+        { "<leader>lw",  group = "workspace" },
+        { "<leader>lwa", vim.lsp.buf.add_workspace_folder,  desc = "Add workspace folder" },
+        { "<leader>lwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,  desc = "List workspace folders" },
+        { "<leader>lwr", vim.lsp.buf.remove_workspace_folder,  desc = "Remove workspace folder" },
+    })
+
+    map("gd", tb.lsp_definitions, "[G]oto [D]efinition(s)")
+    map("K", vim.lsp.buf.hover, "Hover Help")
+    map("<C-s>", vim.lsp.buf.signature_help, "Signature help", "i")
+    map("gr", tb.lsp_references, "[G]oto [R]eference(s)")
+    map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+    map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+
     vim.opt_local.tagfunc = "v:lua.vim.lsp.tagfunc"
 
     if client.server_capabilities.documentHighlight ~= nil then
@@ -88,7 +98,6 @@ function M.on_attach(client, bufnr)
         })
     end
 
-    
     vim.api.nvim_set_hl(0, "LspReference", {
         bg = "#665c54",
         ctermbg = 59,
