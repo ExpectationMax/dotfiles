@@ -1,10 +1,10 @@
 return {
     "3rd/image.nvim",
-    enabled=false,
-    -- event = "VeryLazy",
-    lazy=true,
-    config=function()
-        require("image").setup()
-    end,
+    dependencies = {
+        "leafo/magick"
+    },
+    lazy = true,
+    enabled = true,
+    opts = {},
     ft = { "markdown" }
 }
