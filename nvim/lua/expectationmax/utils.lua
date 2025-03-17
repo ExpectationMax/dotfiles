@@ -83,7 +83,7 @@ function M.on_attach(client, bufnr)
 
     vim.opt_local.tagfunc = "v:lua.vim.lsp.tagfunc"
 
-    if client.server_capabilities.documentHighlight ~= nil then
+    if client.server_capabilities.documentHighlightProvider ~= nil then
         vim.api.nvim_create_autocmd("CursorHold", {
             buffer = bufnr,
             callback = vim.lsp.buf.document_highlight
@@ -98,19 +98,6 @@ function M.on_attach(client, bufnr)
         })
     end
 
-    vim.api.nvim_set_hl(0, "LspReference", {
-        bg = "#665c54",
-        ctermbg = 59,
-    })
-    vim.api.nvim_set_hl(0, "LspReferenceText", {
-        link = "LspReference",
-    })
-    vim.api.nvim_set_hl(0, "LspReferenceRead", {
-        link = "LspReference",
-    })
-    vim.api.nvim_set_hl(0, "LspReferenceWrite", {
-        link = "LspReference",
-    })
     vim.api.nvim_create_autocmd("CursorHold", {
         buffer = bufnr,
         callback = function ()
