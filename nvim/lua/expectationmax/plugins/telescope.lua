@@ -4,15 +4,25 @@ function config(telescope)
         defaults = {
             winblend = 8,
             path_display = { "smart" },
-        }
+        },
+        extensions = {
+          ['ui-select'] = {
+            require('telescope.themes').get_dropdown(),
+          },
+        },
     })
-    telescope.load_extension("fzy_native")
+    pcall(telescope.load_extension, "ui-select")
+    pcall(telescope.load_extension, "fzy_native")
 end
 return {
     {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-fzy-native.nvim",
+            'nvim-telescope/telescope-ui-select.nvim',
+        },
         config=config,
         lazy=true,
         keys={
@@ -62,5 +72,4 @@ return {
         },
         cmd = { "Telescope" }
     },
-    {"nvim-telescope/telescope-fzy-native.nvim", lazy = true}
 }

@@ -82,6 +82,7 @@ function M.on_attach(client, bufnr)
     map("]d", vim.diagnostic.goto_next, "Next diagnostic")
 
     vim.opt_local.tagfunc = "v:lua.vim.lsp.tagfunc"
+    vim.opt_local.formatexpr = "v:lua.vim.lsp.formatexpr"
 
     if client.server_capabilities.documentHighlightProvider ~= nil then
         vim.api.nvim_create_autocmd("CursorHold", {

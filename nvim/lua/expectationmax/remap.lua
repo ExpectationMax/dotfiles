@@ -15,9 +15,7 @@ vim.keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j")
 vim.keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k")
 vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l")
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>")
-
--- vim.keymap.set("t", "gf", "<C-\\><C-n><C-w>v<C-w>Hgf:lua require('FTerm').toggle()<CR>")
--- vim.cmd("nnoremap gf &buftype==#'terminal' ? '<C-w>v<C-w>Hgf<C-w>l:lua require(\'FTerm\').toggle()<CR>' : 'gf'")
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 
 -- Disable ex mode
@@ -25,7 +23,6 @@ vim.keymap.set("n", "Q", "<Nop>")
 
 -- Project management
 vim.api.nvim_set_keymap("n", "<leader>pe", "", { desc = "Open explorer", callback = vim.cmd.Ex })
-
 
 -- Keep selection after indentation
 vim.keymap.set("v", ">", ">gv")

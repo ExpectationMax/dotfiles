@@ -19,9 +19,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
     end,
     group = termGrp
 })
-
-vim.api.nvim_create_autocmd('LspAttach', { 
-    callback = function(args) 
-        vim.bo[args.buf].formatexpr = "v:lua.vim.lsp.formatexpr"
-    end, 
-})
