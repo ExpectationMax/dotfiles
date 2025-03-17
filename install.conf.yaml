@@ -13,12 +13,6 @@
     ~/.taskrc: home/taskrc
     ~/.vimrc: home/vimrc
     ~/.pylintrc: home/pylintrc
-    ~/.vim/init.vim: vim/init.vim
-    ~/.vim/plugins.vim: vim/plugins.vim
-    ~/.vim/custom_commands.vim: vim/custom_commands.vim
-    ~/.vim/spell: vim/spell
-    ~/.vim/run_with_venv.sh: vim/run_with_venv.sh
-    ~/.vim/pydocstring_template: vim/pydocstring_template
     ~/.config/black: config/black
     ~/.config/kitty : config/kitty
     ~/.config/lvim/config.lua: config/lvim/config.lua
