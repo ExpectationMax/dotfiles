@@ -93,6 +93,11 @@ return {
                 }
         })
 
+
+        lspconfig.zk.setup({
+                on_attach = utils.on_attach
+        })
+
         -- Override rename behavior to show quickfix list with changes.
         local default_rename = vim.lsp.handlers["textDocument/rename"]
         local my_rename_handle = function(err, result, ...)
