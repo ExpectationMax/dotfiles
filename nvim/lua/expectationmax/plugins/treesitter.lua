@@ -59,10 +59,5 @@ return {
             end
             require("nvim-treesitter.configs").setup(opts)
         end,
-    },
-    {
-        -- Keep this as we depend on the specifications for defining mini.ai textobjects.
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        dependencies = { "nvim-treesitter/nvim-treesitter" }
     }
 }
