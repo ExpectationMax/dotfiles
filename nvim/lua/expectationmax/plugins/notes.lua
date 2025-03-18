@@ -48,6 +48,9 @@ return {
     -- ZK configuration
     {
         "mickael-menu/zk-nvim",
+        dependencies = {
+            "nvim-telescope/telescope.nvim"
+        },
         config = function()
             local on_attach = require("expectationmax.utils").on_attach
             require("zk").setup({
@@ -60,7 +63,11 @@ return {
         keys = {
             {"<leader>zn", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "zettel" }) end, desc = "Create a new zettel note"},
             {"<leader>zm", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "MOC" }) end, desc = "Create a new MOC note"},
-            {"<leader>zs", "<cmd>ZkNotes<cr>", desc = "Search notes"}
+            {"<leader>zp", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "papers" }) end, desc = "Create a new paper note"},
+            {"<leader>zs", "<cmd>ZkNotes<cr>", desc = "Search notes"},
+            {"<leader>zt", "<cmd>ZkTags<cr>", desc = "Search tags"},
+            {"<leader>zl", "<cmd>ZkLinks<cr>", desc = "Linked Notes"},
+            {"<leader>zb", "<cmd>ZkBacklinks<cr>", desc = "Backlinked Notes"},
         },
         cmd = {"ZkNew", "ZkIndex", "ZkNewFromTitleSelection", "ZkNewFromContentSelection", "ZkNotes", "ZkLinks", "ZkInsertLink", "ZkInsertLinkAtSelection", "ZkTags"}
     },
@@ -100,7 +107,9 @@ return {
         },
         lazy = true,
         enabled = true,
-        opts = {},
+        opts = {
+            window_overlap_clear_enabled = true
+        },
         ft = { "markdown" }
     }
 }
