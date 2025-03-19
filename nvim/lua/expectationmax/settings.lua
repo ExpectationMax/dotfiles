@@ -29,7 +29,7 @@ vim.opt.updatetime = 1000
 vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
-vim.opt.completeopt = "menuone,preview"
+vim.opt.completeopt = "menuone,preview,noinsert"
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
