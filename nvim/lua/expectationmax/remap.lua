@@ -17,9 +17,11 @@ vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l")
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>")
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-
 -- Disable ex mode
 vim.keymap.set("n", "Q", "<Nop>")
+
+-- Remove hightlights when pressing ESC in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Project management
 vim.api.nvim_set_keymap("n", "<leader>pe", "", { desc = "Open explorer", callback = vim.cmd.Ex })
