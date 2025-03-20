@@ -55,7 +55,15 @@ function ai_whichkey(opts)
   require("which-key").add(ret, { notify = false })
 end
 
-
+local surround_mappings = {
+    add = "gsa", -- Add surrounding in Normal and Visual modes
+    delete = "gsd", -- Delete surrounding
+    find = "gsf", -- Find surrounding (to the right)
+    find_left = "gsF", -- Find surrounding (to the left)
+    highlight = "gsh", -- Highlight surrounding
+    replace = "gsr", -- Replace surrounding
+    update_n_lines = "gsn", -- Update `n_lines`,
+}
 
 return {
     {
@@ -96,7 +104,31 @@ return {
     {
         "echasnovski/mini.surround",
         version = false,
-        config = true
+        opts = {
+            mappings = surround_mappings,
+            respect_selection_type = true,
+        },
+        keys = function(_, keys)
+            -- Populate the keys based on the user's options
+            local mappings = surround_mappings
+            local mappings = {
+                { mappings.add, desc = "Add Surrounding", mode = { "n", "v" } },
+                { mappings.delete, desc = "Delete Surrounding" },
+                { mappings.find, desc = "Find Right Surrounding" },
+                { mappings.find_left, desc = "Find Left Surrounding" },
+                { mappings.highlight, desc = "Highlight Surrounding" },
+                { mappings.replace, desc = "Replace Surrounding" },
+                { mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
+            }
+            mappings = vim.tbl_filter(function(m)
+                return m[1] and #m[1] > 0
+            end, mappings)
+            return vim.list_extend(mappings, keys)
+        end,
+        init = function()
+            -- Disable s to avoid accidentally using builtin version
+            vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
+        end,
     },
 
     {
