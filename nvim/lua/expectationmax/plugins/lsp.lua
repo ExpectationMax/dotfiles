@@ -9,12 +9,11 @@ return {
     config = function()
         local os = require("os")
         local utils = require("expectationmax.utils")
-        local lspconfig = require("lspconfig")
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-        lspconfig.pylsp.setup({
+        vim.lsp.enable('pylsp')
+        vim.lsp.config('pylsp', {
             cmd = {vim.fs.joinpath(os.getenv("HOME"), ".config/nvim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/python"), "-m", "pylsp"},
             capabilities = capabilities,
             on_attach = utils.on_attach,
@@ -66,9 +65,11 @@ return {
             },
         })
 
-        lspconfig.clangd.setup({on_attach=utils.on_attach})
+        vim.lsp.enable('clangd')
+        vim.lsp.config('clangd', {on_attach=utils.on_attach})
 
-        lspconfig.rust_analyzer.setup({
+        vim.lsp.enable('rust_analyzer')
+        vim.lsp.config('rust_analyzer', {
             on_attach = function(client, bufnr)
                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 utils.on_attach(client, bufnr)
@@ -92,6 +93,10 @@ return {
                     }
                 }
         })
+
+        vim.lsp.enable("sourcekit")
+        vim.lsp.config("sourcekit", {on_attach=utils.on_attach})
+
 
         -- Override rename behavior to show quickfix list with changes.
         local default_rename = vim.lsp.handlers["textDocument/rename"]

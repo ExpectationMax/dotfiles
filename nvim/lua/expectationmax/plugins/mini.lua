@@ -132,9 +132,40 @@ return {
     },
 
     {
-        "echasnovski/mini.pairs",
+        "echasnovski/mini.move",
         version = false,
-        config = true
+        opts = {
+            mappings = {
+                -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
+                left = '<C-S-h>',
+                right = '<C-S-l>',
+                down = '<C-S-j>',
+                up = '<C-S-k>',
+
+                -- Move current line in Normal mode
+                line_left = '<C-S-h>',
+                line_right = '<C-S-l>',
+                line_down = '<C-S-j>',
+                line_up = '<C-S-k>',
+            },
+            options = {
+                -- Automatically reindent selection during linewise vertical move
+                reindent_linewise = true,
+            },
+        }
+    },
+
+    {
+        "echasnovski/mini.pairs",
+        enabled = false,
+        version = false,
+        opts = {
+            mappings = {
+                -- Make this compatible with rust lifetimes
+                ["'"] = { action = 'closeopen', pair = "''", neigh_pattern = '[^%a\\&<].', register = { cr = false } },
+
+            }
+        }
     }
 
 }
