@@ -36,10 +36,12 @@ alias vim=nvim
 
 function proj () {
     # Goto project.
-    cd $(find ~/Projects -maxdepth 1 -type d | fzy)
+    cd $(find ~/Projects -maxdepth 1 -type d | fzf)
 }
 
 function goto () {
-    cd ~/$(cat ~/.dotfiles/common_paths.txt | fzy)
+    cd ~/$(cat ~/.dotfiles/common_paths.txt | fzf)
 }
+
+eval "$(zoxide init zsh --cmd cd)"
 . "$HOME/.cargo/env"

@@ -12,16 +12,23 @@ function config(telescope)
         },
     })
     pcall(telescope.load_extension, "ui-select")
-    pcall(telescope.load_extension, "fzy_native")
+    pcall(telescope.load_extension, "fzf_native")
+    pcall(telescope.load_extension, "frecency")
 end
 return {
+
     {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope-fzy-native.nvim",
-            'nvim-telescope/telescope-ui-select.nvim',
+            "nvim-telescope/telescope-fzf-native.nvim",
+            "nvim-telescope/telescope-ui-select.nvim",
+            {
+                "nvim-telescope/telescope-frecency.nvim",
+                version = "*"
+            }
+
         },
         config=config,
         lazy=true,

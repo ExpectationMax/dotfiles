@@ -25,33 +25,36 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [defaults write -g InitialKeyRepeat -int 15 && defaults write -g KeyRepeat 1, Change KeyRepeat settings]
+  - [defaults write -g InitialKeyRepeat -float 10.0 && defaults write -g KeyRepeat -float 1.0, Change KeyRepeat settings]
   - [defaults write -g ApplePressAndHoldEnabled -bool false, Disable press and hold for acented charaters]
   - 
     command: command -v brew >/dev/null 2>&1 || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || 0
     stdin: true
     stdout: true
     description: Install homebrew
-  - [brew install python && brew pin python, Installing python]
-  - [brew install pyenv, Installing pyenv]
-  - [pyenv install 3.9.13, Installing python 3.9.3]
+  - [brew install python uv && brew pin python, Installing python]
   - 
-    command: brew install neovim ripgrep fd fzy coreutils fzf
-    description: Install neovim, ripgrep, fd, fzy, coreutils, fzf
+    command: brew install neovim ripgrep fd fzy coreutils fzf zoxide
+    description: Install neovim, ripgrep, fd, fzy, coreutils, fzf, zoxide
     stderr: true
+  - [uv venv --python 3.13 neovim,]
   - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim jupyter qtconsole python-lsp-server pylsp-mypy python-lsp-ruff jupyter_qtconsole_colorschemes
+    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim basedpyright
     description: Set up neovim venv
     stdin: true
     stdout: true
-  - [brew install pipx, Installing pipx]
-  - [pipx install poetry, Installing poetry]
-  - [pipx reinstall-all, Reinstall pipx packages in case system python was upgraded]
-  - [pipx install neovim-remote, Installing neovim-remote executable]
+  - [uv tool install neovim-remote, Installing neovim-remote executable]
   - 
     command: brew install --cask font-hack font-hack-nerd-font
     stdin: true
     stdout: true
     description: Install Hack and Hack Nerd font
-  - [brew install --cask kitty, Install kitty]
+  - [brew install --cask ghostty, Install Ghostty]
+  - [brew install --cask chatgpt, Install ChatGPT]
+  - [brew install --cask cryptomator, Install Cryptomator]
+  - [brew install --cask mac-mouse-fix, Install Mac mouse fix]
+  - [brew install --cask homerow, Install Homerow]
+  - [brew install --cask google-drive, Install Google Drive]
+  - []
+
