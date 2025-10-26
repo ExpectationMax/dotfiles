@@ -15,7 +15,6 @@
     ~/.pylintrc: home/pylintrc
     ~/.config/black: config/black
     ~/.config/kitty : config/kitty
-    ~/.config/lvim/config.lua: config/lvim/config.lua
     ~/Library/Application\ Support/com.mitchellh.ghostty/config: config/ghostty.conf
     ~/.config/nvim: nvim
     ~/.config/pycodestyle: config/pycodestyle
@@ -38,10 +37,9 @@
     command: brew install neovim ripgrep fd fzy coreutils fzf zoxide
     description: Install neovim, ripgrep, fd, fzy, coreutils, fzf, zoxide
     stderr: true
-  - [uv venv --python 3.13 neovim,]
-  - [python3 -m venv --clear ~/.neovim_venv, Create neovim venv]
+  - [uv venv --python 3.13 --clear ~/.neovim_venv, Create neovim venv]
   - 
-    command: ~/.neovim_venv/bin/pip install --upgrade --no-cache pynvim basedpyright
+    command: VIRTUAL_ENV=~/.neovim_venv uv pip install --upgrade --no-cache pynvim basedpyright
     description: Set up neovim venv
     stdin: true
     stdout: true
@@ -51,11 +49,9 @@
     stdin: true
     stdout: true
     description: Install Hack and Hack Nerd font
-  - [brew install --cask ghostty, Install Ghostty]
+  - [brew install --cask wezterm, Install wezterm]
   - [brew install --cask chatgpt, Install ChatGPT]
   - [brew install --cask cryptomator, Install Cryptomator]
   - [brew install --cask mac-mouse-fix, Install Mac mouse fix]
   - [brew install --cask homerow, Install Homerow]
   - [brew install --cask google-drive, Install Google Drive]
-  - []
-

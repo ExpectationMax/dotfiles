@@ -49,4 +49,3 @@ function goto () {
 }
 
 eval "$(zoxide init zsh --cmd cd)"
-. "$HOME/.cargo/env"
