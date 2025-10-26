@@ -1,7 +1,7 @@
 function config()
 local fterm = require("FTerm")
 fterm.setup({
-    blend = 5
+    blend = 0
 })
 end
 return {

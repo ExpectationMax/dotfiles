@@ -131,7 +131,7 @@ return {
         config=config,
         lazy=true,
         keys={
-            {"<leader>pf", function() require("telescope.builtin").find_files() end, desc = "Project find files"},
+            {"<leader>pa", function() require("telescope.builtin").find_files() end, desc = "Project find files"},
             {"<leader>pg", function() require("telescope.builtin").live_grep() end, desc = "Project grep (live)"},
             {"<leader>ps", custom_grep_string, desc = "Project grep (not live)"},
             {"<leader>pf", function() require("telescope.builtin").git_files() end, desc = "Project find git files"},

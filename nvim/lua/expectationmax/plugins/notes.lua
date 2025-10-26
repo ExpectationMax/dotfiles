@@ -61,9 +61,10 @@ return {
         end,
         ft = { "markdown" },
         keys = {
-            {"<leader>zn", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "zettel" }) end, desc = "Create a new zettel note"},
-            {"<leader>zm", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "MOC" }) end, desc = "Create a new MOC note"},
-            {"<leader>zp", function() require("zk").new({ title = vim.fn.input("Title: "), dir = "papers" }) end, desc = "Create a new paper note"},
+            {"<leader>zn", function() require("zk").new({ title = vim.fn.input("Zettel title: "), dir = "zettel" }) end, desc = "Create a new zettel note"},
+            {"<leader>zm", function() require("zk").new({ title = vim.fn.input("Meeting title: "), dir = "meetings" }) end, desc = "Create a new meeting note"},
+            {"<leader>zc", function() require("zk").new({ title = vim.fn.input("MOC title: "), dir = "MOC" }) end, desc = "Create a new MOC note"},
+            {"<leader>zp", function() require("zk").new({ title = vim.fn.input("Paper title: "), dir = "papers" }) end, desc = "Create a new paper note"},
             {"<leader>zs", "<cmd>ZkNotes<cr>", desc = "Search notes"},
             {"<leader>zt", "<cmd>ZkTags<cr>", desc = "Search tags"},
             {"<leader>zl", "<cmd>ZkLinks<cr>", desc = "Linked Notes"},
@@ -106,7 +107,7 @@ return {
             "leafo/magick"
         },
         lazy = true,
-        enabled = true,
+        enabled = false,
         opts = {
             window_overlap_clear_enabled = true
         },

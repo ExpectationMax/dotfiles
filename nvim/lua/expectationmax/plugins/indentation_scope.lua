@@ -3,6 +3,7 @@ return {
     dependencies = {
         "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git"
     },
+    enabled = true,
     config = function()
         local highlight = {
             "RainbowRed",
