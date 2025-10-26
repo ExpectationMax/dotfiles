@@ -1,9 +1,99 @@
+local function custom_grep_string()
+    local path = vim.fn.expand('%:p:h')
+    if path == '' then
+        path = vim.fn.getcwd()
+    end
+
+    local qgrep_db = vim.fs.find('.qgrep_db', {
+        path = path,
+        upward = true,
+        type = 'directory'
+    })[1]
+
+    local search = vim.fn.input("Grep > ")
+    if search == "" then
+        return
+    end
+
+    if qgrep_db then
+        local config_path = vim.fs.joinpath(qgrep_db, 'config.cfg')
+        local pickers = require('telescope.pickers')
+        local finders = require('telescope.finders')
+        local conf = require('telescope.config').values
+
+        pickers.new({}, {
+            prompt_title = 'QGrep Search',
+            finder = finders.new_oneshot_job({
+                "qgrep", "search", config_path, search
+            }, {
+                entry_maker = function(entry)
+                    if not entry or entry == "" then
+                        return nil
+                    end
+                    
+                    -- Parse qgrep format: filename:line:text
+                    local filename, lnum, text = entry:match("^([^:]+):(%d+):(.*)$")
+                    if not filename then
+                        return nil
+                    end
+                    
+                    return {
+                        value = entry,
+                        ordinal = entry,
+                        filename = filename,
+                        lnum = tonumber(lnum) or 1,
+                        col = 1,
+                        text = (text or ""):gsub("^%s+", ""),
+                        display = function(entry_table)
+                            local utils = require('telescope.utils')
+                            local display_filename = utils.transform_path({
+                                path_display = { "smart" }
+                            }, entry_table.filename)
+                            
+                            return string.format("%s:%s:%s", 
+                                display_filename, 
+                                entry_table.lnum, 
+                                entry_table.text
+                            )
+                        end
+                    }
+                end
+            }),
+            previewer = conf.grep_previewer({}),
+            sorter = conf.generic_sorter({}),
+        }):find()
+    else
+        require("telescope.builtin").grep_string({
+            search = search
+        })
+    end
+end
+
 function config(telescope)
     local telescope = require("telescope")
     telescope.setup({
         defaults = {
             winblend = 8,
             path_display = { "smart" },
+            mappings = {
+                i = {
+                    ['<C-g>'] = function(prompt_bufnr)
+                        -- Use nvim-window-picker to choose the window by dynamically attaching a function
+                        local action_set = require('telescope.actions.set')
+                        local action_state = require('telescope.actions.state')
+
+                        local picker = action_state.get_current_picker(prompt_bufnr)
+                        picker.get_selection_window = function(picker, entry)
+                          local picked_window_id = require('window-picker').pick_window() or vim.api.nvim_get_current_win()
+                          -- Unbind after using so next instance of the picker acts normally
+                          picker.get_selection_window = nil
+                          return picked_window_id
+                        end
+
+                        return action_set.edit(prompt_bufnr, 'edit')
+                    end,
+                }
+            }
         },
         extensions = {
             ['ui-select'] = {
@@ -22,6 +112,8 @@ function config(telescope)
     pcall(telescope.load_extension, "fzf_native")
     pcall(telescope.load_extension, "frecency")
 end
+
+
 return {
 
     {
@@ -41,9 +133,10 @@ return {
         keys={
             {"<leader>pf", function() require("telescope.builtin").find_files() end, desc = "Project find files"},
             {"<leader>pg", function() require("telescope.builtin").live_grep() end, desc = "Project grep (live)"},
-            {"<leader>ps", function() require("telescope.builtin").grep_string( { search = vim.fn.input("Grep > ") } ) end, desc = "Project grep (not live)"},
-            {"<leader>pv", function() require("telescope.builtin").git_files() end, desc = "Project find git files"},
-            {"<leader>sh", function() require("telescope.builtin").buffers() end, desc = "[S]earch [H]elp"},
+            {"<leader>ps", custom_grep_string, desc = "Project grep (not live)"},
+            {"<leader>pf", function() require("telescope.builtin").git_files() end, desc = "Project find git files"},
+            {"<leader>sh", function() require("telescope.builtin").help_tags() end, desc = "[S]earch [H]elp"},
+            {"<leader>sb", function() require("telescope.builtin").buffers() end, desc = "[S]earch [B]uffers"},
             {'<leader>sk', function() require("telescope.builtin").keymaps() end, desc = '[S]earch [K]eymaps' },
             {'<leader>sf', function() require("telescope.builtin").find_files() end, desc = '[S]earch [F]iles' },
             {'<leader>ss', function() require("telescope.builtin").builtin() end, desc = '[S]earch [S]elect Telescope' },
