@@ -19,6 +19,7 @@
     ~/Library/Application\ Support/com.mitchellh.ghostty/config: config/ghostty.conf
     ~/.config/nvim: nvim
     ~/.config/pycodestyle: config/pycodestyle
+    ~/.config/wezterm/wezterm.lua: config/wezterm/wezterm.lua
     ~/.ipython/profile_default/ipython_config.py: home/ipython/profile_default/ipython_config.py
     ~/.jupyter/jupyter_qtconsole_config.py: home/jupyter/jupyter_qtconsole_config.py
 
@@ -46,7 +47,7 @@
     stdout: true
   - [uv tool install neovim-remote, Installing neovim-remote executable]
   - 
-    command: brew install --cask font-hack font-hack-nerd-font
+    command: brew install --cask font-hack font-hack-nerd-font wezterm@nightly
     stdin: true
     stdout: true
     description: Install Hack and Hack Nerd font

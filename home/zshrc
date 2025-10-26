@@ -7,6 +7,11 @@ zstyle :compinstall filename $HOME'/.zshrc'
 autoload -Uz compinit
 compinit
 
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
+
 source <(fzf --zsh)
 
 HISTFILE=~/.histfile

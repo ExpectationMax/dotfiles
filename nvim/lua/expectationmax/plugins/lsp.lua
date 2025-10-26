@@ -12,64 +12,68 @@ return {
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-        vim.lsp.enable('pylsp')
-        vim.lsp.config('pylsp', {
-            cmd = {vim.fs.joinpath(os.getenv("HOME"), ".config/nvim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/python"), "-m", "pylsp"},
+
+        vim.lsp.config("basedpyright", {
+            cmd = {vim.fs.joinpath(os.getenv("HOME"), ".config/nvim/run_with_venv.sh"), utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/basedpyright")},
             capabilities = capabilities,
             on_attach = utils.on_attach,
+            root_dir = vim.fs.root(0, {".venv/", ".git/",  "pyproject.toml"}),
             settings = {
-                pylsp = {
-                    configurationSources = {"flake8"},
-                    plugins = {
-                        rope_completion = {enabled = false},
-                        jedi_completion = {
-                            enabled = true,
-                            include_params = true,
-                            eager = true,
-                            fuzzy = true,
-                            include_class_objects = true,
-                            cache_for = {
-                                "pandas",
-                                "numpy",
-                                "polars",
-                                "torch",
-                                "matplotlib"
-                            }
+                -- python = {
+                --     -- pythonPath = utils.path_join(os.getenv("HOME"), ".miniforge3/envs/ajax/bin/python"),
+                --     pythonPath = utils.path_join(os.getenv("HOME"), ".miniforge3/envs/ajax/bin/python"),
+                -- },
+                basedpyright = {
+                    disableOrganizeImports = false,
+                    analysis = {
+                        exclude = { "dist/" },
+                        autoSearchPaths = true,
+                        autoImportCompletions = true,
+                        useLibraryCodeForTypes = true,
+                        diagnosticMode = "openFilesOnly",
+                        typeCheckingMode = "strict",
+                        inlayHints = {
+                            variableTypes = true,
+                            callArgumentNames = true,
+                            functionReturnTypes = true,
+                            genericTypes = true,
                         },
-                        preload = {enabled = true},
-                        pyflakes = {enabled = false},
-                        pycodestyle = {enabled = false},
-                        pydocstyle = {
-                          enabled = false,
-                          convention = "pep257",
-                          addIgnore = {"D102", "D104", "D107", "D2", "D3", "D4"},
-                        },
-                        pylint = {enabled = false},
-                        black = {enabled = false},
-                        flake8 = {
-                            enabled = false,
-                            executable = "~/.neovim_venv/bin/flake8",
-                            ignore = {"D102", "D104", "D2", "D3", "D4"},
-                            maxLineLength = 101
-                        },
-                        ruff = {
-                            enabled = true,
-                            formatEnabled = true
-                        },
-                        mypy = {
-                            enabled = true,
-                            live_mode = true,
-                        }
                     }
                 }
             },
         })
+        vim.lsp.enable("basedpyright")
+        -- vim.lsp.config("ty", {
+        --     cmd = {vim.fs.joinpath(os.getenv("HOME"), ".config/nvim/run_with_venv.sh"), "ty", "server"},
+        --     capabilities = capabilities,
+        --     on_attach=utils.on_attach,
+        --     filetypes = { "python" },
+        --     root_dir = vim.fs.root(0, { ".git/", "pyproject.toml" }),
+        -- })
+        -- vim.lsp.enable("ty")
+        -- vim.lsp.config("pyright", {
+        --     cmd = {utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/pyright-langserver"), "--stdio"},
+        --     capabilities = capabilities,
+        --     on_attach = utils.on_attach,
+        --     settings = {
+        --         python = {
+        --             pythonPath = "./.venv/bin/python",
+        --             analysis = {
+        --                 exclude = { "dist/" },
+        --                 autoSearchPaths = true,
+        --                 diagnosticMode = "openFilesOnly",
+        --                 useLibraryCodeForTypes = true
+        --             }
+        --         },
+        --     }
+        -- })
+        -- vim.lsp.enable("pyright")
 
-        vim.lsp.enable('clangd')
         vim.lsp.config('clangd', {on_attach=utils.on_attach})
+        vim.lsp.enable('clangd')
 
-        vim.lsp.enable('rust_analyzer')
-        vim.lsp.config('rust_analyzer', {
+        vim.lsp.config("rust_analyzer", {
+            root_dir = vim.fs.root(0, { "pyproject.toml", ".venv/", ".git/"}),
             on_attach = function(client, bufnr)
                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 utils.on_attach(client, bufnr)
@@ -93,10 +97,10 @@ return {
                     }
                 }
         })
+        vim.lsp.enable("rust_analyzer")
 
         vim.lsp.enable("sourcekit")
         vim.lsp.config("sourcekit", {on_attach=utils.on_attach})
-
 
         -- Override rename behavior to show quickfix list with changes.
         local default_rename = vim.lsp.handlers["textDocument/rename"]
