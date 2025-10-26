@@ -105,6 +105,12 @@ function M.on_attach(client, bufnr)
             vim.diagnostic.open_float({ focusable = false })
         end
     })
+    vim.diagnostic.config({
+        -- virtual_text = true,
+        -- virtual_lines = { current_line = true },
+        underline = true,
+        update_in_insert = false
+    })
 end
 
 return M
