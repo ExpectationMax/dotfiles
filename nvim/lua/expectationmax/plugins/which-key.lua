@@ -12,10 +12,10 @@ return {
             { "<leader>g", group = "[G]it" },
             { "<leader>p", group = "[P]roject" },
             { "<leader>s", group = "[S]roject" },
-        }
+        },
     },
     init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
+        vim.o.timeout = true
+        vim.o.timeoutlen = 300
     end,
 }

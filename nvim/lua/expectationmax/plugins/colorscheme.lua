@@ -12,17 +12,17 @@ return {
             style = "moon",
             light_style = "day",
             day_brightness = 0.1,
-        }
+        },
     },
 
     {
         "ellisonleao/gruvbox.nvim",
-        enabled=false,
-        lazy=false,
-        priority=1000,
+        enabled = false,
+        lazy = false,
+        priority = 1000,
         config = function()
             vim.o.background = "light"
             vim.cmd.colorscheme("gruvbox")
-        end
-    }
+        end,
+    },
 }

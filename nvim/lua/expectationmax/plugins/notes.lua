@@ -1,10 +1,10 @@
 -- Some of the below functionality is adapted from
 -- https://github.com/luapower/path
 function n_commonpath(s1, s2)
-    if p1 == '' or p2 == '' then
+    if p1 == "" or p2 == "" then
         return "/"
     end
-    local sep = string.byte('/', 1)
+    local sep = string.byte("/", 1)
     local si = 0 --index where the last common separator was found
     for i = 1, #s1 + 1 do
         local c1 = string.byte(s1, i)
@@ -22,7 +22,7 @@ end
 
 local function depth(p)
     local n = 0
-    for _ in p:gmatch('()[^/]+') do
+    for _ in p:gmatch("()[^/]+") do
         n = n + 1
     end
     return n
@@ -30,17 +30,19 @@ end
 
 function rel(s, pwd, sep)
     local n_prefix = n_commonpath(s, pwd)
-    if not n_prefix then return nil end
+    if not n_prefix then
+        return nil
+    end
     local sep = "/"
-    local endsep = s:match('/*$')
+    local endsep = s:match("/*$")
     local pwd_suffix = pwd:sub(n_prefix + 1)
     local n = depth(pwd_suffix)
-    local p1 = ('..' .. sep):rep(n - 1) .. (n > 0 and '..' or '')
+    local p1 = (".." .. sep):rep(n - 1) .. (n > 0 and ".." or "")
     local p2 = s:sub(n_prefix + 1)
-    local p2 = p2:gsub('^/+', '')
-    local p2 = p2:gsub('/+$', '')
-    local p2 = p1 == '' and p2 == '' and '.' or p2
-    local p3 = p1 .. (p1 ~= '' and p2 ~= '' and sep or '') .. p2 .. endsep
+    local p2 = p2:gsub("^/+", "")
+    local p2 = p2:gsub("/+$", "")
+    local p2 = p1 == "" and p2 == "" and "." or p2
+    local p3 = p1 .. (p1 ~= "" and p2 ~= "" and sep or "") .. p2 .. endsep
     return p3
 end
 
@@ -49,34 +51,68 @@ return {
     {
         "mickael-menu/zk-nvim",
         dependencies = {
-            "nvim-telescope/telescope.nvim"
+            "nvim-telescope/telescope.nvim",
         },
         config = function()
             local on_attach = require("expectationmax.utils").on_attach
             require("zk").setup({
                 picker = "telescope",
-                lsp = { config = { on_attach = on_attach } }
+                lsp = { config = { on_attach = on_attach } },
             })
-            require("telescope").load_extension("zk")  -- Activate zk extension
+            require("telescope").load_extension("zk") -- Activate zk extension
         end,
         ft = { "markdown" },
         keys = {
-            {"<leader>zn", function() require("zk").new({ title = vim.fn.input("Zettel title: "), dir = "zettel" }) end, desc = "Create a new zettel note"},
-            {"<leader>zm", function() require("zk").new({ title = vim.fn.input("Meeting title: "), dir = "meetings" }) end, desc = "Create a new meeting note"},
-            {"<leader>zc", function() require("zk").new({ title = vim.fn.input("MOC title: "), dir = "MOC" }) end, desc = "Create a new MOC note"},
-            {"<leader>zp", function() require("zk").new({ title = vim.fn.input("Paper title: "), dir = "papers" }) end, desc = "Create a new paper note"},
-            {"<leader>zs", "<cmd>ZkNotes<cr>", desc = "Search notes"},
-            {"<leader>zt", "<cmd>ZkTags<cr>", desc = "Search tags"},
-            {"<leader>zl", "<cmd>ZkLinks<cr>", desc = "Linked Notes"},
-            {"<leader>zb", "<cmd>ZkBacklinks<cr>", desc = "Backlinked Notes"},
+            {
+                "<leader>zn",
+                function()
+                    require("zk").new({ title = vim.fn.input("Zettel title: "), dir = "zettel" })
+                end,
+                desc = "Create a new zettel note",
+            },
+            {
+                "<leader>zm",
+                function()
+                    require("zk").new({ title = vim.fn.input("Meeting title: "), dir = "meetings" })
+                end,
+                desc = "Create a new meeting note",
+            },
+            {
+                "<leader>zc",
+                function()
+                    require("zk").new({ title = vim.fn.input("MOC title: "), dir = "MOC" })
+                end,
+                desc = "Create a new MOC note",
+            },
+            {
+                "<leader>zp",
+                function()
+                    require("zk").new({ title = vim.fn.input("Paper title: "), dir = "papers" })
+                end,
+                desc = "Create a new paper note",
+            },
+            { "<leader>zs", "<cmd>ZkNotes<cr>", desc = "Search notes" },
+            { "<leader>zt", "<cmd>ZkTags<cr>", desc = "Search tags" },
+            { "<leader>zl", "<cmd>ZkLinks<cr>", desc = "Linked Notes" },
+            { "<leader>zb", "<cmd>ZkBacklinks<cr>", desc = "Backlinked Notes" },
         },
-        cmd = {"ZkNew", "ZkIndex", "ZkNewFromTitleSelection", "ZkNewFromContentSelection", "ZkNotes", "ZkLinks", "ZkInsertLink", "ZkInsertLinkAtSelection", "ZkTags"}
+        cmd = {
+            "ZkNew",
+            "ZkIndex",
+            "ZkNewFromTitleSelection",
+            "ZkNewFromContentSelection",
+            "ZkNotes",
+            "ZkLinks",
+            "ZkInsertLink",
+            "ZkInsertLinkAtSelection",
+            "ZkTags",
+        },
     },
 
     -- Pasting image into neovim from clipboard
     {
         "dfendr/clipboard-image.nvim",
-        config=function()
+        config = function()
             local os = require("os")
             local nb_dir_path = vim.fn.resolve(vim.fn.expand(os.getenv("ZK_NOTEBOOK_DIR")))
             local utils = require("expectationmax.utils")
@@ -92,25 +128,27 @@ return {
                 default = {
                     img_dir = img_dir,
                     img_dir_txt = get_path_to_attachments,
-                    img_name = function() return "pasted_" .. os.date('%Y%m%d%H%M%S') end,
-                    affix = "markdown"
-                }
+                    img_name = function()
+                        return "pasted_" .. os.date("%Y%m%d%H%M%S")
+                    end,
+                    affix = "markdown",
+                },
             })
         end,
-        cmd = { "PasteImg" }
+        cmd = { "PasteImg" },
     },
 
     -- Rendering of image in neovim
     {
         "3rd/image.nvim",
         dependencies = {
-            "leafo/magick"
+            "leafo/magick",
         },
         lazy = true,
         enabled = false,
         opts = {
-            window_overlap_clear_enabled = true
+            window_overlap_clear_enabled = true,
         },
-        ft = { "markdown" }
-    }
+        ft = { "markdown" },
+    },
 }

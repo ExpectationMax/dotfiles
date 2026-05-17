@@ -45,7 +45,7 @@ vim.opt.winbar = "%m %f"
 vim.opt.clipboard = "unnamed,unnamedplus"
 
 vim.opt.list = true
-vim.opt.listchars = { trail = '·', tab = '>~' }
+vim.opt.listchars = { trail = "·", tab = ">~" }
 
 vim.opt.spell = true
 

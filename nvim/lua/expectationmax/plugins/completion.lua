@@ -9,7 +9,7 @@ return {
                 {
                     "rafamadriz/friendly-snippets",
                     config = function()
-                      require("luasnip.loaders.from_vscode").lazy_load()
+                        require("luasnip.loaders.from_vscode").lazy_load()
                     end,
                 },
             },
@@ -19,7 +19,7 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-nvim-lsp-signature-help",
-        "onsails/lspkind.nvim"
+        "onsails/lspkind.nvim",
     },
     config = function()
         local cmp = require("cmp")
@@ -31,7 +31,7 @@ return {
             snippet = {
                 -- REQUIRED - you must specify a snippet engine
                 expand = function(args)
-                  luasnip.lsp_expand(args.body) -- For `luasnip` users.
+                    luasnip.lsp_expand(args.body) -- For `luasnip` users.
                 end,
             },
             mapping = {
@@ -49,7 +49,7 @@ return {
                         cmp.complete()
                     end
                 end),
-                ["<C-y>"] = cmp.mapping.confirm({select = true}),
+                ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                 ["<C-e>"] = cmp.mapping.close(),
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -57,16 +57,16 @@ return {
                 --   select = false,
                 --   behavior = cmp.ConfirmBehavior.Replace,
                 -- }),
-                ['<C-l>'] = cmp.mapping(function()
+                ["<C-l>"] = cmp.mapping(function()
                     if luasnip.expand_or_locally_jumpable() then
-                      luasnip.expand_or_jump()
+                        luasnip.expand_or_jump()
                     end
-                end, { 'i', 's' }),
-                ['<C-h>'] = cmp.mapping(function()
+                end, { "i", "s" }),
+                ["<C-h>"] = cmp.mapping(function()
                     if luasnip.locally_jumpable(-1) then
                         luasnip.jump(-1)
                     end
-                end, { 'i', 's' }),
+                end, { "i", "s" }),
             },
             sources = {
                 { name = "nvim_lua" },
@@ -79,11 +79,11 @@ return {
                 documentation = {
                     max_height = 15,
                     max_width = 60,
-                }
+                },
             },
             formatting = {
-                fields = {'abbr', 'menu', 'kind'},
-                format = lspkind.cmp_format()
+                fields = { "abbr", "menu", "kind" },
+                format = lspkind.cmp_format(),
             },
         })
     end,

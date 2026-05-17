@@ -1,7 +1,7 @@
 return {
-    'mrcjkb/rustaceanvim',
+    "mrcjkb/rustaceanvim",
     enabled = false,
-    version = '^5', -- Recommended
+    version = "^5", -- Recommended
     lazy = false, -- This plugin is already lazy
     init = function()
         -- Get path of codelldb
@@ -9,7 +9,10 @@ return {
         local codelldb = mason_registry.get_package("codelldb")
         local codelldb_install_path = codelldb:get_install_path()
         local cfg = require("rustaceanvim.config")
-        local adapter = cfg.get_codelldb_adapter(codelldb_install_path .. "/codelldb", codelldb_install_path .. "/extension/lldb/lib/liblldb.dylib")
+        local adapter = cfg.get_codelldb_adapter(
+            codelldb_install_path .. "/codelldb",
+            codelldb_install_path .. "/extension/lldb/lib/liblldb.dylib"
+        )
         adapter["lldb.showDisassembly"] = "never"
 
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -24,24 +27,24 @@ return {
                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                     local utils = require("expectationmax.utils")
                     utils.on_attach(client, bufnr)
-                end
+                end,
             },
             dap = {
                 adapter = adapter,
                 configuration = {
-                    name = 'Rust debug client',
+                    name = "Rust debug client",
                     type = "codelldb",
-                    request = 'launch',
+                    request = "launch",
                     stopOnEntry = false,
                     initCommands = {
                         "breakpoint set --name main -N entry",
-                        "breakpoint set --name rust_panic"
+                        "breakpoint set --name rust_panic",
                     },
                     exitCommands = {
-                        "breakpoint delete entry"
-                    }
-                }
-            }
+                        "breakpoint delete entry",
+                    },
+                },
+            },
         }
-    end
+    end,
 }

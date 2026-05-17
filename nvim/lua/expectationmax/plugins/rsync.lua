@@ -2,14 +2,14 @@ return {
     "OscarCreator/rsync.nvim",
     build = "make",
     enabled = false,
-    dependencies = {"nvim-lua/plenary.nvim"},
+    dependencies = { "nvim-lua/plenary.nvim" },
     event = { "BufWritePre" },
     opts = {
         -- triggers sync when git repo was changed
         fugitive_sync = true,
         -- triggers `RsyncUp` when you save a file.
-        sync_on_save = true
+        sync_on_save = true,
     },
-    keys = { {"<leader>pu", vim.cmd.RsyncUp, desc="Project upload via rsync"} },
-    cmd = {"RsyncUp", "RsyncUpFile", "RsyncDown"}
+    keys = { { "<leader>pu", vim.cmd.RsyncUp, desc = "Project upload via rsync" } },
+    cmd = { "RsyncUp", "RsyncUpFile", "RsyncDown" },
 }

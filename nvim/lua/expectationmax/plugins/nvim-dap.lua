@@ -15,7 +15,7 @@ return {
                 print(python_path)
                 return python_path
             end
-            local python_configs = require('dap').configurations.python
+            local python_configs = require("dap").configurations.python
             table.insert(python_configs, {
                 name = "Pytest: Current File",
                 type = "python",
@@ -49,7 +49,7 @@ return {
                         "-sv",
                         "--log-cli-level=INFO",
                     }
-                    args = vim.list_extend(args, vim.split(vim.fn.input('Arguments: '), " "))
+                    args = vim.list_extend(args, vim.split(vim.fn.input("Arguments: "), " "))
                     return args
                 end,
                 console = "integratedTerminal",
@@ -59,20 +59,22 @@ return {
     {
         "rcarriga/nvim-dap-ui",
         dependencies = {
-            {"nvim-neotest/nvim-nio"},
+            { "nvim-neotest/nvim-nio" },
             {
                 "mfussenegger/nvim-dap",
-                main="dap",
+                main = "dap",
                 config = function()
-                    local dap = require "dap"
-                    if not dap.adapters then dap.adapters = {} end
+                    local dap = require("dap")
+                    if not dap.adapters then
+                        dap.adapters = {}
+                    end
                     dap.adapters["probe-rs-debug"] = {
-                      type = "server",
-                      port = "${port}",
-                      executable = {
-                        command = vim.fn.expand "$HOME/.cargo/bin/probe-rs",
-                        args = { "dap-server", "--port", "${port}" },
-                      },
+                        type = "server",
+                        port = "${port}",
+                        executable = {
+                            command = vim.fn.expand("$HOME/.cargo/bin/probe-rs"),
+                            args = { "dap-server", "--port", "${port}" },
+                        },
                     }
 
                     -- Connect the probe-rs-debug with rust files. Configuration of the debugger is done via project_folder/.vscode/launch.json
@@ -90,63 +92,85 @@ return {
                             },
                             coreConfigs = {
                                 {
-                                  programBinary = "target/thumbv6m-none-eabi/debug/ghome_timer_rust",
-                                  rttEnabled = true,
-                                }
+                                    programBinary = "target/thumbv6m-none-eabi/debug/ghome_timer_rust",
+                                    rttEnabled = true,
+                                },
                             },
-                            consoleLogLevel = "Console"
-                        }
+                            consoleLogLevel = "Console",
+                        },
                     }
 
                     -- Set up of handlers for RTT and probe-rs messages.
                     -- In addition to nvim-dap-ui I write messages to a probe-rs.log in project folder
                     -- If RTT is enabled, probe-rs sends an event after init of a channel. This has to be confirmed or otherwise probe-rs wont sent the rtt data.
-                    dap.listeners.before["event_probe-rs-rtt-channel-config"]["plugins.nvim-dap-probe-rs"] = function(session, body)
-                      local utils = require "dap.utils"
-                      utils.notify(
-                        string.format('probe-rs: Opening RTT channel %d with name "%s"!', body.channelNumber, body.channelName)
-                      )
-                      local file = io.open("probe-rs.log", "a")
-                      if file then
-                        file:write(
-                          string.format(
-                            '%s: Opening RTT channel %d with name "%s"!\n',
-                            os.date "%Y-%m-%d-T%H:%M:%S",
-                            body.channelNumber,
-                            body.channelName
-                          )
+                    dap.listeners.before["event_probe-rs-rtt-channel-config"]["plugins.nvim-dap-probe-rs"] = function(
+                        session,
+                        body
+                    )
+                        local utils = require("dap.utils")
+                        utils.notify(
+                            string.format(
+                                'probe-rs: Opening RTT channel %d with name "%s"!',
+                                body.channelNumber,
+                                body.channelName
+                            )
                         )
-                      end
-                      if file then file:close() end
-                      session:request("rttWindowOpened", { body.channelNumber, true })
+                        local file = io.open("probe-rs.log", "a")
+                        if file then
+                            file:write(
+                                string.format(
+                                    '%s: Opening RTT channel %d with name "%s"!\n',
+                                    os.date("%Y-%m-%d-T%H:%M:%S"),
+                                    body.channelNumber,
+                                    body.channelName
+                                )
+                            )
+                        end
+                        if file then
+                            file:close()
+                        end
+                        session:request("rttWindowOpened", { body.channelNumber, true })
                     end
                     -- After confirming RTT window is open, we will get rtt-data-events.
                     -- I print them to the dap-repl, which is one way and not separated.
                     -- If you have better ideas, let me know.
                     dap.listeners.before["event_probe-rs-rtt-data"]["plugins.nvim-dap-probe-rs"] = function(_, body)
-                      local message =
-                        string.format("%s: RTT-Channel %d - Message: %s", os.date "%Y-%m-%d-T%H:%M:%S", body.channelNumber, body.data)
-                      local repl = require "dap.repl"
-                      repl.append(message)
-                      local file = io.open("probe-rs.log", "a")
-                      if file then file:write(message) end
-                      if file then file:close() end
+                        local message = string.format(
+                            "%s: RTT-Channel %d - Message: %s",
+                            os.date("%Y-%m-%d-T%H:%M:%S"),
+                            body.channelNumber,
+                            body.data
+                        )
+                        local repl = require("dap.repl")
+                        repl.append(message)
+                        local file = io.open("probe-rs.log", "a")
+                        if file then
+                            file:write(message)
+                        end
+                        if file then
+                            file:close()
+                        end
                     end
                     -- Probe-rs can send messages, which are handled with this listener.
                     dap.listeners.before["event_probe-rs-show-message"]["plugins.nvim-dap-probe-rs"] = function(_, body)
-                      local message = string.format("%s: probe-rs message: %s", os.date "%Y-%m-%d-T%H:%M:%S", body.message)
-                      local repl = require "dap.repl"
-                      repl.append(message)
-                      local file = io.open("probe-rs.log", "a")
-                      if file then file:write(message) end
-                      if file then file:close() end
+                        local message =
+                            string.format("%s: probe-rs message: %s", os.date("%Y-%m-%d-T%H:%M:%S"), body.message)
+                        local repl = require("dap.repl")
+                        repl.append(message)
+                        local file = io.open("probe-rs.log", "a")
+                        if file then
+                            file:write(message)
+                        end
+                        if file then
+                            file:close()
+                        end
                     end
-                  end,
+                end,
             },
         },
         main = "dapui",
         config = function(_, opts)
-            local dap, dapui =require("dap"),require("dapui")
+            local dap, dapui = require("dap"), require("dapui")
             dapui.setup(opts)
             dap.listeners.before.attach.dapui_config = function()
                 dapui.open()
@@ -163,17 +187,52 @@ return {
             dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
                 dap.set_exception_breakpoints({ "userUnhandled" })
             end
-            vim.fn.sign_define("DapBreakpoint",{ text = "", texthl = "", linehl = "", numhl = "", color = "red"})
-            vim.fn.sign_define("DapStopped",{ text = "", texthl = "", linehl = "", numhl = "", color = "green"})
+            vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "", linehl = "", numhl = "", color = "red" })
+            vim.fn.sign_define("DapStopped", { text = "", texthl = "", linehl = "", numhl = "", color = "green" })
         end,
         keys = {
-            {"<leader>dc", function() require("dap").continue() end, desc="Continue"},
-            {"<leader>dn", function() require("dap").step_over() end, desc="Step over (next)"},
-            {"<leader>di", function() require("dap").step_into() end, desc="Step into"},
-            {"<leader>do", function() require("dap").step_out() end, desc="Step out"},
-            {"<leader>db", function() require("dap").toggle_breakpoint() end, desc="Toggle breakpoint"},
-            {"<leader>du", function() require("dapui").toggle() end, desc="Toggle UI"}
-        }
-    }
+            {
+                "<leader>dc",
+                function()
+                    require("dap").continue()
+                end,
+                desc = "Continue",
+            },
+            {
+                "<leader>dn",
+                function()
+                    require("dap").step_over()
+                end,
+                desc = "Step over (next)",
+            },
+            {
+                "<leader>di",
+                function()
+                    require("dap").step_into()
+                end,
+                desc = "Step into",
+            },
+            {
+                "<leader>do",
+                function()
+                    require("dap").step_out()
+                end,
+                desc = "Step out",
+            },
+            {
+                "<leader>db",
+                function()
+                    require("dap").toggle_breakpoint()
+                end,
+                desc = "Toggle breakpoint",
+            },
+            {
+                "<leader>du",
+                function()
+                    require("dapui").toggle()
+                end,
+                desc = "Toggle UI",
+            },
+        },
+    },
 }
-

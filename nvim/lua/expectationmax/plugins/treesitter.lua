@@ -10,7 +10,7 @@ return {
             { "<C-h>", desc = "Decrement selection", mode = "x" },
         },
         opts = {
-            highlight = { enable = true,  additional_vim_regex_highlighting = { "markdown" } },
+            highlight = { enable = true, additional_vim_regex_highlighting = { "markdown" } },
             indent = { enable = true },
             ensure_installed = {
                 "bash",
@@ -59,5 +59,5 @@ return {
             end
             require("nvim-treesitter.configs").setup(opts)
         end,
-    }
+    },
 }

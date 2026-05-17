@@ -7,14 +7,14 @@ return {
     },
     opts = {
         symbols = {
-            icon_source = 'lspkind',
+            icon_source = "lspkind",
             filter = {
-                default = { 'String', exclude=true },
-                python = { 'Function', 'Class' },
+                default = { "String", exclude = true },
+                python = { "Function", "Class" },
             },
         },
         preview_window = {
-            winhl = 'NormalFloat:',
+            winhl = "NormalFloat:",
         },
-    }
+    },
 }

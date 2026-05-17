@@ -21,7 +21,7 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 vim.keymap.set("n", "Q", "<Nop>")
 
 -- Remove hightlights when pressing ESC in normal mode
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Delete previous word with Alt+Backspace in insert mode
 vim.keymap.set("i", "<M-BS>", "<C-w>")

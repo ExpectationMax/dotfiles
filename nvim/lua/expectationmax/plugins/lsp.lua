@@ -1,7 +1,7 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        {"williamboman/mason.nvim", opts = {} },
+        { "williamboman/mason.nvim", opts = {} },
         "williamboman/mason-lspconfig.nvim",
         { "j-hui/fidget.nvim", opts = {} },
         "hrsh7th/cmp-nvim-lsp",
@@ -11,13 +11,13 @@ return {
         local utils = require("expectationmax.utils")
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+        capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
         vim.lsp.config("basedpyright", {
-            cmd = {utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/basedpyright-langserver"), "--stdio"},
+            cmd = { utils.path_join(os.getenv("HOME"), ".neovim_venv/bin/basedpyright-langserver"), "--stdio" },
             capabilities = capabilities,
             on_attach = utils.on_attach,
-            root_dir = vim.fs.root(0, {".venv/", ".git/",  "pyproject.toml"}),
+            root_dir = vim.fs.root(0, { ".venv/", ".git/", "pyproject.toml" }),
             settings = {
                 -- python = {
                 --     -- pythonPath = utils.path_join(os.getenv("HOME"), ".miniforge3/envs/ajax/bin/python"),
@@ -38,48 +38,48 @@ return {
                             functionReturnTypes = true,
                             genericTypes = true,
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         })
         vim.lsp.enable("basedpyright")
 
-        vim.lsp.config("clangd", {on_attach=utils.on_attach})
+        vim.lsp.config("clangd", { on_attach = utils.on_attach })
 
-        vim.lsp.config('clangd', {on_attach=utils.on_attach})
-        vim.lsp.enable('clangd')
+        vim.lsp.config("clangd", { on_attach = utils.on_attach })
+        vim.lsp.enable("clangd")
 
         vim.lsp.config("rust_analyzer", {
-            root_dir = vim.fs.root(0, { "Cargo.toml", ".git/"}),
+            root_dir = vim.fs.root(0, { "Cargo.toml", ".git/" }),
             on_attach = function(client, bufnr)
                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 utils.on_attach(client, bufnr)
             end,
             settings = {
-                    ["rust-analyzer"] = {
-                        imports = {
-                            granularity = {
-                                group = "module",
-                            },
-                            prefix = "self",
+                ["rust-analyzer"] = {
+                    imports = {
+                        granularity = {
+                            group = "module",
                         },
-                        cargo = {
-                            buildScripts = {
-                                enable = true,
-                            },
+                        prefix = "self",
+                    },
+                    cargo = {
+                        buildScripts = {
+                            enable = true,
                         },
-                        procMacro = {
-                            enable = true
-                        },
-                    }
-                }
+                    },
+                    procMacro = {
+                        enable = true,
+                    },
+                },
+            },
         })
         vim.lsp.enable("rust_analyzer")
 
         vim.lsp.enable("sourcekit")
-        vim.lsp.config("sourcekit", {on_attach=utils.on_attach})
+        vim.lsp.config("sourcekit", { on_attach = utils.on_attach })
 
-        vim.lsp.config("sourcekit", {on_attach=utils.on_attach})
+        vim.lsp.config("sourcekit", { on_attach = utils.on_attach })
 
         -- Override rename behavior to show quickfix list with changes.
         local default_rename = vim.lsp.handlers["textDocument/rename"]
@@ -121,5 +121,5 @@ return {
             config = vim.tbl_deep_extend("force", config or {}, { focus = false })
             return vim.lsp.handlers.signature_help(err, result, ctx, config)
         end
-    end
+    end,
 }

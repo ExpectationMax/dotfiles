@@ -23,14 +23,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
             local file, lineno = line:match("([%w%._%+/%-]+%.%w+):(%d+)")
             if not file then
                 -- File "/Users/rsdenijs/stagecraft/examples/chat_with_tools.py", line 153
-                file, lineno = line:match("([%w%._%+/%-]+%.%w+)\",%s*line%s*(%d+)")
+                file, lineno = line:match('([%w%._%+/%-]+%.%w+)",%s*line%s*(%d+)')
             end
             if not file then
                 file = line:match("([%w%._%+/%-]+%.%w+)")
             end
 
             if file then
-                local picked_window_id = require('window-picker').pick_window() or vim.api.nvim_get_current_win()
+                local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
                 vim.api.nvim_set_current_win(picked_window_id)
                 vim.cmd("edit " .. file)
                 if lineno then
@@ -41,13 +41,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
             end
         end, { buffer = true, desc = "Go to error file from terminal" })
     end,
-    group = termGrp
+    group = termGrp,
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-      vim.highlight.on_yank({ timeout = 200 })
-  end,
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank({ timeout = 200 })
+    end,
 })
