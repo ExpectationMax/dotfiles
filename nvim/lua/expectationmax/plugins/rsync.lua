@@ -1,6 +1,7 @@
 return {
     "OscarCreator/rsync.nvim",
     build = "make",
+    enabled = false,
     dependencies = {"nvim-lua/plenary.nvim"},
     event = { "BufWritePre" },
     opts = {

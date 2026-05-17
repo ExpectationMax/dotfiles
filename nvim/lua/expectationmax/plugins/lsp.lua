@@ -50,7 +50,7 @@ return {
         vim.lsp.enable('clangd')
 
         vim.lsp.config("rust_analyzer", {
-            root_dir = vim.fs.root(0, { "pyproject.toml", ".venv/", ".git/"}),
+            root_dir = vim.fs.root(0, { "Cargo.toml", ".git/"}),
             on_attach = function(client, bufnr)
                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 utils.on_attach(client, bufnr)
@@ -117,9 +117,9 @@ return {
         end
         vim.lsp.handlers["textDocument/rename"] = my_rename_handle
 
-        vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-          vim.lsp.handlers.signature_help,
-          { focus = false }
-        )
+        vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+            config = vim.tbl_deep_extend("force", config or {}, { focus = false })
+            return vim.lsp.handlers.signature_help(err, result, ctx, config)
+        end
     end
 }

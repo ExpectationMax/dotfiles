@@ -23,6 +23,10 @@ vim.keymap.set("n", "Q", "<Nop>")
 -- Remove hightlights when pressing ESC in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Delete previous word with Alt+Backspace in insert mode
+vim.keymap.set("i", "<M-BS>", "<C-w>")
+vim.keymap.set("i", "<M-Backspace>", "<C-w>")
+
 -- Project management
 vim.api.nvim_set_keymap("n", "<leader>pe", "", { desc = "Open explorer", callback = vim.cmd.Ex })
 
